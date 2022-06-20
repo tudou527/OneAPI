@@ -1,6 +1,8 @@
 import path from 'path';
 import fs from 'fs-extra';
 
-const metaData = fs.readJsonSync(path.join(__dirname, '/result.json'));
+const metaData: {[key: string]: JavaMeta.FileMeta} = fs.readJsonSync(path.join(__dirname, '/result.json'));
 
-const entry = Object.keys(metaData).filter(k => metaData[k].)
+Object.keys(metaData).forEach(k => {
+  console.log('>>>>> key: ', k);
+});
