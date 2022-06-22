@@ -14,10 +14,8 @@ import generatorModel from './generator/model';
   // 初始化数据并保存
   initProject(servicesDir, path.join(__dirname, '/result.json'));
 
-  Promise.all([
-    generatorService(),
-    generatorModel(),
-  ]).then(() => {
-    console.log('>>>>> done: ', );
-  });
+  await generatorService();
+  await generatorModel();
+
+  console.log('========', );
 })();

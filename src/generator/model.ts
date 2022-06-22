@@ -1,9 +1,10 @@
 import path from 'path';
 import { InterfaceDeclaration, SourceFile } from 'ts-morph';
 
-import { baseDir, convertJavaTypeToJS, getJsDoc, metaData, project } from '../util/common';
+import { TypeTransform } from './typeTransform';
+import { baseDir, getImports, getJsDoc, metaData, project } from '../util/common';
 
-class ModelGenerator {
+export class ModelGenerator {
   // 从文件读取的解析结果
   fileMeta: JavaMeta.FileMeta;
   // ts-morph 用于生成文件的对象
@@ -18,32 +19,35 @@ class ModelGenerator {
   constructor(classPath: string) {
     this.fileMeta = metaData[classPath];
 
-    const { packageName, class: className } = this.fileMeta;
-
-    /**
-     * class.name 作为文件名
-     * 生成的文件按 packageName 最后一级作为目录
-     * Exp: a.b.c.d 时，按 d/ 生成目录
-     */
-    const fileSavePath = path.join(baseDir, 'model', packageName.split('.').reverse().at(0), `${className.name}.ts`);
+    const fileSavePath = ModelGenerator.getSavePath(classPath);
 
     this.sourceFile = project.createSourceFile(fileSavePath);
+  }
+
+  static getSavePath(classPath: string) {
+    const [fileName, fileDir] = classPath.split('.').reverse();
+
+    /**
+     * classPath 按 . 拆分，倒数第二项作为目录，最后一项作为文件名
+     */
+    return path.join(baseDir, 'model', fileDir, `${fileName}.ts`);
   }
 
   async gen() {
     // 生成调用方法
     await this.generatorInterface();
     // 增加导入
-    // await this.addImports();
+    const importList = getImports(this.importDeclaration, this.sourceFile.getFilePath());
+    this.sourceFile.addImportDeclarations(importList);
 
-    // 增加文件注释内容（会报错，先注释）
-    // const fileComment = generatorFileComment(this.fileMeta.description);
-    // this.sourceFile.insertStatements(0, fileComment.join('\n'));
+    // 增加文件注释内容
+    this.sourceFile.insertStatements(0, '/* eslint-disable */');
 
     await this.sourceFile.save();
   }
 
-  async generatorInterface() {
+  // 生成 interface
+  private async generatorInterface() {
     const { name, fields, actualType, superClass } = this.fileMeta.class;
     const exportInterface = this.sourceFile.addInterface({
       name,
@@ -56,11 +60,16 @@ class ModelGenerator {
       this.setExtend(superClass, exportInterface);
     }
 
-    // 增加属性
+    // 增加字段
     fields.forEach((field, index) => {
+      // 转换字段类型
+      const { jsType, imports } = new TypeTransform().transform(field.type);
+      // 合并待导入项
+      this.importDeclaration = { ...this.importDeclaration, ...imports };
+
       const propertySignature = exportInterface.insertProperty(index, {
         name: field.name,
-        type: convertJavaTypeToJS(field.type),
+        type: jsType,
       });
 
       // 增加字段注释
@@ -73,15 +82,22 @@ class ModelGenerator {
   }
 
   // 返回 interface extend 对象
-  setExtend(superClass: JavaMeta.ActualType, interfaceDeclaration: InterfaceDeclaration) {
+  private setExtend(superClass: JavaMeta.ActualType, interfaceDeclaration: InterfaceDeclaration) {
     if (!superClass) {
       return null;
     }
 
     const extend = interfaceDeclaration.addExtends(superClass.name);
+
     if (superClass.items) {
+      this.importDeclaration[superClass.classPath] = superClass.name;
+
       superClass.items?.forEach((item, index) => {
-        extend.insertTypeArgument(index, convertJavaTypeToJS(item));
+        // 转换字段类型
+        const { jsType, imports } = new TypeTransform().transform(item);
+        // 合并待导入项
+        this.importDeclaration = { ...this.importDeclaration, ...imports };
+        extend.insertTypeArgument(index, jsType);
       });
     }
   }
@@ -93,6 +109,6 @@ export default async function generatorModel() {
   const sourceClassPath = Object.keys(metaData).filter(classPath => metaData[classPath].fileType === 'RESOURCE');
 
   for (const classPath of sourceClassPath) {
-    (new ModelGenerator(classPath)).gen();
+    await (new ModelGenerator(classPath)).gen();
   }
 }

@@ -1,5 +1,7 @@
+import path from 'path';
 import fs from 'fs-extra';
-import { IndentationText, Project } from "ts-morph";
+import { ImportDeclarationStructure, IndentationText, Project } from "ts-morph";
+import { ModelGenerator } from '../generator/model';
 
 export let baseDir: string;
 export let project: Project;
@@ -14,55 +16,6 @@ export function initProject(servicesDir: string, jsonFile: string) {
       indentationText: IndentationText.TwoSpaces
     },
   });
-}
-
-// 把 Java 类型转换为 JS 类型
-export function convertJavaTypeToJS(javaType: JavaMeta.ActualType): string {
-  const { name, classPath, items } = javaType;
-  // JS 与 Java 类型映射关系
-  const javaTypeMap = {
-    // 数字
-    integer: 'number',
-    int: 'number',
-    long: 'number',
-    double: 'number',
-    float: 'number',
-    short: 'number',
-    bigdecimal: 'number',
-    biginteger: 'number',
-    // 字符串
-    character: 'string',
-    char: 'string',
-    string: 'string',
-    // 布尔
-    boolean: 'boolean',
-    void: 'void',
-  }
-
-  if (javaTypeMap[name.toLowerCase()]) {
-    return javaTypeMap[name.toLowerCase()];
-  }
-
-  // 泛型（长度为 1 且是大写时认为是泛型）
-  if (name.length === 1 && (/^[A-Z]$/).test(name)) {
-    return name;
-  }
-
-  // 数组，Exp：java.util.List<String>
-  if (classPath === 'java.util.List' || classPath === 'java.util.Collection') {
-    // 数组情况下 item 节点只会有一个子节点
-    return `Array<${convertJavaTypeToJS(items.at(0))}>`;
-  }
-
-  if (items) {
-    return `${name}<${items.map(item => convertJavaTypeToJS(item)).join(', ')}>`;
-  }
-
-  if (!metaData[classPath]) {
-    console.error('>>>>>>>>>>>>> class: %s , name: %s not found.', classPath, name);
-  }
-
-  return name;
 }
 
 // 生成 JS DOC 作为注
@@ -109,4 +62,37 @@ export function generatorFileComment(desc: JavaMeta.Description): string[] {
   lineStr.push(` */`);
 
   return lineStr;
+}
+
+/**
+ * 返回 import 列表
+ * key: classPath
+ * value: typeName
+ */
+export function getImports(importDict: { [key: string]: string }, currentFilePath: string) {
+  const importList: ImportDeclarationStructure[] = [];
+
+  Object.keys(importDict).map(classPath => {
+    if (metaData[classPath]) {
+      const currentDir = path.dirname(currentFilePath);
+      // 被导入的文件默认认为只会是 model
+      const importFilePath = ModelGenerator.getSavePath(classPath);
+      let relativePath = path.relative(currentDir, importFilePath).replace('.ts', '');
+
+      // 特殊处理通目录的文件引用
+      if (!relativePath.startsWith('../')) {
+        relativePath = `./${relativePath}`;
+      }
+
+      if (importFilePath !== currentFilePath) {
+        importList.push({
+          kind: 2,
+          namedImports: [ importDict[classPath] ],
+          moduleSpecifier: relativePath,
+        });
+      }
+    }
+  });
+
+  return importList;
 }
