@@ -40,6 +40,7 @@ export class TypeTransform {
       void: 'void',
     }
 
+    // 命中简单规则
     if (javaTypeMap[name.toLowerCase()]) {
       return javaTypeMap[name.toLowerCase()];
     }
@@ -53,6 +54,13 @@ export class TypeTransform {
     if (classPath === 'java.util.List' || classPath === 'java.util.Collection') {
       // 数组情况下 item 节点只会有一个子节点
       return `Array<${this.convert(items.at(0))}>`;
+    }
+
+    if ([
+      'javax.servlet.http.HttpServletRequest',
+      'javax.servlet.http.HttpServletResponse',
+    ].includes(classPath)) {
+      return '{ [key: string]: any }';
     }
 
     this.importDeclaration[classPath] = name;

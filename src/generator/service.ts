@@ -3,9 +3,11 @@ import camelCase from 'camelcase';
 import { FunctionDeclaration, SourceFile } from 'ts-morph';
 
 import { TypeTransform } from './typeTransform';
-import { baseDir, getImports, getJsDoc, metaData, project } from '../util/common';
+import { baseDir, generatorFileComment, getImports, getJsDoc, getMethodType, metaData, project } from '../util/common';
 
 class ServiceGenerator {
+  // class 中定义的路由前缀
+  baseURI: string = '';
   // 从文件读取的解析结果
   fileMeta: JavaMeta.FileMeta;
   // ts-morph 用于生成文件的对象
@@ -30,17 +32,22 @@ class ServiceGenerator {
     const fileSavePath = path.join(baseDir, packageName.split('.').reverse().at(0), `${className.name}.ts`);
 
     this.sourceFile = project.createSourceFile(fileSavePath);
+
+    this.analysisBaseUri();
   }
 
   async gen() {
     // 生成调用方法
     await this.generatorMethod();
+
     // 增加导入
     const importList = getImports(this.importDeclaration, this.sourceFile.getFilePath());
     this.sourceFile.addImportDeclarations(importList);
 
     // 增加文件注释内容
-    this.sourceFile.insertStatements(0, '/* eslint-disable */');
+    generatorFileComment(this.fileMeta).reverse().forEach((str) => {
+      this.sourceFile.insertStatements(0, str);
+    });
 
     await this.sourceFile.save();
   }
@@ -68,9 +75,7 @@ class ServiceGenerator {
       this.generatorParameter(func, method);
 
       // 设置方法体内容
-      func.setBodyText(writer => {
-        writer.writeLine("return null;");
-      });
+      this.setFunctionBody(method, func);
 
       // 转换返回值类型
       const { jsType, imports } = new TypeTransform().transform(method.return);
@@ -101,6 +106,44 @@ class ServiceGenerator {
         type: jsType,
       });
     });
+  }
+
+  // 生成调用方法
+  private setFunctionBody(method: JavaMeta.ClassMethod, func: FunctionDeclaration) {
+    const apiAnnotation = method.annotations.find(an => an.name.endsWith('Mapping'));
+    const methodURI = apiAnnotation?.fields.find(f => f.name === 'value')?.value || '';
+
+    func.setBodyText(writer => {
+      const methodType = getMethodType(apiAnnotation);
+      const url = path.join(this.baseURI, methodURI).replace(/\*/gi, '').replace(/\{/gi, '${');
+
+      writer.write('return request(').inlineBlock(() => {
+        writer.writeLine(`method: '${methodType}',`);
+        writer.writeLine(`url: \`${url}\`,`);
+        // TODO 区分请求类型
+        writer.write('params: ').inlineBlock(() => {
+          writer.writeLine(`a: 'b',`);
+        });
+        writer.write(',');
+      });
+      writer.write(`)`);
+    });
+  }
+
+  // 解析基础路由
+  private analysisBaseUri() {
+    let baseURI = '';
+
+    this.fileMeta.class.annotations.forEach(an => {
+      if (an.name.endsWith('Mapping')) {
+        const uriField = an.fields?.find(f => f.name === 'value');
+        if (uriField) {
+          baseURI = uriField.value;
+        }
+      }
+    });
+
+    this.baseURI = baseURI;
   }
 
   // 替换 method 中的关键字

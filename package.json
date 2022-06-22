@@ -1,12 +1,12 @@
 {
-  "name": "node-typescript-boilerplate",
+  "name": "code-generator",
   "version": "0.0.0",
-  "description": "Minimalistic boilerplate to quick-start Node.js development in TypeScript.",
+  "description": "",
   "engines": {
     "node": ">= 16.13 <17"
   },
   "scripts": {
-    "dev": "ts-node ./src/main.ts",
+    "dev": "clear && ts-node ./src/main.ts",
     "start": "node build/src/main.js",
     "build": "tsc -p tsconfig.json",
     "lint": "eslint . --ext .ts --ext .mts",

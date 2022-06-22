@@ -92,7 +92,7 @@ declare namespace JavaMeta {
     /**
      * 注解字段
      */
-    fields: AnnotationField;
+    fields: AnnotationField[];
   }
 
   /**

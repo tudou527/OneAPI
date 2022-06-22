@@ -2,7 +2,7 @@ import path from 'path';
 import { InterfaceDeclaration, SourceFile } from 'ts-morph';
 
 import { TypeTransform } from './typeTransform';
-import { baseDir, getImports, getJsDoc, metaData, project } from '../util/common';
+import { baseDir, generatorFileComment, getImports, getJsDoc, metaData, project } from '../util/common';
 
 export class ModelGenerator {
   // 从文件读取的解析结果
@@ -24,6 +24,7 @@ export class ModelGenerator {
     this.sourceFile = project.createSourceFile(fileSavePath);
   }
 
+  // 返回文件保存路径
   static getSavePath(classPath: string) {
     const [fileName, fileDir] = classPath.split('.').reverse();
 
@@ -41,7 +42,9 @@ export class ModelGenerator {
     this.sourceFile.addImportDeclarations(importList);
 
     // 增加文件注释内容
-    this.sourceFile.insertStatements(0, '/* eslint-disable */');
+    generatorFileComment(this.fileMeta).reverse().forEach((str) => {
+      this.sourceFile.insertStatements(0, str);
+    });
 
     await this.sourceFile.save();
   }

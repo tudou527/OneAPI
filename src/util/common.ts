@@ -41,25 +41,11 @@ export function getJsDoc(desc: JavaMeta.Description) {
 }
 
 // 生成文件注释
-export function generatorFileComment(desc: JavaMeta.Description): string[] {
-  const { text, tag } = desc;
-
-  if (!text && !Object.keys(tag).length) {
-    return [];
-  }
-
-  const lineStr = ['/**'];
-
-  if (desc?.text) {
-    lineStr.push(` * ${desc?.text}`);
-  }
-
-  Object.keys(desc?.tag).forEach(k => {
-    desc?.tag[k].forEach(str => {
-      lineStr.push(` * @${k} ${str}`);
-    });
-  });
-  lineStr.push(` */`);
+export function generatorFileComment(fileMeta: JavaMeta.FileMeta): string[] {
+  const lineStr = [
+    '/* tslint:disable */',
+    `/* origin: ${fileMeta.class.classPath} */`
+  ];
 
   return lineStr;
 }
@@ -95,4 +81,15 @@ export function getImports(importDict: { [key: string]: string }, currentFilePat
   });
 
   return importList;
+}
+
+// 返回请求类型
+export function getMethodType(annotation: JavaMeta.Annotation) {
+  const methodType = {
+    GetMapping: 'GET',
+    PostMapping: 'POST',
+    RequestMapping: 'POST',
+  }
+
+  return methodType[annotation.name] || 'POST';
 }
