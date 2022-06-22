@@ -13,6 +13,7 @@
     "prettier": "prettier --config .prettierrc --write ."
   },
   "dependencies": {
+    "camelcase": "^6.0.0",
     "ts-morph": "^15.1.0",
     "tslib": "~2.4"
   },

@@ -19,7 +19,7 @@
     "esModuleInterop": true,
     "typeRoots": ["./typings"],
   },
-  "include": ["src/**/*", "typings"],
+  "include": ["src/**/*", "typings", "services/**/*"],
   "ts-node": {
     "files": true
   },

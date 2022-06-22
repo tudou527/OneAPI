@@ -1,22 +1,5 @@
 declare namespace JavaMeta {
   /**
-   * 解析的 Java 文件 类型
-   * 资源与入口文件的差异是资源只会解析字段
-   * 入口会解析方法及出/入参
-   */
-  enum FileType {
-    /**
-     * 资源
-     */
-    RESOURCE,
-
-    /**
-     * 入口
-     */
-    ENTRY,
-  }
-
-  /**
    * Java 类型
    */
   interface ActualType {
@@ -292,9 +275,11 @@ declare namespace JavaMeta {
     filePath: string;
 
     /**
-     * 资源类型
+     * 解析的 Java 文件 类型
+     * RESOURCE：只会解析 public class 字段
+     * ENTRY：只会解析 public class 字段及所有 public 方法出/入参
      */
-    fileType: FileType;
+    fileType: 'RESOURCE' | 'ENTRY';
 
     /**
      * 包名
@@ -314,6 +299,6 @@ declare namespace JavaMeta {
     /**
      * class 列表
      */
-    classModel: JavaClass;
+    class: JavaClass;
   }
 }
