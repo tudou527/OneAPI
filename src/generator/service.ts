@@ -3,7 +3,19 @@ import camelCase from 'camelcase';
 import { FunctionDeclaration, SourceFile } from 'ts-morph';
 
 import { TypeTransform } from './typeTransform';
-import { baseDir, generatorFileComment, getImports, getJsDoc, getMethodType, metaData, project } from '../util/common';
+import { baseDir, generatorFileComment, getImports, getJsDoc, getMethodType, metaData, project, requestImport } from '../util/common';
+
+// API 待处理参数
+interface IApiParam {
+  // 参数名
+  name: string;
+  // 是否必填
+  isRequired: boolean;
+  // 是否来源于 url
+  isPathVariable: boolean;
+  // 参数类型
+  type: JavaMeta.ActualType,
+}
 
 class ServiceGenerator {
   // class 中定义的路由前缀
@@ -42,6 +54,8 @@ class ServiceGenerator {
 
     // 增加导入
     const importList = getImports(this.importDeclaration, this.sourceFile.getFilePath());
+    // 导入 request
+    importList.unshift(requestImport);
     this.sourceFile.addImportDeclarations(importList);
 
     // 增加文件注释内容
@@ -66,16 +80,34 @@ class ServiceGenerator {
         isAsync: true,
         isExported: true,
       });
+      // 方法入参
+      const methodParams = this.getMethodParams(method);
 
       // 增加方法注释
       const jsDoc = getJsDoc(method.description)
       jsDoc && func.addJsDoc(jsDoc);
 
       // 处理方法参数
-      this.generatorParameter(func, method);
+      if (methodParams.length) {
+        func.addParameter({
+          // 把所有参数放到 args. 对象中
+          name: 'args',
+          type: (writer) => {
+            writer.block(() => {
+              methodParams.forEach(p => {
+                // 转换入参类型
+                const { jsType, imports } = new TypeTransform().transform(p.type);
+                // 合并待导入项
+                this.importDeclaration = { ...this.importDeclaration, ...imports };
+                writer.writeLine(`${p.name}${!p.isRequired ? '?' : ''}: ${jsType},`);
+              });
+            });
+          }
+        });
+      }
 
       // 设置方法体内容
-      this.setFunctionBody(method, func);
+      this.setFunctionBody(method, methodParams, func);
 
       // 转换返回值类型
       const { jsType, imports } = new TypeTransform().transform(method.return);
@@ -87,47 +119,102 @@ class ServiceGenerator {
     }
   }
 
-  // 生成入参
-  private generatorParameter(func: FunctionDeclaration, method: JavaMeta.ClassMethod) {
-    const { parameters } = method;
+  // 生成调用方法
+  private setFunctionBody(method: JavaMeta.ClassMethod, params: IApiParam[], func: FunctionDeclaration) {
+    // 所有方法注解
+    const apiAnnotation = method.annotations.find(an => an.name.endsWith('Mapping'));
+    // 方法体中定义的 URI
+    const methodURI = apiAnnotation?.fields.find(f => f.name === 'value')?.value || '';
+    // 请求类型及 url
+    const methodType = getMethodType(apiAnnotation);
+    const url = path.join(this.baseURI, methodURI).replace(/\*/gi, '').replace(/\{/gi, '${args.');
 
-    if (!parameters.length) {
-      return;
+    // 当 url 中包含参数时，使用 ` 否者用 '
+    const urlDecorate = url.includes('{') ? '\`' : '\'';
+    // 区分请求参数名
+    const argsKey = methodType === 'GET' ? 'params' : 'data';
+
+    // 过滤掉 pathVariable 后的参数列表
+    const apiParams = params.filter(p => !p.isPathVariable);
+
+    // 请求 headers
+    const headers: { [key: string]: string } = {
+      'Content-Type': 'application/json',
+    };
+    // 当有参数类型为 org.springframework.web.multipart.MultipartFile 时需要修改 contentType
+    if (apiParams.find(p => p.type.classPath.endsWith('.MultipartFile'))) {
+      headers['Content-Type'] = 'multipart/form-data';
     }
 
-    parameters.forEach(p => {
-      // 转换入参类型
-      const { jsType, imports } = new TypeTransform().transform(p.type);
-      // 合并待导入项
-      this.importDeclaration = { ...this.importDeclaration, ...imports };
-
-      func.addParameter({
-        name: p.name,
-        type: jsType,
+    func.setBodyText(writer => {
+      writer.write('return request(').inlineBlock(() => {
+        writer.writeLine(`method: '${methodType}',`);
+        writer.writeLine(`url: ${urlDecorate}${url}${urlDecorate},`);
+        // 请求参数
+        if (apiParams.length) {
+          writer.write(`${argsKey}: `).inlineBlock(() => {
+            // 过滤掉 url 参数
+            apiParams.forEach(p => writer.writeLine(`${p.name}: args.${p.name},`));
+          });
+          writer.write(',\n');
+        }
+        // headers
+        if (Object.keys(headers).length) {
+          writer.write(`headers: `).inlineBlock(() => {
+            Object.keys(headers).forEach(k => writer.writeLine(`'${k}': '${headers[k]}',`));
+          });
+          writer.write(',');
+        }
       });
+      writer.write(`);`);
     });
   }
 
-  // 生成调用方法
-  private setFunctionBody(method: JavaMeta.ClassMethod, func: FunctionDeclaration) {
-    const apiAnnotation = method.annotations.find(an => an.name.endsWith('Mapping'));
-    const methodURI = apiAnnotation?.fields.find(f => f.name === 'value')?.value || '';
+  // 处理方法参数
+  private getMethodParams(method: JavaMeta.ClassMethod) {
+    const paramList: IApiParam[] = [];
+    // 需要忽略的参数
+    const ignoreParamsClassPath = [
+      // 在 spring 中所有的参数都能从 HttpServletRequest 拿到
+      'javax.servlet.http.HttpServletRequest',
+      // 这个参数用于设置请求 response
+      'javax.servlet.http.HttpServletResponse',
+      // 这也是一个用于设置请求响应的参数
+      'org.springframework.ui.Model',
+    ];
+    const parameters = method.parameters.filter(param => !ignoreParamsClassPath.includes(param.type.classPath));
 
-    func.setBodyText(writer => {
-      const methodType = getMethodType(apiAnnotation);
-      const url = path.join(this.baseURI, methodURI).replace(/\*/gi, '').replace(/\{/gi, '${');
+    parameters.forEach(p => {
+      const param = {
+        name: p.name,
+        // 默认选填
+        isRequired: false,
+        isPathVariable: false,
+        type: p.type,
+      }
+      // 根据 annotation 判断是否必填
+      const matchedAn = p.annotations.find(an => an.fields.find(f => ['name', 'value'].includes(f.name)));
 
-      writer.write('return request(').inlineBlock(() => {
-        writer.writeLine(`method: '${methodType}',`);
-        writer.writeLine(`url: \`${url}\`,`);
-        // TODO 区分请求类型
-        writer.write('params: ').inlineBlock(() => {
-          writer.writeLine(`a: 'b',`);
-        });
-        writer.write(',');
-      });
-      writer.write(`)`);
+      // 匹配到注解时需要根据注解内容替换参数名、是否必填
+      if (matchedAn) {
+        const anFieldName = matchedAn.fields.find(f => ['name', 'value'].includes(f.name))?.value;
+        const anFieldRequired = matchedAn.fields.find(f => ['required'].includes(f.name))?.value;
+
+        param.name = anFieldName || p.name;
+        param.isRequired = typeof anFieldRequired !== 'undefined' ? anFieldRequired : param.isRequired;
+      }
+
+      // 包含 PathVariable 时认为参数来源于 url
+      if (p.annotations.find(an => an.name === 'PathVariable')) {
+        param.isPathVariable = true;
+        // url 参数必填
+        param.isRequired = true;
+      }
+
+      paramList.push(param);
     });
+
+    return paramList;
   }
 
   // 解析基础路由

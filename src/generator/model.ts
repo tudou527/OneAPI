@@ -5,6 +5,9 @@ import { TypeTransform } from './typeTransform';
 import { baseDir, generatorFileComment, getImports, getJsDoc, metaData, project } from '../util/common';
 
 export class ModelGenerator {
+  // 子类
+  childClassName: string;
+
   // 从文件读取的解析结果
   fileMeta: JavaMeta.FileMeta;
   // ts-morph 用于生成文件的对象
@@ -21,12 +24,22 @@ export class ModelGenerator {
 
     const fileSavePath = ModelGenerator.getSavePath(classPath);
 
-    this.sourceFile = project.createSourceFile(fileSavePath);
+    if (classPath.includes('$')) {
+      this.childClassName = classPath.split('$')[1];
+
+      this.sourceFile = project.getSourceFile(fileSavePath);
+    } else {
+      this.sourceFile = project.createSourceFile(fileSavePath);
+    }
   }
 
   // 返回文件保存路径
   static getSavePath(classPath: string) {
-    const [fileName, fileDir] = classPath.split('.').reverse();
+    let [fileName, fileDir] = classPath.split('.').reverse();
+
+    if (fileName.includes('$')) {
+      fileName = fileName.split('$')[0];
+    }
 
     /**
      * classPath 按 . 拆分，倒数第二项作为目录，最后一项作为文件名
@@ -37,14 +50,18 @@ export class ModelGenerator {
   async gen() {
     // 生成调用方法
     await this.generatorInterface();
-    // 增加导入
-    const importList = getImports(this.importDeclaration, this.sourceFile.getFilePath());
-    this.sourceFile.addImportDeclarations(importList);
 
-    // 增加文件注释内容
-    generatorFileComment(this.fileMeta).reverse().forEach((str) => {
-      this.sourceFile.insertStatements(0, str);
-    });
+    // 子类不需要重复执行以下操作
+    if (!this.childClassName) {
+      // 增加导入
+      const importList = getImports(this.importDeclaration, this.sourceFile.getFilePath());
+      this.sourceFile.addImportDeclarations(importList);
+
+      // 增加文件注释内容
+      generatorFileComment(this.fileMeta).reverse().forEach((str) => {
+        this.sourceFile.insertStatements(0, str);
+      });
+    }
 
     await this.sourceFile.save();
   }
@@ -109,7 +126,10 @@ export class ModelGenerator {
 // 生成 service
 export default async function generatorModel() {
   // 过滤出入资源文件
-  const sourceClassPath = Object.keys(metaData).filter(classPath => metaData[classPath].fileType === 'RESOURCE');
+  const sourceClassPath = Object.keys(metaData).filter(classPath => metaData[classPath].fileType === 'RESOURCE').sort((a, b) => {
+    // 排序，让包含 $ 的 class 往后排，确保写入前对应的父类文件已存在
+    return a.indexOf('$') - b.indexOf('$');
+  });
 
   for (const classPath of sourceClassPath) {
     await (new ModelGenerator(classPath)).gen();

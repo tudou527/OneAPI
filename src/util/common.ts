@@ -5,6 +5,11 @@ import { ModelGenerator } from '../generator/model';
 
 export let baseDir: string;
 export let project: Project;
+export let requestImport = {
+  kind: 2,
+  namedImports: [ 'request' ],
+  moduleSpecifier: './request',
+}
 export let metaData: { [key: string]: JavaMeta.FileMeta } = {};
 
 export function initProject(servicesDir: string, jsonFile: string) {
@@ -29,7 +34,7 @@ export function getJsDoc(desc: JavaMeta.Description) {
     desc.tag[tag].forEach(str => {
       tags.push({
         tagName: tag,
-        text: str,
+        text: tag === 'param' ? `args.${str.trimStart()}` : str,
       });
     });
   });
@@ -44,7 +49,8 @@ export function getJsDoc(desc: JavaMeta.Description) {
 export function generatorFileComment(fileMeta: JavaMeta.FileMeta): string[] {
   const lineStr = [
     '/* tslint:disable */',
-    `/* origin: ${fileMeta.class.classPath} */`
+    `/* origin: ${fileMeta.class.classPath} */`,
+    ' ',
   ];
 
   return lineStr;

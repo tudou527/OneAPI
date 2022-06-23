@@ -63,6 +63,12 @@ export class TypeTransform {
       return '{ [key: string]: any }';
     }
 
+    if ([
+      'org.springframework.web.multipart.MultipartFile',
+    ].includes(classPath)) {
+      return 'any';
+    }
+
     this.importDeclaration[classPath] = name;
 
     if (items) {
