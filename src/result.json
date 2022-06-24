@@ -156,6 +156,132 @@
       "methods": []
     }
   },
+  "com.alibaba.aip.shared.model.result.Page": {
+    "filePath": "/Users/xiaoyun/.m2/repository/com/alibaba/aip/shared/model/0.0.4/deCompile/com/alibaba/aip/shared/model/result/Page.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.alibaba.aip.shared.model.result",
+    "description": {
+      "tag": {}
+    },
+    "imports": ["java.util.Collection", "java.io.Serializable", "com.alibaba.aip.shared.model.result.BaseResult", "com.alibaba.aip.shared.model.result.PageResult", "com.alibaba.aip.shared.model.result.Page", "com.alibaba.aip.shared.model.result.MapResult", "com.alibaba.aip.shared.model.result.Cursor", "com.alibaba.aip.shared.model.result.PojoResult", "com.alibaba.aip.shared.model.result.CursorResult", "com.alibaba.aip.shared.model.result.CollectionResult"],
+    "class": {
+      "name": "Page",
+      "classPath": "com.alibaba.aip.shared.model.result.Page",
+      "actualType": [{
+        "name": "T"
+      }],
+      "description": {
+        "tag": {}
+      },
+      "annotations": [],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": false,
+      "isPrivate": false,
+      "isPublic": true,
+      "fields": [{
+        "name": "data",
+        "type": {
+          "name": "Collection",
+          "classPath": "java.util.Collection",
+          "items": [{
+            "name": "T",
+            "classPath": "T"
+          }]
+        },
+        "defaultValue": "\n      ",
+        "isPrivate": true,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": []
+      }, {
+        "name": "totalCount",
+        "type": {
+          "name": "Integer",
+          "classPath": "java.lang.Integer"
+        },
+        "defaultValue": "\n      ",
+        "isPrivate": true,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": []
+      }, {
+        "name": "currentPage",
+        "type": {
+          "name": "Integer",
+          "classPath": "java.lang.Integer"
+        },
+        "defaultValue": "\n      ",
+        "isPrivate": true,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": []
+      }, {
+        "name": "pageSize",
+        "type": {
+          "name": "Integer",
+          "classPath": "java.lang.Integer"
+        },
+        "defaultValue": "\n      ",
+        "isPrivate": true,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": []
+      }],
+      "methods": []
+    }
+  },
+  "com.alibaba.aip.shared.model.result.PageResult": {
+    "filePath": "/Users/xiaoyun/.m2/repository/com/alibaba/aip/shared/model/0.0.4/deCompile/com/alibaba/aip/shared/model/result/PageResult.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.alibaba.aip.shared.model.result",
+    "description": {
+      "tag": {}
+    },
+    "imports": ["com.alibaba.aip.shared.model.result.BaseResult", "com.alibaba.aip.shared.model.result.PageResult", "com.alibaba.aip.shared.model.result.Page", "com.alibaba.aip.shared.model.result.MapResult", "com.alibaba.aip.shared.model.result.Cursor", "com.alibaba.aip.shared.model.result.PojoResult", "com.alibaba.aip.shared.model.result.CursorResult", "com.alibaba.aip.shared.model.result.CollectionResult"],
+    "class": {
+      "name": "PageResult",
+      "classPath": "com.alibaba.aip.shared.model.result.PageResult",
+      "actualType": [{
+        "name": "T"
+      }],
+      "description": {
+        "tag": {}
+      },
+      "annotations": [],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": false,
+      "isPrivate": false,
+      "isPublic": true,
+      "superClass": {
+        "name": "BaseResult",
+        "classPath": "com.alibaba.aip.shared.model.result.BaseResult",
+        "items": [{
+          "name": "Page",
+          "classPath": "com.alibaba.aip.shared.model.result.Page",
+          "items": [{
+            "name": "T",
+            "classPath": "T"
+          }]
+        }]
+      },
+      "fields": [],
+      "methods": []
+    }
+  },
   "com.alibaba.aip.shared.model.result.PojoResult": {
     "filePath": "/Users/xiaoyun/.m2/repository/com/alibaba/aip/shared/model/0.0.4/deCompile/com/alibaba/aip/shared/model/result/PojoResult.java",
     "fileType": "RESOURCE",
@@ -324,20 +450,6 @@
       "isPrivate": false,
       "isPublic": true,
       "fields": [{
-        "name": "test",
-        "type": {
-          "name": "Test",
-          "classPath": "com.alibaba.brain.Test"
-        },
-        "defaultValue": "",
-        "isPrivate": true,
-        "isPublic": false,
-        "isProtected": false,
-        "description": {
-          "tag": {}
-        },
-        "annotations": []
-      }, {
         "name": "aecpVersionDiamond",
         "type": {
           "name": "AecpVersionDiamond",
@@ -422,44 +534,6 @@
           "classPath": "java.lang.String"
         }
       }]
-    }
-  },
-  "com.alibaba.brain.Test": {
-    "filePath": "/Users/xiaoyun/java/staff-marking/staff-marking-start/src/main/java/com/alibaba/brain/Test.java",
-    "fileType": "RESOURCE",
-    "packageName": "com.alibaba.brain",
-    "description": {
-      "tag": {}
-    },
-    "imports": ["org.springframework.stereotype.Controller", "com.alibaba.brain.MainController", "com.alibaba.brain.Test", "com.alibaba.brain.BaseLoginController", "com.alibaba.brain.WebSecurityConfig", "com.alibaba.brain.Application", "com.alibaba.brain.WebMvcConfig"],
-    "class": {
-      "name": "Test",
-      "classPath": "com.alibaba.brain.Test",
-      "description": {
-        "tag": {}
-      },
-      "annotations": [],
-      "isEnum": false,
-      "isInterface": false,
-      "isAbstract": false,
-      "isPrivate": false,
-      "isPublic": true,
-      "fields": [{
-        "name": "name",
-        "type": {
-          "name": "String",
-          "classPath": "java.lang.String"
-        },
-        "defaultValue": "",
-        "isPrivate": true,
-        "isPublic": false,
-        "isProtected": false,
-        "description": {
-          "tag": {}
-        },
-        "annotations": []
-      }],
-      "methods": []
     }
   },
   "com.alibaba.brain.job.CommonController": {
@@ -4575,17 +4649,573 @@
       "methods": []
     }
   },
-  "com.google.common.collect.ImmutableMap": {
-    "filePath": "/Users/xiaoyun/.m2/repository/com/google/guava/guava/11.0.2/deCompile/com/google/common/collect/ImmutableMap.java",
+  "com.alibaba.ihr.amdplatform.service.api.AmdpDataQueryService": {
+    "filePath": "/Users/xiaoyun/.m2/repository/com/alibaba/ihr/amdplatform-service-api/2.0.82/deCompile/com/alibaba/ihr/amdplatform/service/api/AmdpDataQueryService.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.alibaba.ihr.amdplatform.service.api",
+    "description": {
+      "tag": {}
+    },
+    "imports": ["com.alibaba.ihr.amdplatform.service.param.DataQueryFunctionParam", "com.alibaba.ihr.amdplatform.service.dto.QuerySimpleResult", "com.alibaba.ihr.amdplatform.service.dto.SimpleResult", "com.alibaba.ihr.amdplatform.service.param.DataQueryParam", "com.alibaba.ihr.amdplatform.service.param.AuthParam", "com.alibaba.ihr.amdplatform.service.dto.QueryResultDTO", "com.alibaba.ihr.amdplatform.service.dto.ResultDTO", "com.alibaba.ihr.amdplatform.service.api.AmdpDataRangeService", "com.alibaba.ihr.amdplatform.service.api.DingDingService", "com.alibaba.ihr.amdplatform.service.api.Amdp2MasterdataQueryService", "com.alibaba.ihr.amdplatform.service.api.AmdpSpaceTreeService", "com.alibaba.ihr.amdplatform.service.api.AmdpDataTestService", "com.alibaba.ihr.amdplatform.service.api.AmdpOrgTreeService", "com.alibaba.ihr.amdplatform.service.api.AmdpProductTreeService", "com.alibaba.ihr.amdplatform.service.api.AmdpBizTreeService", "com.alibaba.ihr.amdplatform.service.api.AmdpGraphqlDataQueryService", "com.alibaba.ihr.amdplatform.service.api.CombineFunctionService", "com.alibaba.ihr.amdplatform.service.api.CombineFunctionApiService", "com.alibaba.ihr.amdplatform.service.api.AmdpObjectDataCmdService", "com.alibaba.ihr.amdplatform.service.api.AmdpOpenApiService", "com.alibaba.ihr.amdplatform.service.api.AmdpMetaService", "com.alibaba.ihr.amdplatform.service.api.AmdpDataQueryService"],
+    "class": {
+      "name": "AmdpDataQueryService",
+      "classPath": "com.alibaba.ihr.amdplatform.service.api.AmdpDataQueryService",
+      "description": {
+        "tag": {}
+      },
+      "annotations": [],
+      "isEnum": false,
+      "isInterface": true,
+      "isAbstract": false,
+      "isPrivate": false,
+      "isPublic": true,
+      "fields": [],
+      "methods": []
+    }
+  },
+  "com.alibaba.mozi.client.acl.service.TenantAccessControlService": {
+    "filePath": "/Users/xiaoyun/.m2/repository/com/alibaba/mozi/mozi.client.acl/1.1.23/deCompile/com/alibaba/mozi/client/acl/service/TenantAccessControlService.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.alibaba.mozi.client.acl.service",
+    "description": {
+      "tag": {}
+    },
+    "imports": ["com.alibaba.mozi.client.acl.output.GetTenantAllMenuResult", "com.alibaba.mozi.client.acl.input.GetTenantAllTreeMenuRequest", "com.alibaba.mozi.client.acl.output.CheckTenantActionResult", "com.alibaba.mozi.client.acl.input.CheckTenantActionsRequest", "com.alibaba.mozi.client.acl.output.PageTenantGrantObjectByGrantDataResult", "com.alibaba.mozi.client.acl.input.PageTenantGrantObjectByGrantDataRequest", "com.alibaba.mozi.client.acl.output.ListAndGroupGrantDataByDataPermissionResult", "com.alibaba.mozi.client.acl.input.ListAndGroupGrantDataByDataPermissionRequest", "com.alibaba.mozi.client.acl.output.ListAndGroupGrantDataResult", "com.alibaba.mozi.client.acl.input.ListAndGroupGrantDataRequest", "com.alibaba.mozi.client.acl.output.ListTenantDataDetailResult", "com.alibaba.mozi.client.acl.input.ListTenantDataDetailRequest", "com.alibaba.mozi.client.acl.output.PageTenantDataPermissionDatasResult", "com.alibaba.mozi.client.acl.input.PageTenantDataPermissionDatasRequest", "com.alibaba.mozi.client.acl.output.CheckTenantDataPermissionResult", "com.alibaba.mozi.client.acl.input.CheckTenantDataPermissionsRequest", "com.alibaba.mozi.client.acl.output.CheckTenantPermissionResult", "com.alibaba.mozi.client.acl.input.CheckTenantPermissionsRequest", "com.alibaba.mozi.client.acl.service.TenantAccessControlService", "com.alibaba.mozi.client.acl.service.TenantBusinessDomainPermissionService", "com.alibaba.mozi.client.acl.service.TenantDataModelWriteService", "com.alibaba.mozi.client.acl.service.TenantDataPermissionReadService", "com.alibaba.mozi.client.acl.service.ActionWriteService", "com.alibaba.mozi.client.acl.service.TenantPermissionPackageService", "com.alibaba.mozi.client.acl.service.TenantOperationReadService", "com.alibaba.mozi.client.acl.service.TenantPropertyReadService", "com.alibaba.mozi.client.acl.service.TenantAppService", "com.alibaba.mozi.client.acl.service.TenantPermissionService", "com.alibaba.mozi.client.acl.service.TenantUserPermissionService", "com.alibaba.mozi.client.acl.service.ActionReadService", "com.alibaba.mozi.client.acl.service.TenantDataPermissionWriteService", "com.alibaba.mozi.client.acl.service.TenantGrantService", "com.alibaba.mozi.client.acl.service.TenantRoleReadService", "com.alibaba.mozi.client.acl.service.TenantRoleService"],
+    "class": {
+      "name": "TenantAccessControlService",
+      "classPath": "com.alibaba.mozi.client.acl.service.TenantAccessControlService",
+      "description": {
+        "tag": {}
+      },
+      "annotations": [],
+      "isEnum": false,
+      "isInterface": true,
+      "isAbstract": false,
+      "isPrivate": false,
+      "isPublic": true,
+      "fields": [],
+      "methods": []
+    }
+  },
+  "com.alibaba.sec.gateway.sdk.DataSecService": {
+    "filePath": "/Users/xiaoyun/.m2/repository/com/alibaba/sec/saas-sdk/1.1.5/deCompile/com/alibaba/sec/gateway/sdk/DataSecService.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.alibaba.sec.gateway.sdk",
+    "description": {
+      "tag": {}
+    },
+    "imports": ["com.alibaba.dsm.watermark.domain.ImageTamperDetectResponse", "com.alibaba.dsm.watermark.domain.ImageTamperDetectRequest", "com.alibaba.sec.gateway.sdk.entity.datasec.MasksRequest", "com.alibaba.sec.gateway.sdk.entity.datasec.MaskRequest", "com.alibaba.dsm.masking.client.input.SmartInput", "com.alibaba.dsm.masking.client.input.abs.AbsInput", "com.alibaba.yushanfang.data.security.client.common.TagAttribute", "com.alibaba.yushanfang.data.security.client.common.MapTagsRequest", "java.util.Map", "com.alibaba.yushanfang.data.security.client.common.MapRequest", "com.alibaba.yushanfang.data.security.client.common.ListRequest", "java.util.List", "com.alibaba.sec.gateway.sdk.entity.datasec.RuleRequest", "com.alibaba.dsm.detect.hsf.vo.DetectRule", "com.alibaba.dsm.detect.hsf.vo.DetectResponse", "com.alibaba.dsm.detect.hsf.vo.DetectRequest", "com.alibaba.sec.gateway.sdk.entity.datasec.CloudShellRequest", "com.alibaba.dsm.watermark.domain.ExtractResponse", "com.alibaba.dsm.watermark.domain.ExtractRequest", "com.alibaba.dsm.watermark.domain.EmbedResponse", "com.alibaba.dsm.watermark.domain.EmbedRequest", "com.alibaba.sec.gateway.sdk.SaasResult", "com.alibaba.sec.gateway.sdk.BluesService", "com.alibaba.sec.gateway.sdk.MobileSecService", "com.alibaba.sec.gateway.sdk.AppSecService", "com.alibaba.sec.gateway.sdk.GatewayService", "com.alibaba.sec.gateway.sdk.TerminalSecService", "com.alibaba.sec.gateway.sdk.OdsRiskDataService", "com.alibaba.sec.gateway.sdk.BussinessSecService", "com.alibaba.sec.gateway.sdk.DataSecService", "com.alibaba.sec.gateway.sdk.RiskDataService", "com.alibaba.sec.gateway.sdk.BasicService"],
+    "class": {
+      "name": "DataSecService",
+      "classPath": "com.alibaba.sec.gateway.sdk.DataSecService",
+      "description": {
+        "tag": {}
+      },
+      "annotations": [],
+      "isEnum": false,
+      "isInterface": true,
+      "isAbstract": false,
+      "isPrivate": false,
+      "isPublic": true,
+      "fields": [],
+      "methods": []
+    }
+  },
+  "com.google.common.collect.ForwardingMapEntry": {
+    "filePath": "/Users/xiaoyun/.m2/repository/com/google/guava/guava/30.1-jre/deCompile/com/google/common/collect/ForwardingMapEntry.java",
     "fileType": "RESOURCE",
     "packageName": "com.google.common.collect",
     "description": {
       "tag": {}
     },
-    "imports": ["java.util.List", "java.util.Iterator", "java.util.ArrayList", "java.util.Collection", "java.util.Set", "javax.annotation.Nullable", "com.google.common.base.Preconditions", "com.google.common.annotations.GwtCompatible", "java.io.Serializable", "java.util.Map", "com.google.common.collect.ForwardingListMultimap", "com.google.common.collect.ForwardingSet", "com.google.common.collect.TreeMultimap", "com.google.common.collect.ForwardingMultiset", "com.google.common.collect.ImmutableMap", "com.google.common.collect.UnmodifiableIterator", "com.google.common.collect.Queues", "com.google.common.collect.Tables", "com.google.common.collect.Lists", "com.google.common.collect.LinkedHashMultiset", "com.google.common.collect.ForwardingList", "com.google.common.collect.ConcurrentHashMultiset", "com.google.common.collect.MapDifference", "com.google.common.collect.MapConstraints", "com.google.common.collect.ImmutableCollection", "com.google.common.collect.ForwardingMapEntry", "com.google.common.collect.Ranges", "com.google.common.collect.Table", "com.google.common.collect.PeekingIterator", "com.google.common.collect.ImmutableBiMap", "com.google.common.collect.ImmutableSet", "com.google.common.collect.Interner", "com.google.common.collect.ForwardingListIterator", "com.google.common.collect.Multimap", "com.google.common.collect.Constraint", "com.google.common.collect.ForwardingQueue", "com.google.common.collect.ForwardingMap", "com.google.common.collect.BoundType", "com.google.common.collect.ImmutableSetMultimap", "com.google.common.collect.HashBasedTable", "com.google.common.collect.SortedMapDifference", "com.google.common.collect.SortedMultiset", "com.google.common.collect.ImmutableClassToInstanceMap", "com.google.common.collect.SetMultimap", "com.google.common.collect.ForwardingSetMultimap", "com.google.common.collect.Ordering", "com.google.common.collect.ComputationException", "com.google.common.collect.ImmutableSortedMap", "com.google.common.collect.HashMultimap", "com.google.common.collect.DiscreteDomain", "com.google.common.collect.MutableClassToInstanceMap", "com.google.common.collect.ClassToInstanceMap", "com.google.common.collect.Range", "com.google.common.collect.AbstractLinkedIterator", "com.google.common.collect.ImmutableMultimap", "com.google.common.collect.ForwardingMultimap", "com.google.common.collect.ContiguousSet", "com.google.common.collect.Collections2", "com.google.common.collect.GenericMapMaker", "com.google.common.collect.EnumMultiset", "com.google.common.collect.SortedSetMultimap", "com.google.common.collect.Sets", "com.google.common.collect.Interners", "com.google.common.collect.HashMultiset", "com.google.common.collect.ForwardingObject", "com.google.common.collect.EnumHashBiMap", "com.google.common.collect.ForwardingCollection", "com.google.common.collect.TreeMultiset", "com.google.common.collect.MapConstraint", "com.google.common.collect.ArrayListMultimap", "com.google.common.collect.ImmutableList", "com.google.common.collect.Constraints", "com.google.common.collect.AsynchronousComputationException", "com.google.common.collect.Iterables", "com.google.common.collect.Iterators", "com.google.common.collect.ArrayTable", "com.google.common.collect.ForwardingConcurrentMap", "com.google.common.collect.ComparisonChain", "com.google.common.collect.KeyPresentBehavior", "com.google.common.collect.ListMultimap", "com.google.common.collect.Multimaps", "com.google.common.collect.UnmodifiableListIterator", "com.google.common.collect.Builder", "com.google.common.collect.MinMaxPriorityQueue", "com.google.common.collect.LinkedHashMultimap", "com.google.common.collect.DiscreteDomains", "com.google.common.collect.ObjectArrays", "com.google.common.collect.ForwardingTable", "com.google.common.collect.AbstractIterator", "com.google.common.collect.SortedMaps", "com.google.common.collect.ImmutableMultiset", "com.google.common.collect.ImmutableSortedSet", "com.google.common.collect.ForwardingSortedSet", "com.google.common.collect.RowSortedTable", "com.google.common.collect.ForwardingSortedMap", "com.google.common.collect.EnumBiMap", "com.google.common.collect.ImmutableListMultimap", "com.google.common.collect.ImmutableTable", "com.google.common.collect.LinkedListMultimap", "com.google.common.collect.TreeBasedTable", "com.google.common.collect.ForwardingIterator", "com.google.common.collect.MapMaker", "com.google.common.collect.Maps", "com.google.common.collect.BiMap", "com.google.common.collect.Multisets", "com.google.common.collect.ForwardingSortedSetMultimap", "com.google.common.collect.HashBiMap", "com.google.common.collect.Multiset"],
+    "imports": ["com.google.common.annotations.Beta", "com.google.common.base.Objects", "com.google.common.annotations.GwtCompatible", "java.util.Map", "com.google.common.collect.ImmutableSortedMultiset", "com.google.common.collect.ForwardingNavigableSet", "com.google.common.collect.ForwardingDeque", "com.google.common.collect.ForwardingListMultimap", "com.google.common.collect.ForwardingSet", "com.google.common.collect.TreeMultimap", "com.google.common.collect.ForwardingMultiset", "com.google.common.collect.ImmutableMap", "com.google.common.collect.UnmodifiableIterator", "com.google.common.collect.Lists", "com.google.common.collect.Queues", "com.google.common.collect.LinkedHashMultiset", "com.google.common.collect.ForwardingList", "com.google.common.collect.TreeRangeSet", "com.google.common.collect.Tables", "com.google.common.collect.ConcurrentHashMultiset", "com.google.common.collect.FluentIterable", "com.google.common.collect.MapDifference", "com.google.common.collect.ImmutableCollection", "com.google.common.collect.ForwardingMapEntry", "com.google.common.collect.Table", "com.google.common.collect.PeekingIterator", "com.google.common.collect.ImmutableBiMap", "com.google.common.collect.ForwardingSortedMultiset", "com.google.common.collect.ImmutableSet", "com.google.common.collect.MultimapBuilder", "com.google.common.collect.Interner", "com.google.common.collect.ForwardingListIterator", "com.google.common.collect.AbstractSequentialIterator", "com.google.common.collect.Multimap", "com.google.common.collect.ForwardingQueue", "com.google.common.collect.ForwardingMap", "com.google.common.collect.BoundType", "com.google.common.collect.ForwardingNavigableMap", "com.google.common.collect.ImmutableSetMultimap", "com.google.common.collect.HashBasedTable", "com.google.common.collect.SortedMapDifference", "com.google.common.collect.SortedMultiset", "com.google.common.collect.ImmutableClassToInstanceMap", "com.google.common.collect.SetMultimap", "com.google.common.collect.ForwardingSetMultimap", "com.google.common.collect.Ordering", "com.google.common.collect.ComputationException", "com.google.common.collect.TreeTraverser", "com.google.common.collect.ImmutableSortedMap", "com.google.common.collect.EvictingQueue", "com.google.common.collect.HashMultimap", "com.google.common.collect.DiscreteDomain", "com.google.common.collect.MutableClassToInstanceMap", "com.google.common.collect.ClassToInstanceMap", "com.google.common.collect.Range", "com.google.common.collect.ImmutableMultimap", "com.google.common.collect.ForwardingMultimap", "com.google.common.collect.ContiguousSet", "com.google.common.collect.Collections2", "com.google.common.collect.EnumMultiset", "com.google.common.collect.SortedSetMultimap", "com.google.common.collect.Sets", "com.google.common.collect.ImmutableRangeSet", "com.google.common.collect.Interners", "com.google.common.collect.HashMultiset", "com.google.common.collect.ForwardingObject", "com.google.common.collect.EnumHashBiMap", "com.google.common.collect.ForwardingCollection", "com.google.common.collect.TreeMultiset", "com.google.common.collect.ArrayListMultimap", "com.google.common.collect.ImmutableList", "com.google.common.collect.Iterators", "com.google.common.collect.ArrayTable", "com.google.common.collect.Iterables", "com.google.common.collect.RangeSet", "com.google.common.collect.ForwardingConcurrentMap", "com.google.common.collect.ComparisonChain", "com.google.common.collect.ListMultimap", "com.google.common.collect.Multimaps", "com.google.common.collect.UnmodifiableListIterator", "com.google.common.collect.MinMaxPriorityQueue", "com.google.common.collect.LinkedHashMultimap", "com.google.common.collect.ObjectArrays", "com.google.common.collect.ForwardingTable", "com.google.common.collect.AbstractIterator", "com.google.common.collect.RangeMap", "com.google.common.collect.ImmutableMultiset", "com.google.common.collect.ImmutableSortedSet", "com.google.common.collect.ForwardingSortedSet", "com.google.common.collect.RowSortedTable", "com.google.common.collect.ForwardingSortedMap", "com.google.common.collect.EnumBiMap", "com.google.common.collect.ImmutableListMultimap", "com.google.common.collect.ImmutableTable", "com.google.common.collect.ForwardingBlockingDeque", "com.google.common.collect.Comparators", "com.google.common.collect.LinkedListMultimap", "com.google.common.collect.TreeBasedTable", "com.google.common.collect.ForwardingIterator", "com.google.common.collect.MapMaker", "com.google.common.collect.Maps", "com.google.common.collect.Streams", "com.google.common.collect.BiMap", "com.google.common.collect.Multisets", "com.google.common.collect.TreeRangeMap", "com.google.common.collect.MoreCollectors", "com.google.common.collect.ForwardingSortedSetMultimap", "com.google.common.collect.HashBiMap", "com.google.common.collect.Multiset", "com.google.common.collect.ImmutableRangeMap"],
+    "class": {
+      "name": "ForwardingMapEntry",
+      "classPath": "com.google.common.collect.ForwardingMapEntry",
+      "actualType": [{
+        "name": "K"
+      }, {
+        "name": "V"
+      }],
+      "description": {
+        "tag": {}
+      },
+      "annotations": [{
+        "name": "GwtCompatible",
+        "classPath": "com.google.common.annotations.GwtCompatible",
+        "fields": []
+      }],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": true,
+      "isPrivate": false,
+      "isPublic": true,
+      "superClass": {
+        "name": "ForwardingObject",
+        "classPath": "com.google.common.collect.ForwardingObject"
+      },
+      "fields": [],
+      "methods": []
+    }
+  },
+  "com.google.common.collect.ForwardingObject": {
+    "filePath": "/Users/xiaoyun/.m2/repository/com/google/guava/guava/30.1-jre/deCompile/com/google/common/collect/ForwardingObject.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.google.common.collect",
+    "description": {
+      "tag": {}
+    },
+    "imports": ["com.google.common.annotations.GwtCompatible", "com.google.common.collect.ImmutableSortedMultiset", "com.google.common.collect.ForwardingNavigableSet", "com.google.common.collect.ForwardingDeque", "com.google.common.collect.ForwardingListMultimap", "com.google.common.collect.ForwardingSet", "com.google.common.collect.TreeMultimap", "com.google.common.collect.ForwardingMultiset", "com.google.common.collect.ImmutableMap", "com.google.common.collect.UnmodifiableIterator", "com.google.common.collect.Queues", "com.google.common.collect.Tables", "com.google.common.collect.Lists", "com.google.common.collect.LinkedHashMultiset", "com.google.common.collect.ForwardingList", "com.google.common.collect.TreeRangeSet", "com.google.common.collect.ConcurrentHashMultiset", "com.google.common.collect.FluentIterable", "com.google.common.collect.MapDifference", "com.google.common.collect.ImmutableCollection", "com.google.common.collect.ForwardingMapEntry", "com.google.common.collect.Table", "com.google.common.collect.PeekingIterator", "com.google.common.collect.ImmutableBiMap", "com.google.common.collect.ForwardingSortedMultiset", "com.google.common.collect.ImmutableSet", "com.google.common.collect.MultimapBuilder", "com.google.common.collect.Interner", "com.google.common.collect.ForwardingListIterator", "com.google.common.collect.AbstractSequentialIterator", "com.google.common.collect.Multimap", "com.google.common.collect.ForwardingQueue", "com.google.common.collect.ForwardingMap", "com.google.common.collect.BoundType", "com.google.common.collect.ForwardingNavigableMap", "com.google.common.collect.ImmutableSetMultimap", "com.google.common.collect.HashBasedTable", "com.google.common.collect.SortedMapDifference", "com.google.common.collect.SortedMultiset", "com.google.common.collect.ImmutableClassToInstanceMap", "com.google.common.collect.SetMultimap", "com.google.common.collect.ForwardingSetMultimap", "com.google.common.collect.Ordering", "com.google.common.collect.ComputationException", "com.google.common.collect.TreeTraverser", "com.google.common.collect.ImmutableSortedMap", "com.google.common.collect.EvictingQueue", "com.google.common.collect.HashMultimap", "com.google.common.collect.DiscreteDomain", "com.google.common.collect.MutableClassToInstanceMap", "com.google.common.collect.ClassToInstanceMap", "com.google.common.collect.Range", "com.google.common.collect.ImmutableMultimap", "com.google.common.collect.ForwardingMultimap", "com.google.common.collect.ContiguousSet", "com.google.common.collect.Collections2", "com.google.common.collect.EnumMultiset", "com.google.common.collect.SortedSetMultimap", "com.google.common.collect.Sets", "com.google.common.collect.ImmutableRangeSet", "com.google.common.collect.Interners", "com.google.common.collect.HashMultiset", "com.google.common.collect.ForwardingObject", "com.google.common.collect.EnumHashBiMap", "com.google.common.collect.ForwardingCollection", "com.google.common.collect.TreeMultiset", "com.google.common.collect.ArrayListMultimap", "com.google.common.collect.ImmutableList", "com.google.common.collect.Iterables", "com.google.common.collect.Iterators", "com.google.common.collect.ArrayTable", "com.google.common.collect.RangeSet", "com.google.common.collect.ForwardingConcurrentMap", "com.google.common.collect.ComparisonChain", "com.google.common.collect.ListMultimap", "com.google.common.collect.Multimaps", "com.google.common.collect.UnmodifiableListIterator", "com.google.common.collect.MinMaxPriorityQueue", "com.google.common.collect.LinkedHashMultimap", "com.google.common.collect.ObjectArrays", "com.google.common.collect.ForwardingTable", "com.google.common.collect.AbstractIterator", "com.google.common.collect.RangeMap", "com.google.common.collect.ImmutableMultiset", "com.google.common.collect.ImmutableSortedSet", "com.google.common.collect.ForwardingSortedMap", "com.google.common.collect.ForwardingSortedSet", "com.google.common.collect.RowSortedTable", "com.google.common.collect.EnumBiMap", "com.google.common.collect.ImmutableListMultimap", "com.google.common.collect.ImmutableTable", "com.google.common.collect.ForwardingBlockingDeque", "com.google.common.collect.Comparators", "com.google.common.collect.LinkedListMultimap", "com.google.common.collect.TreeBasedTable", "com.google.common.collect.ForwardingIterator", "com.google.common.collect.MapMaker", "com.google.common.collect.Maps", "com.google.common.collect.Streams", "com.google.common.collect.BiMap", "com.google.common.collect.Multisets", "com.google.common.collect.TreeRangeMap", "com.google.common.collect.MoreCollectors", "com.google.common.collect.ForwardingSortedSetMultimap", "com.google.common.collect.HashBiMap", "com.google.common.collect.Multiset", "com.google.common.collect.ImmutableRangeMap"],
+    "class": {
+      "name": "ForwardingObject",
+      "classPath": "com.google.common.collect.ForwardingObject",
+      "description": {
+        "tag": {}
+      },
+      "annotations": [{
+        "name": "GwtCompatible",
+        "classPath": "com.google.common.annotations.GwtCompatible",
+        "fields": []
+      }],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": true,
+      "isPrivate": false,
+      "isPublic": true,
+      "fields": [],
+      "methods": []
+    }
+  },
+  "com.google.common.collect.ImmutableCollection": {
+    "filePath": "/Users/xiaoyun/.m2/repository/com/google/guava/guava/30.1-jre/deCompile/com/google/common/collect/ImmutableCollection.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.google.common.collect",
+    "description": {
+      "tag": {}
+    },
+    "imports": ["java.util.Iterator", "java.util.function.Predicate", "com.google.errorprone.annotations.CanIgnoreReturnValue", "com.google.common.base.Preconditions", "java.util.Collection", "java.util.Spliterators", "java.util.Spliterator", "com.google.common.annotations.GwtCompatible", "com.google.errorprone.annotations.DoNotMock", "java.io.Serializable", "java.util.AbstractCollection", "com.google.common.collect.ImmutableSortedMultiset", "com.google.common.collect.ForwardingNavigableSet", "com.google.common.collect.ForwardingDeque", "com.google.common.collect.ForwardingListMultimap", "com.google.common.collect.ForwardingSet", "com.google.common.collect.TreeMultimap", "com.google.common.collect.ForwardingMultiset", "com.google.common.collect.ImmutableMap", "com.google.common.collect.UnmodifiableIterator", "com.google.common.collect.Lists", "com.google.common.collect.Queues", "com.google.common.collect.LinkedHashMultiset", "com.google.common.collect.ForwardingList", "com.google.common.collect.TreeRangeSet", "com.google.common.collect.Tables", "com.google.common.collect.ConcurrentHashMultiset", "com.google.common.collect.FluentIterable", "com.google.common.collect.MapDifference", "com.google.common.collect.ImmutableCollection", "com.google.common.collect.ForwardingMapEntry", "com.google.common.collect.Table", "com.google.common.collect.PeekingIterator", "com.google.common.collect.ImmutableBiMap", "com.google.common.collect.ForwardingSortedMultiset", "com.google.common.collect.ImmutableSet", "com.google.common.collect.MultimapBuilder", "com.google.common.collect.Interner", "com.google.common.collect.ForwardingListIterator", "com.google.common.collect.AbstractSequentialIterator", "com.google.common.collect.Multimap", "com.google.common.collect.ForwardingQueue", "com.google.common.collect.ForwardingMap", "com.google.common.collect.BoundType", "com.google.common.collect.ForwardingNavigableMap", "com.google.common.collect.ImmutableSetMultimap", "com.google.common.collect.HashBasedTable", "com.google.common.collect.SortedMapDifference", "com.google.common.collect.SortedMultiset", "com.google.common.collect.ImmutableClassToInstanceMap", "com.google.common.collect.SetMultimap", "com.google.common.collect.ForwardingSetMultimap", "com.google.common.collect.Ordering", "com.google.common.collect.ComputationException", "com.google.common.collect.TreeTraverser", "com.google.common.collect.ImmutableSortedMap", "com.google.common.collect.EvictingQueue", "com.google.common.collect.HashMultimap", "com.google.common.collect.DiscreteDomain", "com.google.common.collect.MutableClassToInstanceMap", "com.google.common.collect.ClassToInstanceMap", "com.google.common.collect.Range", "com.google.common.collect.ImmutableMultimap", "com.google.common.collect.ForwardingMultimap", "com.google.common.collect.ContiguousSet", "com.google.common.collect.Collections2", "com.google.common.collect.EnumMultiset", "com.google.common.collect.SortedSetMultimap", "com.google.common.collect.Sets", "com.google.common.collect.ImmutableRangeSet", "com.google.common.collect.Interners", "com.google.common.collect.HashMultiset", "com.google.common.collect.ForwardingObject", "com.google.common.collect.EnumHashBiMap", "com.google.common.collect.ForwardingCollection", "com.google.common.collect.TreeMultiset", "com.google.common.collect.ArrayListMultimap", "com.google.common.collect.ImmutableList", "com.google.common.collect.Iterators", "com.google.common.collect.ArrayTable", "com.google.common.collect.Iterables", "com.google.common.collect.RangeSet", "com.google.common.collect.ForwardingConcurrentMap", "com.google.common.collect.ComparisonChain", "com.google.common.collect.ListMultimap", "com.google.common.collect.Multimaps", "com.google.common.collect.UnmodifiableListIterator", "com.google.common.collect.MinMaxPriorityQueue", "com.google.common.collect.LinkedHashMultimap", "com.google.common.collect.ObjectArrays", "com.google.common.collect.ForwardingTable", "com.google.common.collect.AbstractIterator", "com.google.common.collect.RangeMap", "com.google.common.collect.ImmutableMultiset", "com.google.common.collect.ImmutableSortedSet", "com.google.common.collect.ForwardingSortedSet", "com.google.common.collect.RowSortedTable", "com.google.common.collect.ForwardingSortedMap", "com.google.common.collect.EnumBiMap", "com.google.common.collect.ImmutableListMultimap", "com.google.common.collect.ImmutableTable", "com.google.common.collect.ForwardingBlockingDeque", "com.google.common.collect.Comparators", "com.google.common.collect.LinkedListMultimap", "com.google.common.collect.TreeBasedTable", "com.google.common.collect.ForwardingIterator", "com.google.common.collect.MapMaker", "com.google.common.collect.Maps", "com.google.common.collect.Streams", "com.google.common.collect.BiMap", "com.google.common.collect.Multisets", "com.google.common.collect.TreeRangeMap", "com.google.common.collect.MoreCollectors", "com.google.common.collect.ForwardingSortedSetMultimap", "com.google.common.collect.HashBiMap", "com.google.common.collect.Multiset", "com.google.common.collect.ImmutableRangeMap"],
+    "class": {
+      "name": "ImmutableCollection",
+      "classPath": "com.google.common.collect.ImmutableCollection",
+      "actualType": [{
+        "name": "E"
+      }],
+      "description": {
+        "tag": {}
+      },
+      "annotations": [{
+        "name": "DoNotMock",
+        "classPath": "com.google.errorprone.annotations.DoNotMock",
+        "fields": [{
+          "name": "value",
+          "type": "Constant",
+          "array": false,
+          "value": "Use ImmutableList.of or another implementation"
+        }]
+      }, {
+        "name": "GwtCompatible",
+        "classPath": "com.google.common.annotations.GwtCompatible",
+        "fields": [{
+          "name": "emulated",
+          "type": "Constant",
+          "array": false,
+          "value": true
+        }]
+      }],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": true,
+      "isPrivate": false,
+      "isPublic": true,
+      "superClass": {
+        "name": "AbstractCollection",
+        "classPath": "java.util.AbstractCollection",
+        "items": [{
+          "name": "E",
+          "classPath": "E"
+        }]
+      },
+      "fields": [],
+      "methods": []
+    }
+  },
+  "com.google.common.collect.ImmutableList": {
+    "filePath": "/Users/xiaoyun/.m2/repository/com/google/guava/guava/30.1-jre/deCompile/com/google/common/collect/ImmutableList.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.google.common.collect",
+    "description": {
+      "tag": {}
+    },
+    "imports": ["com.google.common.annotations.VisibleForTesting", "java.io.Serializable", "java.util.ListIterator", "com.google.common.annotations.Beta", "java.io.InvalidObjectException", "java.io.ObjectInputStream", "java.util.Spliterator", "java.util.function.UnaryOperator", "com.google.errorprone.annotations.CanIgnoreReturnValue", "java.util.function.Consumer", "java.util.Comparator", "java.util.Arrays", "java.util.Iterator", "java.util.Collection", "com.google.common.base.Preconditions", "java.util.stream.Collector", "com.google.common.annotations.GwtCompatible", "java.util.RandomAccess", "java.util.List", "com.google.common.collect.ImmutableSortedMultiset", "com.google.common.collect.ForwardingNavigableSet", "com.google.common.collect.ForwardingDeque", "com.google.common.collect.ForwardingListMultimap", "com.google.common.collect.ForwardingSet", "com.google.common.collect.TreeMultimap", "com.google.common.collect.ForwardingMultiset", "com.google.common.collect.ImmutableMap", "com.google.common.collect.UnmodifiableIterator", "com.google.common.collect.Queues", "com.google.common.collect.Tables", "com.google.common.collect.Lists", "com.google.common.collect.LinkedHashMultiset", "com.google.common.collect.ForwardingList", "com.google.common.collect.TreeRangeSet", "com.google.common.collect.ConcurrentHashMultiset", "com.google.common.collect.FluentIterable", "com.google.common.collect.MapDifference", "com.google.common.collect.ImmutableCollection", "com.google.common.collect.ForwardingMapEntry", "com.google.common.collect.Table", "com.google.common.collect.PeekingIterator", "com.google.common.collect.ImmutableBiMap", "com.google.common.collect.ForwardingSortedMultiset", "com.google.common.collect.ImmutableSet", "com.google.common.collect.MultimapBuilder", "com.google.common.collect.Interner", "com.google.common.collect.ForwardingListIterator", "com.google.common.collect.AbstractSequentialIterator", "com.google.common.collect.Multimap", "com.google.common.collect.ForwardingQueue", "com.google.common.collect.ForwardingMap", "com.google.common.collect.BoundType", "com.google.common.collect.ForwardingNavigableMap", "com.google.common.collect.ImmutableSetMultimap", "com.google.common.collect.HashBasedTable", "com.google.common.collect.SortedMapDifference", "com.google.common.collect.SortedMultiset", "com.google.common.collect.ImmutableClassToInstanceMap", "com.google.common.collect.SetMultimap", "com.google.common.collect.ForwardingSetMultimap", "com.google.common.collect.Ordering", "com.google.common.collect.ComputationException", "com.google.common.collect.TreeTraverser", "com.google.common.collect.ImmutableSortedMap", "com.google.common.collect.EvictingQueue", "com.google.common.collect.HashMultimap", "com.google.common.collect.DiscreteDomain", "com.google.common.collect.MutableClassToInstanceMap", "com.google.common.collect.ClassToInstanceMap", "com.google.common.collect.Range", "com.google.common.collect.ImmutableMultimap", "com.google.common.collect.ForwardingMultimap", "com.google.common.collect.ContiguousSet", "com.google.common.collect.Collections2", "com.google.common.collect.EnumMultiset", "com.google.common.collect.SortedSetMultimap", "com.google.common.collect.Sets", "com.google.common.collect.ImmutableRangeSet", "com.google.common.collect.Interners", "com.google.common.collect.HashMultiset", "com.google.common.collect.ForwardingObject", "com.google.common.collect.EnumHashBiMap", "com.google.common.collect.ForwardingCollection", "com.google.common.collect.TreeMultiset", "com.google.common.collect.ArrayListMultimap", "com.google.common.collect.ImmutableList", "com.google.common.collect.Iterables", "com.google.common.collect.Iterators", "com.google.common.collect.ArrayTable", "com.google.common.collect.RangeSet", "com.google.common.collect.ForwardingConcurrentMap", "com.google.common.collect.ComparisonChain", "com.google.common.collect.ListMultimap", "com.google.common.collect.Multimaps", "com.google.common.collect.UnmodifiableListIterator", "com.google.common.collect.MinMaxPriorityQueue", "com.google.common.collect.LinkedHashMultimap", "com.google.common.collect.ObjectArrays", "com.google.common.collect.ForwardingTable", "com.google.common.collect.AbstractIterator", "com.google.common.collect.RangeMap", "com.google.common.collect.ImmutableMultiset", "com.google.common.collect.ImmutableSortedSet", "com.google.common.collect.ForwardingSortedMap", "com.google.common.collect.ForwardingSortedSet", "com.google.common.collect.RowSortedTable", "com.google.common.collect.EnumBiMap", "com.google.common.collect.ImmutableListMultimap", "com.google.common.collect.ImmutableTable", "com.google.common.collect.ForwardingBlockingDeque", "com.google.common.collect.Comparators", "com.google.common.collect.LinkedListMultimap", "com.google.common.collect.TreeBasedTable", "com.google.common.collect.ForwardingIterator", "com.google.common.collect.MapMaker", "com.google.common.collect.Maps", "com.google.common.collect.Streams", "com.google.common.collect.BiMap", "com.google.common.collect.Multisets", "com.google.common.collect.TreeRangeMap", "com.google.common.collect.MoreCollectors", "com.google.common.collect.ForwardingSortedSetMultimap", "com.google.common.collect.HashBiMap", "com.google.common.collect.Multiset", "com.google.common.collect.ImmutableRangeMap"],
+    "class": {
+      "name": "ImmutableList",
+      "classPath": "com.google.common.collect.ImmutableList",
+      "actualType": [{
+        "name": "E"
+      }],
+      "description": {
+        "tag": {}
+      },
+      "annotations": [{
+        "name": "GwtCompatible",
+        "classPath": "com.google.common.annotations.GwtCompatible",
+        "fields": [{
+          "name": "serializable",
+          "type": "Constant",
+          "array": false,
+          "value": true
+        }, {
+          "name": "emulated",
+          "type": "Constant",
+          "array": false,
+          "value": true
+        }]
+      }],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": true,
+      "isPrivate": false,
+      "isPublic": true,
+      "superClass": {
+        "name": "ImmutableCollection",
+        "classPath": "com.google.common.collect.ImmutableCollection",
+        "items": [{
+          "name": "E",
+          "classPath": "E"
+        }]
+      },
+      "fields": [],
+      "methods": []
+    }
+  },
+  "com.google.common.collect.ImmutableMap": {
+    "filePath": "/Users/xiaoyun/.m2/repository/com/google/guava/guava/30.1-jre/deCompile/com/google/common/collect/ImmutableMap.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.google.common.collect",
+    "description": {
+      "tag": {}
+    },
+    "imports": ["java.util.Spliterators", "com.google.common.annotations.VisibleForTesting", "com.google.common.base.Preconditions", "java.util.Arrays", "java.util.Collection", "java.util.Set", "java.util.Comparator", "java.util.Spliterator", "java.util.function.BiFunction", "com.google.errorprone.annotations.CanIgnoreReturnValue", "java.util.Iterator", "java.util.EnumMap", "java.util.SortedMap", "com.google.common.annotations.Beta", "java.util.AbstractMap", "java.util.function.BinaryOperator", "java.util.stream.Collector", "java.util.function.Function", "com.google.j2objc.annotations.RetainedWith", "com.google.errorprone.annotations.concurrent.LazyInit", "com.google.common.annotations.GwtCompatible", "com.google.errorprone.annotations.DoNotMock", "java.io.Serializable", "java.util.Map", "com.google.common.collect.ImmutableSortedMultiset", "com.google.common.collect.ForwardingNavigableSet", "com.google.common.collect.ForwardingDeque", "com.google.common.collect.ForwardingListMultimap", "com.google.common.collect.ForwardingSet", "com.google.common.collect.TreeMultimap", "com.google.common.collect.ForwardingMultiset", "com.google.common.collect.ImmutableMap", "com.google.common.collect.UnmodifiableIterator", "com.google.common.collect.Lists", "com.google.common.collect.Queues", "com.google.common.collect.LinkedHashMultiset", "com.google.common.collect.ForwardingList", "com.google.common.collect.TreeRangeSet", "com.google.common.collect.Tables", "com.google.common.collect.ConcurrentHashMultiset", "com.google.common.collect.FluentIterable", "com.google.common.collect.MapDifference", "com.google.common.collect.ImmutableCollection", "com.google.common.collect.ForwardingMapEntry", "com.google.common.collect.Table", "com.google.common.collect.PeekingIterator", "com.google.common.collect.ImmutableBiMap", "com.google.common.collect.ForwardingSortedMultiset", "com.google.common.collect.ImmutableSet", "com.google.common.collect.MultimapBuilder", "com.google.common.collect.Interner", "com.google.common.collect.ForwardingListIterator", "com.google.common.collect.AbstractSequentialIterator", "com.google.common.collect.Multimap", "com.google.common.collect.ForwardingQueue", "com.google.common.collect.ForwardingMap", "com.google.common.collect.BoundType", "com.google.common.collect.ForwardingNavigableMap", "com.google.common.collect.ImmutableSetMultimap", "com.google.common.collect.SortedMapDifference", "com.google.common.collect.HashBasedTable", "com.google.common.collect.SortedMultiset", "com.google.common.collect.ImmutableClassToInstanceMap", "com.google.common.collect.SetMultimap", "com.google.common.collect.ForwardingSetMultimap", "com.google.common.collect.Ordering", "com.google.common.collect.ComputationException", "com.google.common.collect.TreeTraverser", "com.google.common.collect.ImmutableSortedMap", "com.google.common.collect.EvictingQueue", "com.google.common.collect.HashMultimap", "com.google.common.collect.DiscreteDomain", "com.google.common.collect.MutableClassToInstanceMap", "com.google.common.collect.ClassToInstanceMap", "com.google.common.collect.Range", "com.google.common.collect.ImmutableMultimap", "com.google.common.collect.ForwardingMultimap", "com.google.common.collect.ContiguousSet", "com.google.common.collect.EnumMultiset", "com.google.common.collect.Collections2", "com.google.common.collect.SortedSetMultimap", "com.google.common.collect.Sets", "com.google.common.collect.ImmutableRangeSet", "com.google.common.collect.Interners", "com.google.common.collect.HashMultiset", "com.google.common.collect.TreeMultiset", "com.google.common.collect.ForwardingObject", "com.google.common.collect.EnumHashBiMap", "com.google.common.collect.ForwardingCollection", "com.google.common.collect.ArrayListMultimap", "com.google.common.collect.ImmutableList", "com.google.common.collect.Iterators", "com.google.common.collect.ArrayTable", "com.google.common.collect.Iterables", "com.google.common.collect.RangeSet", "com.google.common.collect.ForwardingConcurrentMap", "com.google.common.collect.ComparisonChain", "com.google.common.collect.ListMultimap", "com.google.common.collect.Multimaps", "com.google.common.collect.UnmodifiableListIterator", "com.google.common.collect.MinMaxPriorityQueue", "com.google.common.collect.LinkedHashMultimap", "com.google.common.collect.ObjectArrays", "com.google.common.collect.ForwardingTable", "com.google.common.collect.AbstractIterator", "com.google.common.collect.RangeMap", "com.google.common.collect.ImmutableSortedSet", "com.google.common.collect.ImmutableMultiset", "com.google.common.collect.ForwardingSortedSet", "com.google.common.collect.RowSortedTable", "com.google.common.collect.ForwardingSortedMap", "com.google.common.collect.EnumBiMap", "com.google.common.collect.ImmutableListMultimap", "com.google.common.collect.ImmutableTable", "com.google.common.collect.ForwardingBlockingDeque", "com.google.common.collect.Comparators", "com.google.common.collect.LinkedListMultimap", "com.google.common.collect.TreeBasedTable", "com.google.common.collect.ForwardingIterator", "com.google.common.collect.Streams", "com.google.common.collect.MapMaker", "com.google.common.collect.Maps", "com.google.common.collect.BiMap", "com.google.common.collect.Multisets", "com.google.common.collect.TreeRangeMap", "com.google.common.collect.MoreCollectors", "com.google.common.collect.ForwardingSortedSetMultimap", "com.google.common.collect.HashBiMap", "com.google.common.collect.Multiset", "com.google.common.collect.ImmutableRangeMap"],
     "class": {
       "name": "ImmutableMap",
       "classPath": "com.google.common.collect.ImmutableMap",
+      "actualType": [{
+        "name": "K"
+      }, {
+        "name": "V"
+      }],
+      "description": {
+        "tag": {}
+      },
+      "annotations": [{
+        "name": "DoNotMock",
+        "classPath": "com.google.errorprone.annotations.DoNotMock",
+        "fields": [{
+          "name": "value",
+          "type": "Constant",
+          "array": false,
+          "value": "Use ImmutableMap.of or another implementation"
+        }]
+      }, {
+        "name": "GwtCompatible",
+        "classPath": "com.google.common.annotations.GwtCompatible",
+        "fields": [{
+          "name": "serializable",
+          "type": "Constant",
+          "array": false,
+          "value": true
+        }, {
+          "name": "emulated",
+          "type": "Constant",
+          "array": false,
+          "value": true
+        }]
+      }],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": true,
+      "isPrivate": false,
+      "isPublic": true,
+      "fields": [{
+        "name": "entrySet",
+        "type": {
+          "name": "ImmutableSet",
+          "classPath": "com.google.common.collect.ImmutableSet",
+          "items": [{
+            "name": "Entry",
+            "classPath": "com.google.common.collect.ForwardingMapEntry",
+            "items": [{
+              "name": "K",
+              "classPath": "K"
+            }, {
+              "name": "V",
+              "classPath": "V"
+            }]
+          }]
+        },
+        "defaultValue": "",
+        "isPrivate": true,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": [{
+          "name": "LazyInit",
+          "classPath": "com.google.errorprone.annotations.concurrent.LazyInit",
+          "fields": []
+        }, {
+          "name": "RetainedWith",
+          "classPath": "com.google.j2objc.annotations.RetainedWith",
+          "fields": []
+        }]
+      }, {
+        "name": "keySet",
+        "type": {
+          "name": "ImmutableSet",
+          "classPath": "com.google.common.collect.ImmutableSet",
+          "items": [{
+            "name": "K",
+            "classPath": "K"
+          }]
+        },
+        "defaultValue": "",
+        "isPrivate": true,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": [{
+          "name": "LazyInit",
+          "classPath": "com.google.errorprone.annotations.concurrent.LazyInit",
+          "fields": []
+        }, {
+          "name": "RetainedWith",
+          "classPath": "com.google.j2objc.annotations.RetainedWith",
+          "fields": []
+        }]
+      }, {
+        "name": "values",
+        "type": {
+          "name": "ImmutableCollection",
+          "classPath": "com.google.common.collect.ImmutableCollection",
+          "items": [{
+            "name": "V",
+            "classPath": "V"
+          }]
+        },
+        "defaultValue": "",
+        "isPrivate": true,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": [{
+          "name": "LazyInit",
+          "classPath": "com.google.errorprone.annotations.concurrent.LazyInit",
+          "fields": []
+        }, {
+          "name": "RetainedWith",
+          "classPath": "com.google.j2objc.annotations.RetainedWith",
+          "fields": []
+        }]
+      }, {
+        "name": "multimapView",
+        "type": {
+          "name": "ImmutableSetMultimap",
+          "classPath": "com.google.common.collect.ImmutableSetMultimap",
+          "items": [{
+            "name": "K",
+            "classPath": "K"
+          }, {
+            "name": "V",
+            "classPath": "V"
+          }]
+        },
+        "defaultValue": "",
+        "isPrivate": true,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": [{
+          "name": "LazyInit",
+          "classPath": "com.google.errorprone.annotations.concurrent.LazyInit",
+          "fields": []
+        }]
+      }],
+      "methods": []
+    }
+  },
+  "com.google.common.collect.ImmutableMultimap": {
+    "filePath": "/Users/xiaoyun/.m2/repository/com/google/guava/guava/30.1-jre/deCompile/com/google/common/collect/ImmutableMultimap.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.google.common.collect",
+    "description": {
+      "tag": {}
+    },
+    "imports": ["com.google.j2objc.annotations.Weak", "com.google.common.annotations.GwtIncompatible", "java.util.Arrays", "java.util.ArrayList", "java.util.Comparator", "com.google.errorprone.annotations.DoNotMock", "com.google.common.base.Preconditions", "java.util.function.BiConsumer", "java.util.Spliterator", "java.util.Iterator", "java.util.Collection", "java.util.Set", "com.google.errorprone.annotations.CanIgnoreReturnValue", "com.google.common.annotations.Beta", "java.util.Map", "com.google.common.annotations.GwtCompatible", "java.io.Serializable", "com.google.common.collect.ImmutableSortedMultiset", "com.google.common.collect.ForwardingNavigableSet", "com.google.common.collect.ForwardingDeque", "com.google.common.collect.ForwardingListMultimap", "com.google.common.collect.ForwardingSet", "com.google.common.collect.TreeMultimap", "com.google.common.collect.ForwardingMultiset", "com.google.common.collect.ImmutableMap", "com.google.common.collect.UnmodifiableIterator", "com.google.common.collect.Queues", "com.google.common.collect.Tables", "com.google.common.collect.Lists", "com.google.common.collect.LinkedHashMultiset", "com.google.common.collect.ForwardingList", "com.google.common.collect.TreeRangeSet", "com.google.common.collect.ConcurrentHashMultiset", "com.google.common.collect.FluentIterable", "com.google.common.collect.MapDifference", "com.google.common.collect.ImmutableCollection", "com.google.common.collect.ForwardingMapEntry", "com.google.common.collect.Table", "com.google.common.collect.PeekingIterator", "com.google.common.collect.ImmutableBiMap", "com.google.common.collect.ForwardingSortedMultiset", "com.google.common.collect.ImmutableSet", "com.google.common.collect.MultimapBuilder", "com.google.common.collect.Interner", "com.google.common.collect.ForwardingListIterator", "com.google.common.collect.AbstractSequentialIterator", "com.google.common.collect.Multimap", "com.google.common.collect.ForwardingQueue", "com.google.common.collect.ForwardingMap", "com.google.common.collect.BoundType", "com.google.common.collect.ForwardingNavigableMap", "com.google.common.collect.ImmutableSetMultimap", "com.google.common.collect.HashBasedTable", "com.google.common.collect.SortedMapDifference", "com.google.common.collect.SortedMultiset", "com.google.common.collect.ImmutableClassToInstanceMap", "com.google.common.collect.SetMultimap", "com.google.common.collect.ForwardingSetMultimap", "com.google.common.collect.Ordering", "com.google.common.collect.ComputationException", "com.google.common.collect.TreeTraverser", "com.google.common.collect.ImmutableSortedMap", "com.google.common.collect.EvictingQueue", "com.google.common.collect.HashMultimap", "com.google.common.collect.DiscreteDomain", "com.google.common.collect.MutableClassToInstanceMap", "com.google.common.collect.ClassToInstanceMap", "com.google.common.collect.Range", "com.google.common.collect.ImmutableMultimap", "com.google.common.collect.ForwardingMultimap", "com.google.common.collect.ContiguousSet", "com.google.common.collect.Collections2", "com.google.common.collect.EnumMultiset", "com.google.common.collect.SortedSetMultimap", "com.google.common.collect.Sets", "com.google.common.collect.ImmutableRangeSet", "com.google.common.collect.Interners", "com.google.common.collect.HashMultiset", "com.google.common.collect.ForwardingObject", "com.google.common.collect.EnumHashBiMap", "com.google.common.collect.ForwardingCollection", "com.google.common.collect.TreeMultiset", "com.google.common.collect.ArrayListMultimap", "com.google.common.collect.ImmutableList", "com.google.common.collect.Iterables", "com.google.common.collect.Iterators", "com.google.common.collect.ArrayTable", "com.google.common.collect.RangeSet", "com.google.common.collect.ForwardingConcurrentMap", "com.google.common.collect.ComparisonChain", "com.google.common.collect.ListMultimap", "com.google.common.collect.Multimaps", "com.google.common.collect.UnmodifiableListIterator", "com.google.common.collect.MinMaxPriorityQueue", "com.google.common.collect.LinkedHashMultimap", "com.google.common.collect.ObjectArrays", "com.google.common.collect.ForwardingTable", "com.google.common.collect.AbstractIterator", "com.google.common.collect.RangeMap", "com.google.common.collect.ImmutableMultiset", "com.google.common.collect.ImmutableSortedSet", "com.google.common.collect.ForwardingSortedMap", "com.google.common.collect.ForwardingSortedSet", "com.google.common.collect.RowSortedTable", "com.google.common.collect.EnumBiMap", "com.google.common.collect.ImmutableListMultimap", "com.google.common.collect.ImmutableTable", "com.google.common.collect.ForwardingBlockingDeque", "com.google.common.collect.Comparators", "com.google.common.collect.LinkedListMultimap", "com.google.common.collect.TreeBasedTable", "com.google.common.collect.ForwardingIterator", "com.google.common.collect.MapMaker", "com.google.common.collect.Maps", "com.google.common.collect.Streams", "com.google.common.collect.BiMap", "com.google.common.collect.Multisets", "com.google.common.collect.TreeRangeMap", "com.google.common.collect.MoreCollectors", "com.google.common.collect.ForwardingSortedSetMultimap", "com.google.common.collect.HashBiMap", "com.google.common.collect.Multiset", "com.google.common.collect.ImmutableRangeMap"],
+    "class": {
+      "name": "ImmutableMultimap",
+      "classPath": "com.google.common.collect.ImmutableMultimap",
+      "actualType": [{
+        "name": "K"
+      }, {
+        "name": "V"
+      }],
+      "description": {
+        "tag": {}
+      },
+      "annotations": [{
+        "name": "GwtCompatible",
+        "classPath": "com.google.common.annotations.GwtCompatible",
+        "fields": [{
+          "name": "emulated",
+          "type": "Constant",
+          "array": false,
+          "value": true
+        }]
+      }],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": true,
+      "isPrivate": false,
+      "isPublic": true,
+      "superClass": {
+        "name": "BaseImmutableMultimap",
+        "items": [{
+          "name": "K",
+          "classPath": "K"
+        }, {
+          "name": "V",
+          "classPath": "V"
+        }]
+      },
+      "fields": [{
+        "name": "map",
+        "type": {
+          "name": "ImmutableMap",
+          "classPath": "com.google.common.collect.ImmutableMap",
+          "items": [{
+            "name": "K",
+            "classPath": "K"
+          }, {}]
+        },
+        "defaultValue": "",
+        "isPrivate": false,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": []
+      }, {
+        "name": "size",
+        "type": {
+          "name": "int",
+          "classPath": "int"
+        },
+        "defaultValue": "",
+        "isPrivate": false,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": []
+      }],
+      "methods": []
+    }
+  },
+  "com.google.common.collect.ImmutableSet": {
+    "filePath": "/Users/xiaoyun/.m2/repository/com/google/guava/guava/30.1-jre/deCompile/com/google/common/collect/ImmutableSet.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.google.common.collect",
+    "description": {
+      "tag": {}
+    },
+    "imports": ["java.util.Arrays", "com.google.errorprone.annotations.CanIgnoreReturnValue", "java.io.Serializable", "java.util.function.Consumer", "java.util.Spliterator", "com.google.common.annotations.VisibleForTesting", "com.google.common.annotations.Beta", "java.util.Iterator", "java.util.EnumSet", "java.util.SortedSet", "java.util.Collection", "com.google.common.math.IntMath", "java.math.RoundingMode", "com.google.common.base.Preconditions", "java.util.stream.Collector", "com.google.j2objc.annotations.RetainedWith", "com.google.errorprone.annotations.concurrent.LazyInit", "com.google.common.annotations.GwtCompatible", "java.util.Set", "com.google.common.collect.ImmutableSortedMultiset", "com.google.common.collect.ForwardingNavigableSet", "com.google.common.collect.ForwardingDeque", "com.google.common.collect.ForwardingListMultimap", "com.google.common.collect.ForwardingSet", "com.google.common.collect.TreeMultimap", "com.google.common.collect.ForwardingMultiset", "com.google.common.collect.ImmutableMap", "com.google.common.collect.UnmodifiableIterator", "com.google.common.collect.Lists", "com.google.common.collect.Queues", "com.google.common.collect.LinkedHashMultiset", "com.google.common.collect.ForwardingList", "com.google.common.collect.TreeRangeSet", "com.google.common.collect.Tables", "com.google.common.collect.ConcurrentHashMultiset", "com.google.common.collect.FluentIterable", "com.google.common.collect.MapDifference", "com.google.common.collect.ImmutableCollection", "com.google.common.collect.ForwardingMapEntry", "com.google.common.collect.Table", "com.google.common.collect.PeekingIterator", "com.google.common.collect.ImmutableBiMap", "com.google.common.collect.ForwardingSortedMultiset", "com.google.common.collect.ImmutableSet", "com.google.common.collect.MultimapBuilder", "com.google.common.collect.Interner", "com.google.common.collect.ForwardingListIterator", "com.google.common.collect.AbstractSequentialIterator", "com.google.common.collect.Multimap", "com.google.common.collect.ForwardingQueue", "com.google.common.collect.ForwardingMap", "com.google.common.collect.BoundType", "com.google.common.collect.ForwardingNavigableMap", "com.google.common.collect.ImmutableSetMultimap", "com.google.common.collect.HashBasedTable", "com.google.common.collect.SortedMapDifference", "com.google.common.collect.SortedMultiset", "com.google.common.collect.ImmutableClassToInstanceMap", "com.google.common.collect.SetMultimap", "com.google.common.collect.ForwardingSetMultimap", "com.google.common.collect.Ordering", "com.google.common.collect.ComputationException", "com.google.common.collect.TreeTraverser", "com.google.common.collect.ImmutableSortedMap", "com.google.common.collect.EvictingQueue", "com.google.common.collect.HashMultimap", "com.google.common.collect.DiscreteDomain", "com.google.common.collect.MutableClassToInstanceMap", "com.google.common.collect.ClassToInstanceMap", "com.google.common.collect.Range", "com.google.common.collect.ImmutableMultimap", "com.google.common.collect.ForwardingMultimap", "com.google.common.collect.ContiguousSet", "com.google.common.collect.Collections2", "com.google.common.collect.EnumMultiset", "com.google.common.collect.SortedSetMultimap", "com.google.common.collect.Sets", "com.google.common.collect.ImmutableRangeSet", "com.google.common.collect.Interners", "com.google.common.collect.HashMultiset", "com.google.common.collect.ForwardingObject", "com.google.common.collect.EnumHashBiMap", "com.google.common.collect.ForwardingCollection", "com.google.common.collect.TreeMultiset", "com.google.common.collect.ArrayListMultimap", "com.google.common.collect.ImmutableList", "com.google.common.collect.Iterators", "com.google.common.collect.ArrayTable", "com.google.common.collect.Iterables", "com.google.common.collect.RangeSet", "com.google.common.collect.ForwardingConcurrentMap", "com.google.common.collect.ComparisonChain", "com.google.common.collect.ListMultimap", "com.google.common.collect.Multimaps", "com.google.common.collect.UnmodifiableListIterator", "com.google.common.collect.MinMaxPriorityQueue", "com.google.common.collect.LinkedHashMultimap", "com.google.common.collect.ObjectArrays", "com.google.common.collect.ForwardingTable", "com.google.common.collect.AbstractIterator", "com.google.common.collect.RangeMap", "com.google.common.collect.ImmutableMultiset", "com.google.common.collect.ImmutableSortedSet", "com.google.common.collect.ForwardingSortedSet", "com.google.common.collect.RowSortedTable", "com.google.common.collect.ForwardingSortedMap", "com.google.common.collect.EnumBiMap", "com.google.common.collect.ImmutableListMultimap", "com.google.common.collect.ImmutableTable", "com.google.common.collect.ForwardingBlockingDeque", "com.google.common.collect.Comparators", "com.google.common.collect.LinkedListMultimap", "com.google.common.collect.TreeBasedTable", "com.google.common.collect.ForwardingIterator", "com.google.common.collect.MapMaker", "com.google.common.collect.Maps", "com.google.common.collect.Streams", "com.google.common.collect.BiMap", "com.google.common.collect.Multisets", "com.google.common.collect.TreeRangeMap", "com.google.common.collect.MoreCollectors", "com.google.common.collect.ForwardingSortedSetMultimap", "com.google.common.collect.HashBiMap", "com.google.common.collect.Multiset", "com.google.common.collect.ImmutableRangeMap"],
+    "class": {
+      "name": "ImmutableSet",
+      "classPath": "com.google.common.collect.ImmutableSet",
+      "actualType": [{
+        "name": "E"
+      }],
+      "description": {
+        "tag": {}
+      },
+      "annotations": [{
+        "name": "GwtCompatible",
+        "classPath": "com.google.common.annotations.GwtCompatible",
+        "fields": [{
+          "name": "serializable",
+          "type": "Constant",
+          "array": false,
+          "value": true
+        }, {
+          "name": "emulated",
+          "type": "Constant",
+          "array": false,
+          "value": true
+        }]
+      }],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": true,
+      "isPrivate": false,
+      "isPublic": true,
+      "superClass": {
+        "name": "ImmutableCollection",
+        "classPath": "com.google.common.collect.ImmutableCollection",
+        "items": [{
+          "name": "E",
+          "classPath": "E"
+        }]
+      },
+      "fields": [{
+        "name": "asList",
+        "type": {
+          "name": "ImmutableList",
+          "classPath": "com.google.common.collect.ImmutableList",
+          "items": [{
+            "name": "E",
+            "classPath": "E"
+          }]
+        },
+        "defaultValue": "\n    \n    \n       ",
+        "isPrivate": true,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": [{
+          "name": "LazyInit",
+          "classPath": "com.google.errorprone.annotations.concurrent.LazyInit",
+          "fields": []
+        }, {
+          "name": "RetainedWith",
+          "classPath": "com.google.j2objc.annotations.RetainedWith",
+          "fields": []
+        }]
+      }],
+      "methods": []
+    }
+  },
+  "com.google.common.collect.ImmutableSetMultimap": {
+    "filePath": "/Users/xiaoyun/.m2/repository/com/google/guava/guava/30.1-jre/deCompile/com/google/common/collect/ImmutableSetMultimap.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.google.common.collect",
+    "description": {
+      "tag": {}
+    },
+    "imports": ["com.google.j2objc.annotations.Weak", "java.util.Arrays", "java.util.Set", "java.io.InvalidObjectException", "java.io.ObjectInputStream", "java.io.IOException", "java.io.ObjectOutputStream", "com.google.errorprone.annotations.CanIgnoreReturnValue", "com.google.common.base.MoreObjects", "java.util.Iterator", "com.google.common.annotations.Beta", "java.util.Collection", "com.google.common.base.Preconditions", "java.util.Comparator", "java.util.stream.Stream", "java.util.stream.Collector", "java.util.function.Function", "com.google.common.annotations.GwtIncompatible", "java.util.Map", "com.google.j2objc.annotations.RetainedWith", "com.google.errorprone.annotations.concurrent.LazyInit", "com.google.common.annotations.GwtCompatible", "com.google.common.collect.ImmutableSortedMultiset", "com.google.common.collect.ForwardingNavigableSet", "com.google.common.collect.ForwardingDeque", "com.google.common.collect.ForwardingListMultimap", "com.google.common.collect.ForwardingSet", "com.google.common.collect.TreeMultimap", "com.google.common.collect.ForwardingMultiset", "com.google.common.collect.ImmutableMap", "com.google.common.collect.UnmodifiableIterator", "com.google.common.collect.Lists", "com.google.common.collect.Queues", "com.google.common.collect.LinkedHashMultiset", "com.google.common.collect.ForwardingList", "com.google.common.collect.TreeRangeSet", "com.google.common.collect.Tables", "com.google.common.collect.ConcurrentHashMultiset", "com.google.common.collect.FluentIterable", "com.google.common.collect.MapDifference", "com.google.common.collect.ImmutableCollection", "com.google.common.collect.ForwardingMapEntry", "com.google.common.collect.Table", "com.google.common.collect.PeekingIterator", "com.google.common.collect.ImmutableBiMap", "com.google.common.collect.ForwardingSortedMultiset", "com.google.common.collect.ImmutableSet", "com.google.common.collect.MultimapBuilder", "com.google.common.collect.Interner", "com.google.common.collect.ForwardingListIterator", "com.google.common.collect.AbstractSequentialIterator", "com.google.common.collect.Multimap", "com.google.common.collect.ForwardingQueue", "com.google.common.collect.ForwardingMap", "com.google.common.collect.BoundType", "com.google.common.collect.ForwardingNavigableMap", "com.google.common.collect.ImmutableSetMultimap", "com.google.common.collect.HashBasedTable", "com.google.common.collect.SortedMapDifference", "com.google.common.collect.SortedMultiset", "com.google.common.collect.ImmutableClassToInstanceMap", "com.google.common.collect.SetMultimap", "com.google.common.collect.ForwardingSetMultimap", "com.google.common.collect.Ordering", "com.google.common.collect.ComputationException", "com.google.common.collect.TreeTraverser", "com.google.common.collect.ImmutableSortedMap", "com.google.common.collect.EvictingQueue", "com.google.common.collect.HashMultimap", "com.google.common.collect.DiscreteDomain", "com.google.common.collect.MutableClassToInstanceMap", "com.google.common.collect.ClassToInstanceMap", "com.google.common.collect.Range", "com.google.common.collect.ImmutableMultimap", "com.google.common.collect.ForwardingMultimap", "com.google.common.collect.ContiguousSet", "com.google.common.collect.Collections2", "com.google.common.collect.EnumMultiset", "com.google.common.collect.SortedSetMultimap", "com.google.common.collect.Sets", "com.google.common.collect.ImmutableRangeSet", "com.google.common.collect.Interners", "com.google.common.collect.HashMultiset", "com.google.common.collect.ForwardingObject", "com.google.common.collect.EnumHashBiMap", "com.google.common.collect.ForwardingCollection", "com.google.common.collect.TreeMultiset", "com.google.common.collect.ArrayListMultimap", "com.google.common.collect.ImmutableList", "com.google.common.collect.Iterators", "com.google.common.collect.ArrayTable", "com.google.common.collect.Iterables", "com.google.common.collect.RangeSet", "com.google.common.collect.ForwardingConcurrentMap", "com.google.common.collect.ComparisonChain", "com.google.common.collect.ListMultimap", "com.google.common.collect.Multimaps", "com.google.common.collect.UnmodifiableListIterator", "com.google.common.collect.MinMaxPriorityQueue", "com.google.common.collect.LinkedHashMultimap", "com.google.common.collect.ObjectArrays", "com.google.common.collect.ForwardingTable", "com.google.common.collect.AbstractIterator", "com.google.common.collect.RangeMap", "com.google.common.collect.ImmutableMultiset", "com.google.common.collect.ImmutableSortedSet", "com.google.common.collect.ForwardingSortedSet", "com.google.common.collect.RowSortedTable", "com.google.common.collect.ForwardingSortedMap", "com.google.common.collect.EnumBiMap", "com.google.common.collect.ImmutableListMultimap", "com.google.common.collect.ImmutableTable", "com.google.common.collect.ForwardingBlockingDeque", "com.google.common.collect.Comparators", "com.google.common.collect.LinkedListMultimap", "com.google.common.collect.TreeBasedTable", "com.google.common.collect.ForwardingIterator", "com.google.common.collect.MapMaker", "com.google.common.collect.Maps", "com.google.common.collect.Streams", "com.google.common.collect.BiMap", "com.google.common.collect.Multisets", "com.google.common.collect.TreeRangeMap", "com.google.common.collect.MoreCollectors", "com.google.common.collect.ForwardingSortedSetMultimap", "com.google.common.collect.HashBiMap", "com.google.common.collect.Multiset", "com.google.common.collect.ImmutableRangeMap"],
+    "class": {
+      "name": "ImmutableSetMultimap",
+      "classPath": "com.google.common.collect.ImmutableSetMultimap",
       "actualType": [{
         "name": "K"
       }, {
@@ -4611,10 +5241,101 @@
       }],
       "isEnum": false,
       "isInterface": false,
-      "isAbstract": true,
+      "isAbstract": false,
       "isPrivate": false,
       "isPublic": true,
-      "fields": [],
+      "superClass": {
+        "name": "ImmutableMultimap",
+        "classPath": "com.google.common.collect.ImmutableMultimap",
+        "items": [{
+          "name": "K",
+          "classPath": "K"
+        }, {
+          "name": "V",
+          "classPath": "V"
+        }]
+      },
+      "fields": [{
+        "name": "emptySet",
+        "type": {
+          "name": "ImmutableSet",
+          "classPath": "com.google.common.collect.ImmutableSet",
+          "items": [{
+            "name": "V",
+            "classPath": "V"
+          }]
+        },
+        "defaultValue": "",
+        "isPrivate": true,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": []
+      }, {
+        "name": "inverse",
+        "type": {
+          "name": "ImmutableSetMultimap",
+          "classPath": "com.google.common.collect.ImmutableSetMultimap",
+          "items": [{
+            "name": "V",
+            "classPath": "V"
+          }, {
+            "name": "K",
+            "classPath": "K"
+          }]
+        },
+        "defaultValue": "",
+        "isPrivate": true,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": [{
+          "name": "LazyInit",
+          "classPath": "com.google.errorprone.annotations.concurrent.LazyInit",
+          "fields": []
+        }, {
+          "name": "RetainedWith",
+          "classPath": "com.google.j2objc.annotations.RetainedWith",
+          "fields": []
+        }]
+      }, {
+        "name": "entries",
+        "type": {
+          "name": "ImmutableSet",
+          "classPath": "com.google.common.collect.ImmutableSet",
+          "items": [{
+            "name": "Entry",
+            "classPath": "java.util.Map$Entry",
+            "items": [{
+              "name": "K",
+              "classPath": "K"
+            }, {
+              "name": "V",
+              "classPath": "V"
+            }]
+          }]
+        },
+        "defaultValue": "",
+        "isPrivate": true,
+        "isPublic": false,
+        "isProtected": false,
+        "description": {
+          "tag": {}
+        },
+        "annotations": [{
+          "name": "LazyInit",
+          "classPath": "com.google.errorprone.annotations.concurrent.LazyInit",
+          "fields": []
+        }, {
+          "name": "RetainedWith",
+          "classPath": "com.google.j2objc.annotations.RetainedWith",
+          "fields": []
+        }]
+      }],
       "methods": []
     }
   }

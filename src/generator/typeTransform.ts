@@ -72,7 +72,9 @@ export class TypeTransform {
     this.importDeclaration[classPath] = name;
 
     if (items) {
-      return `${name}<${items.map(item => this.convert(item)).join(', ')}>`;
+      return `${name}<${
+        items.filter(item => Object.keys(item).length).map(item => this.convert(item)).join(', ')
+      }>`;
     }
 
     // if (!metaData[classPath]) {
