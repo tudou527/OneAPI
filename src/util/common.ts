@@ -30,12 +30,12 @@ export function initProject(servicesDir: string, jsonFile: string) {
 }
 
 // 生成 JS DOC 作为注
-export function getJsDoc(desc: JavaMeta.Description) {
+export function getJsDoc(desc: JavaMeta.Description): { description: string; tags: { tagName: string, text: string }[] } {
   if (!desc.text && !Object.keys(desc.tag).length) {
     return null;
   }
 
-  const tags = [];
+  const tags: { tagName: string, text: string }[] = [];
   Object.keys(desc.tag).map(tag => {
     desc.tag[tag].forEach(str => {
       tags.push({
@@ -96,7 +96,7 @@ export function getImports(importDict: { [key: string]: string }, currentFilePat
 }
 
 // 返回请求类型
-export function getMethodType(annotation: JavaMeta.Annotation) {
+export function getMethodType(annotation: JavaMeta.Annotation): string {
   const methodType = {
     GetMapping: 'GET',
     PostMapping: 'POST',
