@@ -1,4 +1,6 @@
+import path from 'path';
 import fs from 'fs-extra';
+
 
 import ModelAdapter, { IModelMeta } from './http/model';
 import ServiceAdapter, { IServiceMeta } from './http/service';
@@ -64,6 +66,7 @@ export default class HttpProtocol {
   }
 
   generatorSwagger() {
-    new Swagger(this.serviceMeta, this.modelMeta);
+    const swagger = new Swagger(this.serviceMeta, this.modelMeta).convert();
+    fs.writeJSONSync(path.join(__dirname, '../swagger.json'), swagger, { spaces: 2 });
   }
 }
