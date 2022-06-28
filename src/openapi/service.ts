@@ -17,7 +17,7 @@ interface IApiParam {
   type: JavaMeta.ActualType,
 }
 
-class ServiceGenerator {
+class ServiceSchema {
   // class 中定义的路由前缀
   baseURI: string = '';
   // 从文件读取的解析结果
@@ -255,6 +255,6 @@ export default async function generatorService() {
   const entryClassPath = Object.keys(metaData).filter(classPath => metaData[classPath].fileType === 'ENTRY');
 
   for (const classPath of entryClassPath) {
-    await (new ServiceGenerator(classPath)).gen();
+    await (new ServiceSchema(classPath)).gen();
   }
 }

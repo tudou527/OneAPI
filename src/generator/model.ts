@@ -1,9 +1,11 @@
 import path from 'path';
 import { InterfaceDeclaration, SourceFile } from 'ts-morph';
 
-import { TypeTransform } from './typeTransform';
-import { baseDir, generatorFileComment, getImports, getJsDoc, metaData, project } from '../util/common';
+import { TypeTransform } from '../util/typeTransform';
+import { baseDir, generatorFileComment, getImports, getJsDoc, metaData, project, sourceClassPathMap } from '../util/common';
 
+let loopCount = 0;
+let MAX_LOOP_COUNT = 500;
 export class ModelGenerator {
   // 子类
   childClassName: string;
@@ -56,6 +58,13 @@ export class ModelGenerator {
       // 增加导入
       const importList = getImports(this.importDeclaration, this.sourceFile.getFilePath());
       this.sourceFile.addImportDeclarations(importList);
+
+      // 缓存需要导入的资源
+      Object.keys(this.importDeclaration).forEach(classPath => {
+        if (typeof sourceClassPathMap[classPath] === 'undefined') {
+          sourceClassPathMap[classPath] = false;
+        }
+      });
 
       // 增加文件注释内容
       generatorFileComment(this.fileMeta).reverse().forEach((str) => {
@@ -123,15 +132,23 @@ export class ModelGenerator {
   }
 }
 
-// 生成 service
+// 为资源文件生成 interface
 export default async function generatorModel() {
-  // 过滤出入资源文件
-  const sourceClassPath = Object.keys(metaData).filter(classPath => metaData[classPath].fileType === 'RESOURCE').sort((a, b) => {
+  // 过滤出未生成的资源文件
+  const sourceClassPath = Object.keys(sourceClassPathMap).filter(cls => !sourceClassPathMap[cls]).sort((a, b) => {
     // 排序，让包含 $ 的 class 往后排，确保写入前对应的父类文件已存在
     return a.indexOf('$') - b.indexOf('$');
   });
 
   for (const classPath of sourceClassPath) {
     await (new ModelGenerator(classPath)).gen();
+    // 更新解析状态
+    sourceClassPathMap[classPath] = true;
+  }
+
+  // 有待生成的 class 时继续执行
+  if (loopCount < MAX_LOOP_COUNT && Object.keys(sourceClassPathMap).filter(cls => !sourceClassPathMap[cls]).length) {
+    loopCount++;
+    await generatorModel();
   }
 }

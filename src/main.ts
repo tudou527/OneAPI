@@ -1,9 +1,9 @@
 import path from 'path';
 import fs from 'fs-extra';
 
-import { initProject } from './util/common';
-import generatorService from './generator/service';
 import generatorModel from './generator/model';
+import generatorService from './generator/service';
+import { initProject } from './util/common';
 
 (async () => {
   const servicesDir = path.join(__dirname, '../services');

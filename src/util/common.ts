@@ -11,6 +11,12 @@ export let requestImport = {
   moduleSpecifier: './request',
 }
 export let metaData: { [key: string]: JavaMeta.FileMeta } = {};
+/**
+ * 所有待写入的资源文件
+ * key 为 classPath
+ * value 为是否已写入
+ */
+export let sourceClassPathMap: { [key: string]: boolean } = {};
 
 export function initProject(servicesDir: string, jsonFile: string) {
   baseDir = servicesDir;
