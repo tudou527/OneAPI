@@ -1,6 +1,5 @@
-
 /**
- * Java -> JS 类型转换
+ * Java -> JS 类型转换同时返回需要导入的 class
  */
 export class TypeTransform {
   /**

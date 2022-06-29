@@ -287,7 +287,7 @@ declare namespace JavaMeta {
     packageName: string;
 
     /**
-     * 文件
+     * 描述
      */
     description: Description;
 

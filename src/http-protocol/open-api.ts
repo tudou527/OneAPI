@@ -1,8 +1,10 @@
-import { TypeTransform } from "../../util/typeTransform";
-import { IModelMeta } from "./model";
-import { IServiceMeta } from "./service";
+/**
+ * 适配 OpenAPI3.0 协议
+ */
+import { IHttpAdapter, IHttpAdapterService } from "./adapter";
+import { TypeTransform } from "../util/type-transform";
 
-export class Swagger {
+export class OpenApi {
   swagger = {
     openapi: '3.0.0',
     info: {
@@ -15,12 +17,10 @@ export class Swagger {
     },
   };
   // 转换结果
-  serviceMeta: IServiceMeta[] = [];
-  modelMeta: IModelMeta[] = [];
+  httpAdapter: IHttpAdapter[] = [];
 
-  constructor(serviceMeta: IServiceMeta[], modelMeta: IModelMeta[]) {
-    this.serviceMeta = serviceMeta;
-    this.modelMeta = modelMeta;
+  constructor(httpAdapter: IHttpAdapter[]) {
+    this.httpAdapter = httpAdapter;
   }
 
   convert() {
@@ -31,29 +31,35 @@ export class Swagger {
   }
 
   private addPath() {
-    this.serviceMeta.forEach((service: IServiceMeta) => {
-      this.swagger.paths[service.url]  = {
-        [service.type.toLowerCase()]: {
-          description: service.description?.description || '',
-          ...this.getParameters(service),
-          responses: this.getResponse(service.response)
-        },
-      }
+    const { httpAdapter } = this;
+
+    httpAdapter.filter(adapter => adapter.fileType === 'ENTRY').forEach(adapter => {
+      adapter.services?.forEach(service => {
+        this.swagger.paths[service.url]  = {
+          [service.type.toLowerCase()]: {
+            description: service.description?.description || '',
+            ...this.getParameters(service),
+            responses: this.getResponse(service.response)
+          },
+        }
+      });
     });
   }
 
   private addComponents() {
-    const components = this.swagger.components.schemas;
-    this.modelMeta.forEach(model => {
+    const { httpAdapter, swagger } = this;
+    const components = swagger.components.schemas;
+
+    httpAdapter.filter(adapter => adapter.fileType !== 'ENTRY').forEach(adapter => {
       const properties = {};
-      model.fields.forEach(f => {
+      adapter.fields.forEach(f => {
         properties[f.name] = {
           description: f.description?.description || '',
           ...this.getSchema(f.type),
         };
       });
 
-      components[model.name] = {
+      components[adapter.className] = {
         type: 'object',
         properties,
       }
@@ -61,7 +67,7 @@ export class Swagger {
   }
 
   // 入参
-  private getParameters(service: IServiceMeta) {
+  private getParameters(service: IHttpAdapterService) {
     if (service.type.toLowerCase() === 'get') {
       return {
         parameters: service.parameter.map(p => ({
@@ -109,9 +115,10 @@ export class Swagger {
 
   // 描述参数类型的 schema
   private getSchema(type: JavaMeta.ActualType) {
+    const { httpAdapter } = this;
     const { name, classPath, items } = type;
 
-    if (this.modelMeta.find(m => m.classPath === classPath)) {
+    if (httpAdapter.find(m => m.classPath === classPath)) {
       return {
         '$ref': `#/components/schemas/${name}`,
         // 存在引用时要删除自带的 description
