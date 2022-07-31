@@ -29,3 +29,5 @@ build/
 .DS_Store
 
 services/
+sdk/lib
+dist/

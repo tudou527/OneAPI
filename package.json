@@ -5,8 +5,12 @@
   "engines": {
     "node": ">= 16.13 <17"
   },
+  "bin": {
+    "oneapi": "ts-node ./bin/index.ts"
+  },
   "scripts": {
-    "dev": "clear && ts-node ./src/main.ts",
+    "oneapi": "ts-node ./bin/index.ts",
+    "dev": "ts-node ./src/main.ts",
     "start": "node build/src/main.js",
     "build": "tsc -p tsconfig.json",
     "lint": "eslint . --ext .ts --ext .mts",
@@ -14,8 +18,10 @@
   },
   "dependencies": {
     "camelcase": "^6.0.0",
-    "ts-morph": "^15.1.0",
+    "chalk": "^4.0.0",
+    "commander": "^9.4.0",
     "fs-extra": "^10.1.0",
+    "ts-morph": "^15.1.0",
     "tslib": "~2.4"
   },
   "devDependencies": {
