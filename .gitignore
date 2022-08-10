@@ -31,3 +31,4 @@ build/
 services/
 sdk/lib
 dist/
+bin/*.json

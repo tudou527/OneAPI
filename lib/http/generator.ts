@@ -4,9 +4,9 @@
 import fs from 'fs';
 import path from 'path';
 import camelCase from 'camelcase';
-import { Project, SourceFile } from "ts-morph";
+import { Project, SourceFile } from 'ts-morph';
 
-import { IHttpAdapter, IHttpAdapterService } from "./adapter";
+import { IHttpAdapter, IHttpAdapterService } from './adapter';
 
 export class ApiGenerator {
   baseDir: string;

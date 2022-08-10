@@ -1,15 +1,20 @@
 /**
  * 适配 OpenAPI3.0 协议
  */
-import { IHttpAdapter, IHttpAdapterService } from "./adapter";
-import { TypeTransform } from "../util/type-transform";
+import fs from 'fs';
+import { XMLParser } from 'fast-xml-parser';
+
+import TypeTransfer from './type-transfer';
+import { IHttpAdapter, IHttpAdapterService } from './adapter';
 
 export class OpenApi {
-  swagger = {
+  projectDir: string;
+  openApi = {
     openapi: '3.0.0',
     info: {
       title: 'title',
-      version: '1.0.0',
+      version: '',
+      description: 'Teambition Core API',
     },
     paths: {},
     components: {
@@ -19,15 +24,44 @@ export class OpenApi {
   // 转换结果
   httpAdapter: IHttpAdapter[] = [];
 
-  constructor(httpAdapter: IHttpAdapter[]) {
-    this.httpAdapter = httpAdapter;
+  constructor(args: { httpAdapter: IHttpAdapter[], projectDir: string }) {
+    this.projectDir = args.projectDir;
+    this.httpAdapter = args.httpAdapter;
   }
 
   convert() {
+    this.updateInfo();
     this.addPath();
     this.addComponents();
 
-    return this.swagger;
+    return this.openApi;
+  }
+
+  private updateInfo () {
+    // 尝试读取根目录下的 pom.xml 获取应用信息
+    const pom = this.projectDir + '/pom.xml';
+
+    // 默认使用目录名作为 title
+    let title = this.projectDir.split('/').reverse()[0];
+    let version = '';
+
+    if (fs.existsSync(pom)) {
+      try {
+        const parser = new XMLParser({ ignoreAttributes: false });
+        const jsonData = parser.parse(fs.readFileSync(pom, 'utf8'));
+
+        title = jsonData?.project?.artifactId || title;
+        version = jsonData?.project?.vertion || version;
+
+      } catch(_e){
+      }
+    }
+
+    this.openApi.info = {
+      title,
+      version,
+      description: `${title} API`
+    }
   }
 
   private addPath() {
@@ -35,8 +69,10 @@ export class OpenApi {
 
     httpAdapter.filter(adapter => adapter.fileType === 'ENTRY').forEach(adapter => {
       adapter.services?.forEach(service => {
-        this.swagger.paths[service.url]  = {
+        this.openApi.paths[service.url]  = {
           [service.type.toLowerCase()]: {
+            tags: [service.operationId],
+            summary: service.description?.description || '',
             description: service.description?.description || '',
             ...this.getParameters(service),
             responses: this.getResponse(service.response)
@@ -47,8 +83,8 @@ export class OpenApi {
   }
 
   private addComponents() {
-    const { httpAdapter, swagger } = this;
-    const components = swagger.components.schemas;
+    const { httpAdapter, openApi } = this;
+    const components = openApi.components.schemas;
 
     httpAdapter.filter(adapter => adapter.fileType !== 'ENTRY').forEach(adapter => {
       const properties = {};
@@ -126,7 +162,7 @@ export class OpenApi {
       };
     }
 
-    const { jsType } = new TypeTransform().transform(type);
+    const { jsType } = new TypeTransfer().transform(type);
     let schemaType = jsType.split('<')[0];
 
     if (schemaType.length === 1 && /^[A-Z]$/.test(schemaType)) {

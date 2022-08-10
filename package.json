@@ -1,6 +1,6 @@
 {
   "name": "code-generator",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "",
   "engines": {
     "node": ">= 16.13 <17"
@@ -9,9 +9,7 @@
     "oneapi": "ts-node ./bin/index.ts"
   },
   "scripts": {
-    "oneapi": "ts-node ./bin/index.ts",
-    "dev": "ts-node ./src/main.ts",
-    "start": "node build/src/main.js",
+    "dev": "ts-node ./bin/index.ts",
     "build": "tsc -p tsconfig.json",
     "lint": "eslint . --ext .ts --ext .mts",
     "prettier": "prettier --config .prettierrc --write ."
@@ -20,6 +18,7 @@
     "camelcase": "^6.0.0",
     "chalk": "^4.0.0",
     "commander": "^9.4.0",
+    "fast-xml-parser": "^4.0.9",
     "fs-extra": "^10.1.0",
     "ts-morph": "^15.1.0",
     "tslib": "~2.4"

@@ -8,6 +8,8 @@ import { ServiceAdapter, ModelAdapter, IHttpAdapter } from './adapter';
 
 export default class HttpProtocol {
   filePath: string;
+  projectDir: string;
+  saveDir: string;
   // 从文件解析得到的数据
   fileMetaData: { [key: string]: JavaMeta.FileMeta } = {};
   // 适配 http 协议数据
@@ -19,9 +21,12 @@ export default class HttpProtocol {
    */
   sourceClassPathMap: { [key: string]: boolean } = {};
 
-  constructor(filePath: string) {
-    this.filePath = filePath;
-    this.fileMetaData = fs.readJSONSync(filePath);
+  constructor(args: { filePath: string; projectDir: string; saveDir: string; }) {
+    this.filePath = args.filePath;
+    this.projectDir = args.projectDir;
+    this.saveDir = args.saveDir;
+
+    this.fileMetaData = fs.readJSONSync(args.filePath);
 
     this.convertService();
     this.convertModel();
@@ -66,12 +71,6 @@ export default class HttpProtocol {
     }
   }
 
-  // 转换为 OpenAPI 格式
-  generateOpenApi() {
-    const openApi = new OpenApi(this.adapterDataList).convert();
-    fs.writeJSONSync(path.join(path.dirname(this.filePath), 'openApi.json'), openApi, { spaces: 2 });
-  }
-
   // 生成 service/interface
   async generateService() {
     const project = new Project({
@@ -95,5 +94,14 @@ export default class HttpProtocol {
       const apiGenerator = new ApiGenerator(path.join(__dirname, '../../services'), project, adapter);
       await apiGenerator.generate(projectImportClassPath);
     }
+  }
+
+  // 转换为 OpenAPI 格式
+  generateOpenApi() {
+    const openApi = new OpenApi({
+      projectDir: this.projectDir,
+      httpAdapter: this.adapterDataList,
+    }).convert();
+    fs.writeJSONSync(path.join(this.saveDir, 'openapi.json'), openApi, { spaces: 2 });
   }
 }

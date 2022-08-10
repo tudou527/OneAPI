@@ -1,107 +1,13 @@
 /**
- * 协议适配层
- * 基于原始数据解析出 http 协议必须的数据
- * 用于生成 service/interface 或者 OpenAPI Schema
+ * service 适配
  */
 import path from 'path';
-import { JSDocStructure, OptionalKind } from 'ts-morph';
 
-import { TypeTransform } from '../util/type-transform';
-
-export interface IHttpAdapter {
-  // 文件路径
-  filePath: string;
-  // 文件描述
-  description: OptionalKind<JSDocStructure>;
-  // 类名
-  className: string;
-  // 包名
-  classPath: string;
-  actualType: JavaMeta.ActualType[];
-  // 类型
-  fileType: 'RESOURCE' | 'ENTRY';
-  // 依赖的导入项(key 为 classPath, value 为导入名称)
-  importDeclaration: { [key: string]: string };
-  // API 描述信息
-  services?: IHttpAdapterService[];
-  // 属性
-  fields?: {
-    name: string;
-    type: JavaMeta.ActualType;
-    jsType: string;
-    description: OptionalKind<JSDocStructure>;
-  }[];
-  // 父类
-  superClass?: {
-    type: JavaMeta.ActualType;
-    jsType: string;
-    items: {
-      type: JavaMeta.ActualType;
-      jsType: string;
-    }[];
-  }
-}
-// API 描述信息
-export interface IHttpAdapterService {
-  // 请求 url
-  url: string;
-  // 请求类型： get、post、delete...
-  type: string;
-  // 请求内容格式
-  contentType: string;
-  // 描述
-  description: OptionalKind<JSDocStructure>;
-  // 参数
-  parameter: IHttpServiceParameter[];
-  // 返回
-  response: {
-    jsType: string;
-    type: JavaMeta.ActualType,
-  };
-  classPath: string;
-  // 代码中使用的方法名
-  operationId: string;
-}
-
-// API 参数
-interface IHttpServiceParameter {
-  // 参数名
-  name: string;
-  // 是否必填
-  isRequired: boolean;
-  // 是否来源于 url
-  isPathVariable: boolean;
-  // 参数类型
-  type: JavaMeta.ActualType,
-  // JS 类型
-  jsType: string;
-}
-
-// 生成 JS DOC 作为注释
-function getJsDoc(desc: JavaMeta.Description): OptionalKind<JSDocStructure> {
-  if (!desc.text && !Object.keys(desc.tag).length) {
-    return null;
-  }
-
-  const tags: { tagName: string, text: string }[] = [];
-  Object.keys(desc.tag).map(tag => {
-    desc.tag[tag].forEach(str => {
-      tags.push({
-        tagName: tag,
-        text: tag === 'param' ? `args.${str.trimStart()}` : str,
-      });
-    });
-  });
-
-  return {
-    description: desc.text || '',
-    tags,
-  }
-}
-
+import { IHttpAdapter, getJsDoc, IHttpServiceParameter } from '.';
+import TypeTransfer from '../type-transfer';
 
 // 入口文件
-export class ServiceAdapter {
+export default class ServiceAdapter {
   private httpAdapter: IHttpAdapter = null;
   // 从文件读取的解析结果
   private fileMeta: JavaMeta.FileMeta;
@@ -132,7 +38,7 @@ export class ServiceAdapter {
       // url、请求类型等基础信息
       const { url, type, contentType } = this.getMethodBaseInfo(method, methodParams);
       // 转换返回值类型
-      const { jsType, imports } = new TypeTransform().transform(method.return);
+      const { jsType, imports } = new TypeTransfer().transform(method.return);
 
       // 合并导入项
       httpAdapter.importDeclaration = {
@@ -224,7 +130,7 @@ export class ServiceAdapter {
     ];
 
     return method.parameters.filter(param => !ignoreParamsClassPath.includes(param.type.classPath)).map(p => {
-      const { jsType, imports } = new TypeTransform().transform(p.type);
+      const { jsType, imports } = new TypeTransfer().transform(p.type);
 
       const param = {
         name: p.name,
@@ -263,86 +169,3 @@ export class ServiceAdapter {
     });
   }
 }
-
-// 模型
-export class ModelAdapter {
-  private httpAdapter: IHttpAdapter = null;
-  // 从文件读取的解析结果
-  private fileMeta: JavaMeta.FileMeta;
-
-  constructor(fileMeta: JavaMeta.FileMeta) {
-    this.fileMeta = fileMeta;
-
-    this.httpAdapter = {
-      filePath: fileMeta.filePath,
-      description: getJsDoc(fileMeta.description),
-      className: fileMeta.class.name,
-      classPath: fileMeta.class.classPath,
-      actualType: fileMeta.class.actualType,
-      fileType: fileMeta.fileType,
-      fields: [],
-      importDeclaration: {},
-    }
-  }
-
-  convert() {
-    const { httpAdapter, fileMeta } = this;
-    const { fields, superClass } = fileMeta.class;
-
-    httpAdapter.fields = fields.map((field) => {
-      // 转换字段类型
-      const { jsType, imports } = new TypeTransform().transform(field.type);
-      // 合并导入项
-      httpAdapter.importDeclaration = {
-        ...httpAdapter.importDeclaration,
-        ...imports,
-      }
-
-      return {
-        name: field.name,
-        type: field.type,
-        jsType,
-        description: getJsDoc(field.description),
-      }
-    });
-
-    if (superClass) {
-      httpAdapter.superClass = this.getSuperClassMeta(superClass);
-    }
-
-    return this.httpAdapter;
-  }
-
-  // 返回 interface extend 对象
-  private getSuperClassMeta(extentClassType: JavaMeta.ActualType) {
-    const { httpAdapter } = this;
-    const { jsType, imports } = new TypeTransform().transform(extentClassType);
-    const superClass = {
-      type: extentClassType,
-      jsType,
-      items: [],
-    }
-
-    // 合并导入项
-    httpAdapter.importDeclaration = {
-      ...httpAdapter.importDeclaration,
-      ...imports,
-    }
-
-    extentClassType.items?.forEach((type) => {
-      // 转换字段类型
-      const { jsType, imports } = new TypeTransform().transform(type);
-
-      // 合并导入项
-      httpAdapter.importDeclaration = {
-        ...httpAdapter.importDeclaration,
-        ...imports,
-      }
-
-      superClass.items.push({ type, jsType });
-    });
-
-    return superClass;
-  }
-}
-

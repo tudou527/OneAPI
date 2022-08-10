@@ -17,6 +17,7 @@
     "noImplicitAny": false,
     "strictNullChecks": false,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "typeRoots": ["./typings"],
   },
   "include": ["bin/**/*", "lib/**/*", "typings/**/*", "services/**/*"],
