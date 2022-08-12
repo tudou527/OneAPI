@@ -47,12 +47,10 @@ export default class HttpProtocol {
 
   private convertModel() {
     // 过滤未处理的资源文件并排序
-    const sourceClassPathQueue = Object.keys(this.sourceClassPathMap).filter(cls => !this.sourceClassPathMap[cls]).sort((a, b) => {
-      // 排序，让包含 $ 的 class 往后排，确保后续写文件时对应的父类文件已存在
+    Object.keys(this.sourceClassPathMap).filter(cls => !this.sourceClassPathMap[cls]).sort((a, b) => {
+      // 让包含 $ 的 class 往后排，确保后续写文件时对应的父类文件已存在
       return a.indexOf('$') - b.indexOf('$');
-    });
-
-    sourceClassPathQueue.forEach(classPath => {
+    }).forEach(classPath => {
       const modelAdapter = new ModelAdapter(this.fileMetaData[classPath]).convert();
       this.adapterDataList.push(modelAdapter);
       // 更新解析状态
@@ -102,6 +100,7 @@ export default class HttpProtocol {
       projectDir: this.projectDir,
       httpAdapter: this.adapterDataList,
     }).convert();
+
     fs.writeJSONSync(path.join(this.saveDir, 'openapi.json'), openApi, { spaces: 2 });
   }
 }

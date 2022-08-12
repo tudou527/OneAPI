@@ -12,6 +12,7 @@
     "dev": "ts-node ./bin/index.ts",
     "build": "tsc -p tsconfig.json",
     "lint": "eslint . --ext .ts --ext .mts",
+    "test": "mocha --require ts-node/register tests/**/*.test.ts",
     "prettier": "prettier --config .prettierrc --write ."
   },
   "dependencies": {
@@ -26,13 +27,16 @@
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
     "@types/node": "~16",
+    "@types/sinon": "^10.0.13",
     "@typescript-eslint/eslint-plugin": "~5.26",
     "@typescript-eslint/parser": "~5.26",
+    "assert": "^2.0.0",
     "eslint": "~8.16",
     "eslint-config-prettier": "~8.5",
-    "eslint-plugin-jest": "~26.2",
+    "mocha": "^10.0.0",
     "prettier": "~2.6",
-    "ts-node": "^10.8.1",
-    "typescript": "~4.7"
+    "sinon": "^14.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
   }
 }
