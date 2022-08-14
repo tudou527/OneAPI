@@ -20,7 +20,7 @@
     "resolveJsonModule": true,
     "typeRoots": ["./typings"],
     "types": [
-      "@types/jest",
+      "mocha",
     ]
   },
   "include": [

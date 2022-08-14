@@ -1,0 +1,14 @@
+{
+  "all": true,
+  "include": [
+    "lib/**/*.ts"
+  ],
+  "exclude": [
+  ],
+  "reporter":[
+    "text-summary",
+    "html",
+    "lcovonly"
+  ],
+  "report-dir": ".nyc_output/coverage"
+}

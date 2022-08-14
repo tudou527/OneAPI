@@ -29,12 +29,9 @@ export default async function main(args: { projectDir: string; saveDir: string }
     ], { stdio: 'inherit', cwd: args.projectDir });
 
     jar.on('close', function() {
-      console.log('>>>>> 1222: ', );
-
       resolve('');
     });
   });
-  console.log('>>>>> 222: ', );
 
   // 从项目解析出 oneapi.json
   const jsonSchemaPath: string = await new Promise((resolve) => {
@@ -53,8 +50,6 @@ export default async function main(args: { projectDir: string; saveDir: string }
     });
   });
 
-  console.log('>>>>> 333: ', );
-
   // 实例化 http 协议
   const httpPotocol = new HttpProtocol({
     filePath: jsonSchemaPath,
@@ -63,6 +58,4 @@ export default async function main(args: { projectDir: string; saveDir: string }
   });
   // 生成 OpenAPI schema
   httpPotocol.generateOpenApi();
-
-  console.log('>>>>> args: ', args);
 }
