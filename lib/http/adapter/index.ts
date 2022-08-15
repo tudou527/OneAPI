@@ -80,7 +80,7 @@ export interface IHttpServiceParameter {
 
 // 生成 JS DOC 作为注释
 export function getJsDoc(desc: JavaMeta.Description): OptionalKind<JSDocStructure> {
-  if (!desc.text && !Object.keys(desc.tag).length) {
+  if (!desc || (!desc.text && !Object.keys(desc.tag).length)) {
     return null;
   }
 

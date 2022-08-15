@@ -20,6 +20,11 @@ export default class TypeTransfer {
   private convert(javaType: JavaMeta.ActualType): string {
     const { name, classPath, items } = javaType;
 
+    // java.util.List<?> 类似的情况
+    if (!name) {
+      return 'any';
+    }
+
     // JS 与 Java 类型映射关系
     const javaTypeMap = {
       // 数字

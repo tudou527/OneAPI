@@ -16,7 +16,7 @@ declare namespace JavaMeta {
     /**
      * 子类型
      */
-    items: ActualType[];
+    items?: ActualType[];
   }
 
   /**

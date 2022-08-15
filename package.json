@@ -12,7 +12,7 @@
     "dev": "ts-node ./bin/index.ts",
     "build": "tsc -p tsconfig.json",
     "lint": "eslint . --ext .ts --ext .mts",
-    "test": "mocha --require ts-node/register tests/**/*.test.ts",
+    "test": "mocha -r ts-node/register \"test/**/*.test.ts\"",
     "coverage": "nyc npm test",
     "prettier": "prettier --config .prettierrc --write ."
   },

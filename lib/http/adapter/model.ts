@@ -7,18 +7,19 @@ import TypeTransfer from '../type-transfer';
 export default class ModelAdapter {
   private httpAdapter: IHttpAdapter = null;
   // 从文件读取的解析结果
-  private fileMeta: JavaMeta.FileMeta;
+  private fileMeta?: JavaMeta.FileMeta;
 
-  constructor(fileMeta: JavaMeta.FileMeta) {
+  // 这里要为 fileMeta 不存在做兜底
+  constructor(fileMeta?: JavaMeta.FileMeta) {
     this.fileMeta = fileMeta;
 
     this.httpAdapter = {
-      filePath: fileMeta.filePath,
-      description: getJsDoc(fileMeta.description),
-      className: fileMeta.class.name,
-      classPath: fileMeta.class.classPath,
-      actualType: fileMeta.class.actualType,
-      fileType: fileMeta.fileType,
+      filePath: fileMeta?.filePath,
+      description: getJsDoc(fileMeta?.description),
+      className: fileMeta?.class.name,
+      classPath: fileMeta?.class.classPath,
+      actualType: fileMeta?.class.actualType,
+      fileType: fileMeta?.fileType,
       fields: [],
       importDeclaration: {},
     }
@@ -26,24 +27,27 @@ export default class ModelAdapter {
 
   convert() {
     const { httpAdapter, fileMeta } = this;
-    const { fields, superClass } = fileMeta.class;
+    const { fields, superClass } = fileMeta?.class || {};
 
-    httpAdapter.fields = fields.map((field) => {
-      // 转换字段类型
-      const { jsType, imports } = new TypeTransfer().transform(field.type);
-      // 合并导入项
-      httpAdapter.importDeclaration = {
-        ...httpAdapter.importDeclaration,
-        ...imports,
-      }
+    if (Array.isArray(fields)) {
+      httpAdapter.fields = fields.map((field) => {
+        console.log(' >>>>> field.type: ', field.type);
+        // 转换字段类型
+        const { jsType, imports } = new TypeTransfer().transform(field.type);
+        // 合并导入项
+        httpAdapter.importDeclaration = {
+          ...httpAdapter.importDeclaration,
+          ...imports,
+        }
 
-      return {
-        name: field.name,
-        type: field.type,
-        jsType,
-        description: getJsDoc(field.description),
-      }
-    });
+        return {
+          name: field.name,
+          type: field.type,
+          jsType,
+          description: getJsDoc(field.description),
+        }
+      });
+    }
 
     if (superClass) {
       httpAdapter.superClass = this.getSuperClassMeta(superClass);
