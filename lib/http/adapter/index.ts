@@ -33,6 +33,7 @@ export interface IHttpAdapter {
   }[];
   // 父类
   superClass?: {
+    // 冗余字段
     type: JavaMeta.ActualType;
     jsType: string;
     items: {

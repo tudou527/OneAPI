@@ -10,19 +10,21 @@ export default class ModelAdapter {
   private fileMeta?: JavaMeta.FileMeta;
 
   // 这里要为 fileMeta 不存在做兜底
-  constructor(fileMeta?: JavaMeta.FileMeta) {
-    this.fileMeta = fileMeta;
+  constructor(classPath: string, fileMetaDict: { [key: string]: JavaMeta.FileMeta }) {
+    const fileMeta = fileMetaDict[classPath];
 
     this.httpAdapter = {
       filePath: fileMeta?.filePath,
       description: getJsDoc(fileMeta?.description),
-      className: fileMeta?.class.name,
-      classPath: fileMeta?.class.classPath,
+      className: classPath.slice().split('.').reverse().at(0),
+      classPath: classPath,
       actualType: fileMeta?.class.actualType,
       fileType: fileMeta?.fileType,
       fields: [],
       importDeclaration: {},
     }
+
+    this.fileMeta = fileMeta;
   }
 
   convert() {

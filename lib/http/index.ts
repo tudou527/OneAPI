@@ -21,12 +21,16 @@ export default class HttpProtocol {
    */
   sourceClassPathMap: { [key: string]: boolean } = {};
 
+  loopCount: number;
+
   constructor(args: { filePath: string; projectDir: string; saveDir: string; }) {
     this.filePath = args.filePath;
     this.projectDir = args.projectDir;
     this.saveDir = args.saveDir;
 
     this.fileMetaData = fs.readJSONSync(args.filePath);
+
+    this.loopCount = 0;
 
     this.convertService();
     this.convertModel();
@@ -51,7 +55,7 @@ export default class HttpProtocol {
       // 让包含 $ 的 class 往后排，确保后续写文件时对应的父类文件已存在
       return a.indexOf('$') - b.indexOf('$');
     }).forEach(classPath => {
-      const modelAdapter = new ModelAdapter(this.fileMetaData[classPath]).convert();
+      const modelAdapter = new ModelAdapter(classPath, this.fileMetaData).convert();
       this.adapterDataList.push(modelAdapter);
       // 更新解析状态
       this.sourceClassPathMap[modelAdapter.classPath] = true;
@@ -63,8 +67,9 @@ export default class HttpProtocol {
       });
     });
 
-    // 因为每次执行完后会有新的导入项，所以这里需要循环处理
-    if (Object.keys(this.sourceClassPathMap).find(cls => !this.sourceClassPathMap[cls])) {
+    if (this.loopCount < 100 && Object.keys(this.sourceClassPathMap).find(cls => !this.sourceClassPathMap[cls])) {
+      // 因为每次执行完后会有新的导入项，所以这里需要循环处理
+      this.loopCount++;
       this.convertModel();
     }
   }

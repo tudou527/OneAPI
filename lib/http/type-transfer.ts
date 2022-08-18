@@ -28,6 +28,7 @@ export default class TypeTransfer {
     // JS 与 Java 类型映射关系
     const javaTypeMap = {
       // 数字
+      byte: 'number',
       integer: 'number',
       int: 'number',
       long: 'number',
