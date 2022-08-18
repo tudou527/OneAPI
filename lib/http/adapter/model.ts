@@ -31,7 +31,6 @@ export default class ModelAdapter {
 
     if (Array.isArray(fields)) {
       httpAdapter.fields = fields.map((field) => {
-        console.log(' >>>>> field.type: ', field.type);
         // 转换字段类型
         const { jsType, imports } = new TypeTransfer().transform(field.type);
         // 合并导入项

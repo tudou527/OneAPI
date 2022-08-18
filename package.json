@@ -26,13 +26,14 @@
     "tslib": "~2.4"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.3",
     "@types/fs-extra": "^9.0.13",
     "@types/mocha": "^9.1.1",
     "@types/node": "~16",
     "@types/sinon": "^10.0.13",
     "@typescript-eslint/eslint-plugin": "~5.26",
     "@typescript-eslint/parser": "~5.26",
-    "assert": "^2.0.0",
+    "chai": "^4.3.6",
     "eslint": "~8.16",
     "eslint-config-prettier": "~8.5",
     "mocha": "^10.0.0",

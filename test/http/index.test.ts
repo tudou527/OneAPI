@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import assert from 'assert';
+import { expect } from 'chai';
 
 // import HttpProtocol from '../../lib/http';
 
@@ -10,7 +10,7 @@ describe('lib/http', () => {
 
   describe('normal', () => {
     it('normal', () => {
-      assert('' === '');
+      expect('').to.equal('');
     });
   })
 });

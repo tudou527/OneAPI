@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import assert from 'assert';
+import { expect } from 'chai';
 
 import TypeTransfer from '../../lib/http/type-transfer';
 
@@ -15,8 +15,8 @@ describe('lib/http/type-transfer', () => {
         classPath: '',
       });
 
-      assert(jsType === 'T');
-      assert(Object.keys(imports).length === 0);
+      expect(jsType).to.equal('T');
+      expect(Object.keys(imports)).to.have.lengthOf(0);
     });
 
     it('normal type', () => {
@@ -24,8 +24,8 @@ describe('lib/http/type-transfer', () => {
         name: 'string',
         classPath: '',
       });
-      assert(jsType === 'string');
-      assert(Object.keys(imports).length === 0);
+      expect(jsType).to.equal('string');
+      expect(Object.keys(imports)).to.have.lengthOf(0);
     });
   })
 
@@ -39,8 +39,8 @@ describe('lib/http/type-transfer', () => {
           classPath: 'java.lang.String',
         }],
       });
-      assert(jsType === 'Array<string>');
-      assert(Object.keys(imports).length === 0);
+      expect(jsType).to.equal('Array<string>');
+      expect(Object.keys(imports)).to.have.lengthOf(0);
     });
 
     it('java.util.List<T>', () => {
@@ -52,8 +52,8 @@ describe('lib/http/type-transfer', () => {
           classPath: '',
         }],
       });
-      assert(jsType === 'Array<T>');
-      assert(Object.keys(imports).length === 0);
+      expect(jsType).to.equal('Array<T>');
+      expect(Object.keys(imports)).to.have.lengthOf(0);
     });
 
     it('java.util.List<?>', () => {
@@ -62,8 +62,8 @@ describe('lib/http/type-transfer', () => {
         classPath: 'java.util.List',
         items: [{} as any],
       });
-      assert(jsType === 'Array<any>');
-      assert(Object.keys(imports).length === 0);
+      expect(jsType).to.equal('Array<any>');
+      expect(Object.keys(imports)).to.have.lengthOf(0);
     });
 
     it('java.util.List<com.model.User>', () => {
@@ -76,9 +76,9 @@ describe('lib/http/type-transfer', () => {
         }],
       });
 
-      assert(jsType === 'Array<User>');
-      assert(Object.keys(imports).length === 1);
-      assert(imports['com.model.User'] === 'User');
+      expect(jsType).to.equal('Array<User>');
+      expect(Object.keys(imports)).to.have.lengthOf(1);
+      expect(imports['com.model.User']).to.equal('User');
     });
 
     it('java.util.Collection<com.model.User>', () => {
@@ -91,9 +91,9 @@ describe('lib/http/type-transfer', () => {
         }],
       });
 
-      assert(jsType === 'Array<User>');
-      assert(Object.keys(imports).length === 1);
-      assert(imports['com.model.User'] === 'User');
+      expect(jsType).to.equal('Array<User>');
+      expect(Object.keys(imports)).to.have.lengthOf(1);
+      expect(imports['com.model.User']).to.equal('User');
     });
   });
 
@@ -104,8 +104,8 @@ describe('lib/http/type-transfer', () => {
         classPath: 'java.util.Date',
       });
 
-      assert(jsType === 'Date');
-      assert(Object.keys(imports).length === 0);
+      expect(jsType).to.equal('Date');
+      expect(Object.keys(imports)).to.have.lengthOf(0);
     });
   });
 
@@ -126,9 +126,9 @@ describe('lib/http/type-transfer', () => {
         ],
       });
 
-      assert(jsType === 'Map<string, User>');
-      assert(Object.keys(imports).length === 1);
-      assert(imports['com.model.User'] === 'User');
+      expect(jsType).to.equal('Map<string, User>');
+      expect(Object.keys(imports)).to.have.lengthOf(1);
+      expect(imports['com.model.User']).to.equal('User');
     });
 
     it('HashMap<String, com.model.Result<com.model.User>>', () => {
@@ -153,10 +153,10 @@ describe('lib/http/type-transfer', () => {
         ],
       });
 
-      assert(jsType === 'Map<string, Result<User>>');
-      assert(Object.keys(imports).length === 2);
-      assert(imports['com.model.User'] === 'User');
-      assert(imports['com.model.Result'] === 'Result');
+      expect(jsType).to.equal('Map<string, Result<User>>');
+      expect(Object.keys(imports)).to.have.lengthOf(2);
+      expect(imports['com.model.User']).to.equal('User');
+      expect(imports['com.model.Result']).to.equal('Result');
     });
 
     it('com.google.common.collect.ForwardingMapEntry<String, Integer>', () => {
@@ -175,8 +175,8 @@ describe('lib/http/type-transfer', () => {
         ],
       });
 
-      assert(jsType === 'Map<string, number>');
-      assert(Object.keys(imports).length === 0);
+      expect(jsType).to.equal('Map<string, number>');
+      expect(Object.keys(imports)).to.have.lengthOf(0);
     });
   });
 
@@ -187,8 +187,8 @@ describe('lib/http/type-transfer', () => {
         classPath: 'java.lang.Object',
       });
 
-      assert(jsType === 'any');
-      assert(Object.keys(imports).length === 0);
+      expect(jsType).to.equal('any');
+      expect(Object.keys(imports)).to.have.lengthOf(0);
     });
   });
 
@@ -199,8 +199,8 @@ describe('lib/http/type-transfer', () => {
         classPath: 'org.springframework.web.multipart.MultipartFile',
       });
 
-      assert(jsType === 'any');
-      assert(Object.keys(imports).length === 0);
+      expect(jsType).to.equal('any');
+      expect(Object.keys(imports)).to.have.lengthOf(0);
     });
   });
 
@@ -211,8 +211,8 @@ describe('lib/http/type-transfer', () => {
         classPath: 'javax.servlet.http.HttpServletRequest',
       });
 
-      assert(jsType === '{ [key: string]: any }');
-      assert(Object.keys(imports).length === 0);
+      expect(jsType).to.equal('{ [key: string]: any }');
+      expect(Object.keys(imports)).to.have.lengthOf(0);
     });
 
     it('httpServletResponse', () => {
@@ -221,8 +221,8 @@ describe('lib/http/type-transfer', () => {
         classPath: 'javax.servlet.http.HttpServletResponse',
       });
 
-      assert(jsType === '{ [key: string]: any }');
-      assert(Object.keys(imports).length === 0);
+      expect(jsType).to.equal('{ [key: string]: any }');
+      expect(Object.keys(imports)).to.have.lengthOf(0);
     });
   });
 });

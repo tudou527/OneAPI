@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import sinon from 'sinon';
 import stream from 'stream';
 import events from 'events';
-import assert from 'assert';
+import { expect } from 'chai';
 import cp from 'child_process';
 
 import main from '../lib/main';
@@ -16,17 +16,21 @@ describe('lib/main', () => {
   it('without java env var', async () => {
     sinon.stub(cp, 'execSync').withArgs('which java').throws(new Error('mvn not found'));
 
-    assert.rejects(async () => {
+    try {
       await main({ projectDir: '', saveDir: '' });
-    });
+    } catch(e) {
+      expect(e.message).to.include('Java');
+    }
   });
 
   it('without mvn env var', async () => {
     sinon.stub(cp, 'execSync').withArgs('which java').resolves("/usr/bin/java").withArgs('which mvn').throws(new Error('mvn not found'));
 
-    assert.rejects(async () => {
+    try {
       await main({ projectDir: '', saveDir: '' });
-    });
+    } catch(e) {
+      expect(e.message).to.include('Maven');
+    }
   });
 
   it('normal', async () => {
@@ -54,6 +58,6 @@ describe('lib/main', () => {
     sinon.stub(HttpProtocol.prototype, <any>'generateOpenApi').resolves();
 
     await main({ projectDir: '/projectDir', saveDir: '/saveDir' });
-    assert.equal(fsArg, '/saveDir/oneapi.json');
+    expect(fsArg).to.equal('/saveDir/oneapi.json');
   });
 });
