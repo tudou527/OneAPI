@@ -85,9 +85,16 @@ export default class ServiceAdapter {
     const methodType = {
       GetMapping: 'GET',
       PostMapping: 'POST',
-      RequestMapping: 'POST',
     }
 
+    // 注解为 requestMapping 时，进一步判断是 GET 还是 POST
+    if (annotation.name === 'RequestMapping') {
+      const methodName = annotation.fields.find(f => f.name === 'method')?.value || '';
+
+      return methodName.includes('.') ? methodName.split('.')[1] : 'POST';
+    }
+
+    // 默认 post
     return methodType[annotation.name] || 'POST';
   }
 

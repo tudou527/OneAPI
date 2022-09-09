@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import ServiceAdapter from '../../../lib/http/adapter/service';
 import { expect } from 'chai';
 
-describe('lib/http/adapter/service', () => {
+describe.only('lib/http/adapter/service', () => {
   const fileMetaData = fs.readJSONSync(path.join(__dirname, '../../fixture/oneapi.json'));
 
   afterEach(() => {
@@ -30,6 +30,33 @@ describe('lib/http/adapter/service', () => {
 
     expect(services).to.has.lengthOf(1);
 
-    console.log('>>>>> adapter: ', services);
+    const { url, type, contentType, description: serviceDesc, parameter, response, classPath: serviceClassPath, operationId } = services[0];
+    expect(url).to.equal('/prefrenceArea/listAll');
+    expect(type).to.equal('GET');
+    expect(contentType).to.equal('application/json');
+    expect(serviceDesc).to.equal(null);
+    expect(parameter).to.deep.equal([]);
+    expect(serviceClassPath).to.equal('com.macro.mall.controller.CmsPrefrenceAreaController');
+    expect(operationId).to.equal('listAll');
+
+    expect(response).to.deep.equal({
+      jsType: 'CommonResult<Array<CmsPrefrenceArea>>',
+      type: {
+        name: 'CommonResult',
+        classPath: 'com.macro.mall.common.api.CommonResult',
+        items: [
+          {
+            name: 'List',
+            classPath: 'java.util.List',
+            items: [
+              {
+                name: 'CmsPrefrenceArea',
+                classPath: 'com.macro.mall.model.CmsPrefrenceArea'
+              }
+            ]
+          }
+        ]
+      }
+    });
   });
 });
