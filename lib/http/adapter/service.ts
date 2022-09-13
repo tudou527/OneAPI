@@ -32,7 +32,7 @@ export default class ServiceAdapter {
     const { fileMeta, httpAdapter } = this;
 
     // 过滤出符合条件的方法列表，这里只判断是否以 Mapping 结束（某些代码可能会自己包 annotation）
-    fileMeta.class.methods.filter(m => m.annotations.find(an => an.classPath.endsWith('Mapping'))).forEach(method => {
+    fileMeta.class.methods.filter(m => m.annotations.find(an => an.classPath.endsWith('Mapping')))?.forEach(method => {
       // 方法入参
       const methodParams = this.getMethodParams(method);
       // url、请求类型等基础信息
@@ -68,7 +68,7 @@ export default class ServiceAdapter {
   private getBaseURI() {
     let baseURI = '';
 
-    this.fileMeta.class.annotations.forEach(an => {
+    this.fileMeta.class.annotations?.forEach(an => {
       if (an.name.endsWith('Mapping')) {
         const uriField = an.fields?.find(f => f.name === 'value');
         if (uriField) {
@@ -109,15 +109,17 @@ export default class ServiceAdapter {
     // 过滤掉 pathVariable 后的参数列表
     const apiParams = params.filter(p => !p.isPathVariable);
 
+    let methodType = this.getMethodType(apiAnnotation);
     let contentType = 'application/json';
     // 当有参数类型为 org.springframework.web.multipart.MultipartFile 时需要修改 contentType
     if (apiParams.find(p => p.type.classPath.endsWith('.MultipartFile'))) {
       contentType = 'multipart/form-data';
+      methodType = 'POST';
     }
 
     return {
       url,
-      type: this.getMethodType(apiAnnotation),
+      type: methodType,
       contentType,
     }
   }

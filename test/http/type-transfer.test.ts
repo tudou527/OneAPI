@@ -204,6 +204,20 @@ describe('lib/http/type-transfer', () => {
     });
   });
 
+  describe('custom class', () => {
+    it('normal', () => {
+      const { jsType, imports } = new TypeTransfer().transform({
+        name: 'OmsOrderQueryParam',
+        classPath: 'com.macro.mall.dto.OmsOrderQueryParam',
+      });
+      
+      expect(jsType).to.equal('OmsOrderQueryParam');
+      expect(imports).to.deep.equal({
+        'com.macro.mall.dto.OmsOrderQueryParam': 'OmsOrderQueryParam',
+      });
+    });
+  });
+
   describe('httpServletRequest/httpServletResponse', () => {
     it('httpServletRequest', () => {
       const { jsType, imports } = new TypeTransfer().transform({
