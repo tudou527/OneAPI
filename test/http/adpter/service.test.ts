@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import ServiceAdapter from '../../../lib/http/adapter/service';
 import { expect } from 'chai';
 
-describe.only('lib/http/adapter/service', () => {
+describe('lib/http/adapter/service', () => {
   const fileMetaData = fs.readJSONSync(path.join(__dirname, '../../fixture/oneapi.json'));
 
   afterEach(() => {
