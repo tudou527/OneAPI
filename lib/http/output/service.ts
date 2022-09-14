@@ -6,9 +6,9 @@ import path from 'path';
 import camelCase from 'camelcase';
 import { Project, SourceFile } from 'ts-morph';
 
-import { IHttpAdapter, IHttpAdapterService } from './adapter';
+import { IHttpAdapter, IHttpAdapterService } from '../adapter';
 
-export class ApiGenerator {
+export class ServiceGenerator {
   baseDir: string;
   project: Project;
   httpAdapter: IHttpAdapter;

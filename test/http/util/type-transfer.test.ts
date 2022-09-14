@@ -1,9 +1,9 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import TypeTransfer from '../../lib/http/type-transfer';
+import TypeTransfer from '../../../lib/http/util/type-transfer';
 
-describe('lib/http/type-transfer', () => {
+describe('lib/http/util/type-transfer', () => {
   afterEach(() => {
     sinon.restore();
   });

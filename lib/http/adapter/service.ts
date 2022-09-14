@@ -4,7 +4,7 @@
 import path from 'path';
 
 import { IHttpAdapter, getJsDoc, IHttpServiceParameter } from '.';
-import TypeTransfer from '../type-transfer';
+import TypeTransfer from '../util/type-transfer';
 
 // 入口文件
 export default class ServiceAdapter {
@@ -32,7 +32,7 @@ export default class ServiceAdapter {
     const { fileMeta, httpAdapter } = this;
 
     // 过滤出符合条件的方法列表，这里只判断是否以 Mapping 结束（某些代码可能会自己包 annotation）
-    fileMeta.class.methods.filter(m => m.annotations.find(an => an.classPath.endsWith('Mapping')))?.forEach(method => {
+    fileMeta.class.methods.filter(m => m.annotations.find(an => an.classPath.endsWith('Mapping'))).forEach(method => {
       // 方法入参
       const methodParams = this.getMethodParams(method);
       // url、请求类型等基础信息
@@ -89,7 +89,7 @@ export default class ServiceAdapter {
 
     // 注解为 requestMapping 时，进一步判断是 GET 还是 POST
     if (annotation.name === 'RequestMapping') {
-      const methodName = annotation.fields.find(f => f.name === 'method')?.value || '';
+      const methodName = annotation.fields?.find(f => f.name === 'method')?.value || '';
 
       return methodName.includes('.') ? methodName.split('.')[1] : 'POST';
     }
@@ -101,10 +101,10 @@ export default class ServiceAdapter {
   // Api 基础信息
   private getMethodBaseInfo(method: JavaMeta.ClassMethod, params: IHttpServiceParameter[]) {
     const baseURI = this.getBaseURI();
-    // 所有方法注解
+    // method 中申明请求基本信息的注解
     const apiAnnotation = method.annotations.find(an => an.name.endsWith('Mapping'));
-    // 方法体中定义的 URI
-    const methodURI = apiAnnotation?.fields.find(f => f.name === 'value')?.value || '';
+    // 注解中定义的请求 uri
+    const methodURI = apiAnnotation.fields?.find(f => f.name === 'value')?.value || '';
     const url = path.join(baseURI, methodURI).replace(/\*/gi, '');
     // 过滤掉 pathVariable 后的参数列表
     const apiParams = params.filter(p => !p.isPathVariable);
@@ -150,7 +150,7 @@ export default class ServiceAdapter {
         jsType,
       }
       // 根据 annotation 判断是否必填
-      const matchedAn = p.annotations.find(an => an.fields.find(f => ['name', 'value'].includes(f.name)));
+      const matchedAn = p.annotations.find(an => an.name === 'RequestParam');
 
       // 匹配到注解时需要根据注解内容替换参数名、是否必填
       if (matchedAn) {
@@ -158,7 +158,7 @@ export default class ServiceAdapter {
         const anFieldRequired = matchedAn.fields.find(f => ['required'].includes(f.name))?.value;
 
         param.name = anFieldName || p.name;
-        param.isRequired = typeof anFieldRequired !== 'undefined' ? anFieldRequired : param.isRequired;
+        param.isRequired = anFieldRequired === 'true' ? true : param.isRequired;
       }
 
       // 包含 PathVariable 时认为参数来源于 url

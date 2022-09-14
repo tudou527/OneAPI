@@ -1,15 +1,14 @@
 import path from 'path';
 import fs from 'fs-extra';
-import sinon from 'sinon';
 import { expect } from 'chai';
 
 import ServiceAdapter from '../../../lib/http/adapter/service';
 
 describe('lib/http/adapter/service', () => {
-  const fileMetaData = fs.readJSONSync(path.join(__dirname, '../../fixture/oneapi.json'));
+  let fileMetaData = {};
 
-  afterEach(() => {
-    sinon.restore();
+  beforeEach(() => {
+    fileMetaData = fs.readJSONSync(path.join(__dirname, '../../fixture/oneapi.json'));
   });
 
   it('normal', () => {
@@ -58,6 +57,7 @@ describe('lib/http/adapter/service', () => {
         jsType: 'OmsOrderQueryParam'
       },
       {
+        // 使用 annotation 中的字段别名
         name: 'pageSize',
         isRequired: false,
         isPathVariable: false,
@@ -69,7 +69,7 @@ describe('lib/http/adapter/service', () => {
       },
       {
         name: 'pageNum',
-        isRequired: false,
+        isRequired: true,
         isPathVariable: false,
         type: {
           name: 'Integer', 
@@ -128,7 +128,49 @@ describe('lib/http/adapter/service', () => {
 
       expect(services[0].url).to.equal('/api/test');
     });
-    
+
+    it('class getMapping annotation without fields', () => {
+      const meta = fileMetaData['com.macro.mall.controller.OmsOrderController'];
+      meta.class.annotations = [
+        {
+          name: 'getMapping',
+        },
+      ];
+
+      const { services } = new ServiceAdapter(meta).convert();
+
+      expect(services[0].url).to.equal('/list');
+    });
+
+    it('method getMapping annotation without fields', () => {
+      const meta = fileMetaData['com.macro.mall.controller.OmsOrderController'];
+      meta.class.methods[0].annotations = meta.class.methods[0].annotations.map((an: any) => {
+        if (an.name === 'RequestMapping') {
+          delete an.fields;
+        }
+        return an;
+      });
+
+      const { services } = new ServiceAdapter(meta).convert();
+      expect(services.at(0).url).to.equal('/order');
+    });
+
+    it('use method annotation field info if exist', () => {
+      const fileMeta = fileMetaData['com.macro.mall.controller.OmsOrderController'];
+      fileMeta.class.methods[0].parameters = fileMeta.class.methods[0].parameters.map((p: any) => {
+        p.annotations = p.annotations.map((an: any) => {
+          an.fields = an.fields.filter((f: any) => f.name !== 'required');
+          return an;
+        });
+        return p;
+      });
+
+      const { services } = new ServiceAdapter(fileMeta).convert();
+      const listServices = services.at(0);
+
+      expect(listServices.parameter.find(p => p.name === 'pageNum')?.isRequired).to.equal(false);
+    });
+
     it('form-data content type', () => {
       const meta = fileMetaData['com.macro.mall.controller.OmsOrderController'];
 

@@ -2,13 +2,16 @@ import path from 'path';
 import fs from 'fs-extra';
 import { IndentationText, Project } from 'ts-morph';
 
-import { OpenApi } from './openapi';
-import { ApiGenerator } from './generator';
+import { OpenApi } from './output/openapi';
+import { ServiceGenerator } from './output/service';
 import { ServiceAdapter, ModelAdapter, IHttpAdapter } from './adapter';
 
 export default class HttpProtocol {
+  // 原始的 .json 文件
   filePath: string;
+  // 项目根目录
   projectDir: string;
+  // 结果保存目录
   saveDir: string;
   // 从文件解析得到的数据
   fileMetaData: { [key: string]: JavaMeta.FileMeta } = {};
@@ -40,6 +43,7 @@ export default class HttpProtocol {
     // 遍历入口
     Object.keys(this.fileMetaData).filter(classPath => this.fileMetaData[classPath].fileType === 'ENTRY').forEach(classPath => {
       const serviceAdapter = new ServiceAdapter(this.fileMetaData[classPath]).convert();
+      
       this.adapterDataList.push(serviceAdapter);
 
       // 缓存待解析的 import 列表
@@ -94,7 +98,7 @@ export default class HttpProtocol {
     });
 
     for (let adapter of this.adapterDataList) {
-      const apiGenerator = new ApiGenerator(path.join(__dirname, '../../services'), project, adapter);
+      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter);
       await apiGenerator.generate(projectImportClassPath);
     }
   }

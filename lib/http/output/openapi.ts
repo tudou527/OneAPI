@@ -4,8 +4,8 @@
 import fs from 'fs';
 import { XMLParser } from 'fast-xml-parser';
 
-import TypeTransfer from './type-transfer';
-import { IHttpAdapter, IHttpAdapterService } from './adapter';
+import TypeTransfer from '../util/type-transfer';
+import { IHttpAdapter, IHttpAdapterService } from '../adapter';
 
 export class OpenApi {
   projectDir: string;

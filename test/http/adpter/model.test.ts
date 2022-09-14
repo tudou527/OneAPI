@@ -1,15 +1,14 @@
 import path from 'path';
 import fs from 'fs-extra';
-import sinon from 'sinon';
 import { expect } from 'chai';
 
 import ModelAdapter from '../../../lib/http/adapter/model';
 
 describe('lib/http/adapter/model', () => {
-  const fileMetaData = fs.readJSONSync(path.join(__dirname, '../../fixture/oneapi.json'));
+  let fileMetaData = {};
 
-  afterEach(() => {
-    sinon.restore();
+  beforeEach(() => {
+    fileMetaData = fs.readJSONSync(path.join(__dirname, '../../fixture/oneapi.json'));
   });
 
   it('normal', () => {
@@ -56,6 +55,21 @@ describe('lib/http/adapter/model', () => {
       },
       jsType: 'PmsProductAttributeCategory',
       items: [],
+    });
+  });
+
+  it('file meta is null', () => {
+    const adapter = new ModelAdapter('com.demo', fileMetaData).convert();
+
+    expect(adapter).to.deep.equal({
+      filePath: undefined,
+      description: null,
+      className: 'demo',
+      classPath: 'com.demo',
+      actualType: undefined,
+      fileType: undefined,
+      fields: [],
+      importDeclaration: {}
     });
   });
 

@@ -1,13 +1,8 @@
-import sinon from 'sinon';
 import { expect } from 'chai';
 
 import { getJsDoc } from '../../../lib/http/adapter/index';
 
 describe('lib/http/adapter/index', () => {
-  afterEach(() => {
-    sinon.restore();
-  });
-
   it('desc is null', () => {
     const jsDoc = getJsDoc(null as unknown as JavaMeta.Description);
 

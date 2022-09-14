@@ -449,7 +449,7 @@
               ]
             },
             {
-              "name": "pageNum",
+              "name": "pNum",
               "type": {
                 "name": "Integer",
                 "classPath": "java.lang.Integer"
@@ -467,6 +467,12 @@
                       "type": "Constant",
                       "array": false,
                       "value": "pageNum"
+                    },
+                    {
+                      "name": "required",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "true"
                     },
                     {
                       "name": "defaultValue",

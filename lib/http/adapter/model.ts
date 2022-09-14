@@ -2,7 +2,7 @@
  * 模型适配
  */
 import { IHttpAdapter, getJsDoc } from '.';
-import TypeTransfer from '../type-transfer';
+import TypeTransfer from '../util/type-transfer';
 
 export default class ModelAdapter {
   private httpAdapter: IHttpAdapter = null;
