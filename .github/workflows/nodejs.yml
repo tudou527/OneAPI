@@ -11,7 +11,4 @@ jobs:
       - uses: volta-cli/action@v1
       - run: npm i
       - run: npm run ci
-        env:
-          CI: true
-      - name: Upload Coverage
-        uses: codecov/codecov-action@v3.1.0
+      - run: npm run coverage

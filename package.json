@@ -14,6 +14,7 @@
     "lint": "eslint . --ext .ts --ext .mts",
     "test": "mocha -r ts-node/register \"test/**/*.test.ts\"",
     "ci": "nyc --reporter=lcov npm test",
+    "coverage": "codecov",
     "prettier": "prettier --config .prettierrc --write ."
   },
   "dependencies": {
