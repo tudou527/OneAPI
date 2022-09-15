@@ -13,7 +13,7 @@
     "build": "tsc -p tsconfig.json",
     "lint": "eslint . --ext .ts --ext .mts",
     "test": "mocha -r ts-node/register \"test/**/*.test.ts\"",
-    "cov": "nyc npm test",
+    "ci": "nyc npm test",
     "prettier": "prettier --config .prettierrc --write ."
   },
   "dependencies": {

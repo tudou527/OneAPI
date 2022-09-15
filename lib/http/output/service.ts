@@ -42,6 +42,12 @@ export class ServiceGenerator {
     // 导入 requests
     this.addImport(projectImportClassPath);
 
+    // 增加文件注释
+    const firstLine = this.sourceFile.getStatementsWithComments().at(0);
+    if (!firstLine.getText().includes('@ts-nocheck')) {
+      this.sourceFile.insertStatements(0, '// @ts-nocheck');
+    }
+
     this.sourceFile.saveSync();
   }
 
