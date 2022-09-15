@@ -13,7 +13,7 @@
     "build": "tsc -p tsconfig.json",
     "lint": "eslint . --ext .ts --ext .mts",
     "test": "mocha -r ts-node/register \"test/**/*.test.ts\"",
-    "ci": "nyc npm test",
+    "ci": "nyc --reporter=lcov npm test",
     "prettier": "prettier --config .prettierrc --write ."
   },
   "dependencies": {
@@ -34,6 +34,7 @@
     "@typescript-eslint/eslint-plugin": "~5.26",
     "@typescript-eslint/parser": "~5.26",
     "chai": "^4.3.6",
+    "codecov": "^3.8.3",
     "eslint": "~8.16",
     "eslint-config-prettier": "~8.5",
     "mocha": "^10.0.0",
