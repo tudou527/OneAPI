@@ -15,8 +15,3 @@ jobs:
           CI: true
       - name: Upload Coverage
         uses: codecov/codecov-action@v3.1.0
-        with:
-          files: ${{ github.workspace }}/.nyc_output/coverage/index.html
-          name: codecov-umbrella
-          fail_ci_if_error: true
-          verbose: true
