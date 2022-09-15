@@ -80,23 +80,35 @@ export interface IHttpServiceParameter {
 }
 
 // 生成 JS DOC 作为注释
-export function getJsDoc(desc: JavaMeta.Description): OptionalKind<JSDocStructure> {
-  if (!desc || (!desc.text && !Object.keys(desc.tag).length)) {
-    return null;
+export function getJsDoc(desc: JavaMeta.Description, annotations?: JavaMeta.Annotation[]): OptionalKind<JSDocStructure> {
+  let description = desc?.text || '';
+  const tags: { tagName: string, text: string }[] = [];
+
+  // 兼容 Swagger 注解（优先级高于 Javadoc）
+  if (Array.isArray(annotations)) {
+    annotations.forEach((an: JavaMeta.Annotation) => {
+      if (an.name === 'Apis') {
+        description = an.fields?.find(f => ['descriptions', 'value'].includes(f.name))?.value || description;
+      }
+      if (['ApiOperation', 'ApiModelProperty'].includes(an.name)) {
+        description = an.fields?.find(f => f.name === 'value')?.value || description;
+      }
+    });
   }
 
-  const tags: { tagName: string, text: string }[] = [];
-  Object.keys(desc.tag).map(tag => {
-    desc.tag[tag].forEach(str => {
-      tags.push({
-        tagName: tag,
-        text: tag === 'param' ? `args.${str.trimStart()}` : str,
+  if (desc?.tag) {
+    Object.keys(desc.tag).map(tag => {
+      desc.tag[tag].forEach(str => {
+        tags.push({
+          tagName: tag,
+          text: tag === 'param' ? `args.${str.trimStart()}` : str,
+        });
       });
     });
-  });
+  }
 
   return {
-    description: desc.text || '',
+    description,
     tags,
   }
 }

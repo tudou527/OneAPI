@@ -45,7 +45,7 @@ export default class ModelAdapter {
           name: field.name,
           type: field.type,
           jsType,
-          description: getJsDoc(field.description),
+          description: getJsDoc(field.description, field.annotations),
         }
       });
     }

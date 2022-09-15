@@ -55,7 +55,11 @@ export default async function main(args: { projectDir: string; saveDir: string }
     filePath: jsonSchemaPath,
     projectDir: args.projectDir,
     saveDir: args.saveDir,
-  });
+  }); 
+  
+  // 生成 service 文件
+  httpPotocol.generateService();
+
   // 生成 OpenAPI schema
   httpPotocol.generateOpenApi();
 }

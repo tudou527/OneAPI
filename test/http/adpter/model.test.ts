@@ -12,26 +12,29 @@ describe('lib/http/adapter/model', () => {
   });
 
   it('normal', () => {
-    const adapter = new ModelAdapter('com.macro.mall.dto.PmsProductAttributeCategoryItem', fileMetaData).convert();
+    const { description, ...attrs } = new ModelAdapter('com.macro.mall.dto.PmsProductAttributeCategoryItem', fileMetaData).convert();
+    // 不断言 description
+    expect(!description).to.equal(false);
 
-    expect(adapter.description.tags).to.deep.equal([]);
-    expect(adapter.description.description).to.include('带有属性的商品属性分类');
+    expect(attrs.className).to.equal('PmsProductAttributeCategoryItem');
+    expect(attrs.classPath).to.equal('com.macro.mall.dto.PmsProductAttributeCategoryItem');
 
-    expect(adapter.className).to.equal('PmsProductAttributeCategoryItem');
-    expect(adapter.classPath).to.equal('com.macro.mall.dto.PmsProductAttributeCategoryItem');
-
-    expect(adapter.actualType).to.deep.equal(undefined);
-    expect(adapter.fileType).to.equal('RESOURCE');
+    expect(attrs.actualType).to.deep.equal(undefined);
+    expect(attrs.fileType).to.equal('RESOURCE');
 
     // 需要引入的导入项
-    expect(adapter.importDeclaration).to.deep.equal({
+    expect(attrs.importDeclaration).to.deep.equal({
       'com.macro.mall.model.PmsProductAttribute': 'PmsProductAttribute',
       'com.macro.mall.model.PmsProductAttributeCategory': 'PmsProductAttributeCategory'
     });
 
     // 字段及类型
-    expect(adapter.fields).to.have.lengthOf(1);
-    expect(adapter.fields[0]).to.deep.equal({
+    expect(attrs.fields).to.have.lengthOf(1);
+
+    const { description: fieldDesc, ...fileAttrs } = attrs.fields.at(0);
+
+    expect(!fieldDesc).to.equal(false);
+    expect(fileAttrs).to.deep.equal({
       name: 'productAttributeList',
       type: {
         name: 'List',
@@ -44,11 +47,10 @@ describe('lib/http/adapter/model', () => {
         ]
       },
       jsType: 'Array<PmsProductAttribute>',
-      description: null,
     });
 
     // 父类
-    expect(adapter.superClass).to.deep.equal({
+    expect(attrs.superClass).to.deep.equal({
       type: {
         name: 'PmsProductAttributeCategory',
         classPath: 'com.macro.mall.model.PmsProductAttributeCategory'
@@ -63,7 +65,7 @@ describe('lib/http/adapter/model', () => {
 
     expect(adapter).to.deep.equal({
       filePath: undefined,
-      description: null,
+      description: { description: '', tags: [] },
       className: 'demo',
       classPath: 'com.demo',
       actualType: undefined,

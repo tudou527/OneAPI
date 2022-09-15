@@ -162,7 +162,7 @@ declare namespace JavaMeta {
     /**
      * 字段注解
      */
-    annotation: Annotation[];
+    annotations: Annotation[];
   }
 
   /**

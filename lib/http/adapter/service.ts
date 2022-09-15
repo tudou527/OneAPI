@@ -50,7 +50,7 @@ export default class ServiceAdapter {
         url,
         type,
         contentType,
-        description: getJsDoc(method.description),
+        description: getJsDoc(method.description, method.annotations),
         parameter: methodParams,
         response: {
           jsType,

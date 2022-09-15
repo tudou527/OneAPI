@@ -29,6 +29,22 @@ export class ServiceGenerator {
     }
   }
 
+  generate(projectImportClassPath: string[]) {
+    const { fileType, services } = this.httpAdapter;
+
+    // 生成调用方法
+    if (fileType === 'ENTRY') {
+      services?.forEach(service => this.generateMethod(service));
+    } else {
+      this.generateInterface();
+    }
+
+    // 导入 requests
+    this.addImport(projectImportClassPath);
+
+    this.sourceFile.saveSync();
+  }
+
   // 根据 classPath 计算文件路径
   private getFilePath(classPath: string, fileType: string) {
     /**
@@ -43,22 +59,6 @@ export class ServiceGenerator {
     }
 
     return path.join(this.baseDir, fileType === 'ENTRY' ? '' : `model/${fileDir}`, `${fileName}.ts`);
-  }
-
-  async generate(projectImportClassPath: string[]) {
-    const { fileType, services } = this.httpAdapter;
-
-    // 生成调用方法
-    if (fileType === 'ENTRY') {
-      services?.forEach(service => this.generateMethod(service));
-    } else {
-      this.generateInterface();
-    }
-
-    // 导入 requests
-    this.addImport(projectImportClassPath);
-
-    await this.sourceFile.save();
   }
 
   // 增加导入

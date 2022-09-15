@@ -3,18 +3,6 @@ import { expect } from 'chai';
 import { getJsDoc } from '../../../lib/http/adapter/index';
 
 describe('lib/http/adapter/index', () => {
-  it('desc is null', () => {
-    const jsDoc = getJsDoc(null as unknown as JavaMeta.Description);
-
-    expect(jsDoc).to.equal(null);
-  });
-
-  it('description text and tag both null', () => {
-    const jsDoc = getJsDoc({ text: null, tag: {} });
-
-    expect(jsDoc).to.equal(null);
-  });
-
   it('normal', () => {
     const jsDoc = getJsDoc({
       text: '描述内容',
@@ -42,6 +30,24 @@ describe('lib/http/adapter/index', () => {
     });
   });
 
+  it('desc is null', () => {
+    const jsDoc = getJsDoc(null as unknown as JavaMeta.Description);
+
+    expect(jsDoc).to.deep.equal({
+      description: '',
+      tags: [],
+    });
+  });
+
+  it('description text and tag both null', () => {
+    const jsDoc = getJsDoc({ text: null, tag: {} });
+
+    expect(jsDoc).to.deep.equal({
+      description: '',
+      tags: [],
+    });
+  });
+
   it('description text is null', () => {
     const jsDoc = getJsDoc({
       text: undefined,
@@ -53,5 +59,133 @@ describe('lib/http/adapter/index', () => {
 
     expect(jsDoc.description).to.equal('');
     expect(jsDoc.tags).to.have.lengthOf(3);
+  });
+
+  describe('use swagger annotation', () => {
+    it('@ApiModelProperty', () => {
+      const desc = {
+        text: 'test',
+        tag: {},
+      };
+      const annotations = [
+        {
+          "name": "ApiModelProperty",
+          "classPath": "io.swagger.annotations.ApiModelProperty",
+          "fields": [
+            {
+              "name": "value",
+              "type": "Constant",
+              "isArray": false,
+              "value": "是否进行显示"
+            }
+          ]
+        },
+      ];
+
+      const jsDoc = getJsDoc(desc, annotations);
+
+      expect(jsDoc).to.deep.equal({
+        description: '是否进行显示',
+        tags: [],
+      });
+    });
+
+    it('@ApiModelProperty field is null', () => {
+      const desc = {
+        text: 'test',
+        tag: {},
+      };
+      const annotations = [
+        {
+          "name": "ApiModelProperty",
+          "classPath": "io.swagger.annotations.ApiModelProperty",
+          "fields": null
+        },
+      ];
+
+      const jsDoc = getJsDoc(desc, annotations);
+
+      expect(jsDoc).to.deep.equal({
+        description: 'test',
+        tags: [],
+      });
+    });
+
+    it('@Api(descriptions)', () => {
+      const desc = {
+        text: 'test',
+        tag: {},
+      };
+      const annotations = [
+        {
+          "name": "Apis",
+          "classPath": "io.swagger.annotations.ApiModelProperty",
+          "fields": [
+            {
+              "name": "descriptions",
+              "type": "Constant",
+              "isArray": false,
+              "value": "是否进行显示"
+            }
+          ]
+        },
+      ];
+
+      const jsDoc = getJsDoc(desc, annotations);
+
+      expect(jsDoc).to.deep.equal({
+        description: '是否进行显示',
+        tags: [],
+      });
+    });
+
+    it('@Api(value)', () => {
+      const desc = {
+        text: 'test',
+        tag: {},
+      };
+      const annotations = [
+        {
+          "name": "Apis",
+          "classPath": "io.swagger.annotations.ApiModelProperty",
+          "fields": [
+            {
+              "name": "value",
+              "type": "Constant",
+              "isArray": false,
+              "value": "是否进行显示"
+            }
+          ]
+        },
+      ];
+
+      const jsDoc = getJsDoc(desc, annotations);
+
+      expect(jsDoc).to.deep.equal({
+        description: '是否进行显示',
+        tags: [],
+      });
+    });
+
+    it('@Api(value) field is null', () => {
+      const desc = {
+        text: 'test',
+        tag: {},
+      };
+      const annotations = [
+        {
+          "name": "Apis",
+          "classPath": "io.swagger.annotations.ApiModelProperty",
+          "fields": null
+        },
+      ];
+
+      const jsDoc = getJsDoc(desc, annotations);
+
+      expect(jsDoc).to.deep.equal({
+        description: 'test',
+        tags: [],
+      });
+    });
   });
 });

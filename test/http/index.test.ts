@@ -62,7 +62,7 @@ describe('lib/http', () => {
         saveDir: __dirname,
       });
 
-      await httpProtocol.generateService();
+      httpProtocol.generateService();
 
       expect(fakeArgs).to.deep.equal([
         'com.macro.mall.dto.OmsOrderQueryParam',

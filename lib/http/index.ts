@@ -79,7 +79,7 @@ export default class HttpProtocol {
   }
 
   // 生成 service/interface
-  async generateService() {
+  generateService() {
     const project = new Project({
       manipulationSettings: {
         // 使用 2 个空格作为缩进
@@ -99,7 +99,7 @@ export default class HttpProtocol {
 
     for (let adapter of this.adapterDataList) {
       const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter);
-      await apiGenerator.generate(projectImportClassPath);
+      apiGenerator.generate(projectImportClassPath);
     }
   }
 

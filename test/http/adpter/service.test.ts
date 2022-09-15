@@ -13,16 +13,14 @@ describe('lib/http/adapter/service', () => {
 
   it('normal', () => {
     const key = 'com.macro.mall.controller.OmsOrderController';
-    const adapter = new ServiceAdapter(fileMetaData[key]).convert();
+    const { description, ...attrs } = new ServiceAdapter(fileMetaData[key]).convert();
 
-    const { description, className, classPath, fileType, services, importDeclaration } = adapter;
+    expect(!description).to.equal(false);
 
-    expect(fileType).to.equal('ENTRY');
-    expect(className).to.equal('OmsOrderController');
-    expect(classPath).to.equal(key);
-    expect(description.description).to.include('订单管理');
-
-    expect(importDeclaration).to.deep.equal({
+    expect(attrs.fileType).to.equal('ENTRY');
+    expect(attrs.className).to.equal('OmsOrderController');
+    expect(attrs.classPath).to.equal(key);
+    expect(attrs.importDeclaration).to.deep.equal({
       'com.macro.mall.dto.OmsOrderQueryParam': 'OmsOrderQueryParam',
       'com.macro.mall.common.api.CommonResult': 'CommonResult',
       'com.macro.mall.common.api.CommonPage': 'CommonPage',
@@ -30,22 +28,25 @@ describe('lib/http/adapter/service', () => {
       'com.macro.mall.dto.OmsOrderDetail': 'OmsOrderDetail'
     });
 
-    expect(services.length > 1).to.equal(true);
+    expect(attrs.services.length > 1).to.equal(true);
 
-    const listService = services.find((se: any) => se.operationId === 'list');
-    const { url, type, contentType, description: serviceDesc, parameter, response, classPath: serviceClassPath, operationId } = listService;
-    
+    const listService = attrs.services.find((se: any) => se.operationId === 'list');
+    expect(!listService).to.equal(false);
+
+    const { description: listDesc, ...listAttrs } = listService;
+
+    expect(!listDesc).to.equal(false);
+
     // 路由前缀
-    expect(url).to.equal('/order/list');
+    expect(listAttrs.url).to.equal('/order/list');
     // 请求类型
-    expect(type).to.equal('GET');
-    expect(serviceDesc).to.equal(null);
-    expect(operationId).to.equal('list');
-    expect(serviceClassPath).to.equal(key);
-    expect(contentType).to.equal('application/json');
+    expect(listAttrs.type).to.equal('GET');
+    expect(listAttrs.operationId).to.equal('list');
+    expect(listAttrs.classPath).to.equal(key);
+    expect(listAttrs.contentType).to.equal('application/json');
 
     // 入参及返回值
-    expect(parameter).to.deep.equal([
+    expect(listAttrs.parameter).to.deep.equal([
       {
         name: 'queryParam',
         isRequired: false,
@@ -78,7 +79,7 @@ describe('lib/http/adapter/service', () => {
         jsType: 'number'
       }
     ]);
-    expect(response).to.deep.equal({
+    expect(listAttrs.response).to.deep.equal({
       jsType: 'CommonResult<CommonPage<OmsOrder>>',
       type: {
         name: 'CommonResult',
