@@ -11,4 +11,12 @@ jobs:
       - uses: volta-cli/action@v1
       - run: npm i
       - run: npm run ci
-      - run: npm run coverage
+        env:
+          CI: true
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v3.1.0
+        with:
+          files: ${{ github.workspace }}/.nyc_output
+          name: codecov-umbrella
+          fail_ci_if_error: true
+          verbose: true
