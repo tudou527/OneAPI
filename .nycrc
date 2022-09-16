@@ -4,7 +4,6 @@
     "lib/**/*.ts"
   ],
   "exclude": [
-    "lib/http/output/service.ts"
   ],
   "reporter":[
     "text-summary",

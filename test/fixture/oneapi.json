@@ -183,6 +183,1648 @@
       "methods": []
     }
   },
+  "com.macro.mall.dto.OmsOrderQueryParam": {
+    "filePath": "/Users/java/mall/mall-admin/src/main/java/com/macro/mall/dto/OmsOrderQueryParam.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.macro.mall.dto",
+    "description": {
+      "text": "订单查询参数",
+      "tag": {}
+    },
+    "imports": [
+      "io.swagger.annotations.ApiModelProperty",
+      "lombok.Getter",
+      "lombok.Setter",
+      "com.macro.mall.dto.OmsOrderDetail",
+      "com.macro.mall.dto.PmsProductQueryParam",
+      "com.macro.mall.dto.OmsOrderReturnApplyResult",
+      "com.macro.mall.dto.UmsAdminParam",
+      "com.macro.mall.dto.SmsFlashPromotionProduct",
+      "com.macro.mall.dto.OmsMoneyInfoParam",
+      "com.macro.mall.dto.OmsOrderDeliveryParam",
+      "com.macro.mall.dto.PmsProductAttributeCategoryItem",
+      "com.macro.mall.dto.UmsMenuNode",
+      "com.macro.mall.dto.SmsFlashPromotionSessionDetail",
+      "com.macro.mall.dto.UpdateAdminPasswordParam",
+      "com.macro.mall.dto.OssCallbackResult",
+      "com.macro.mall.dto.MinioUploadDto",
+      "com.macro.mall.dto.OmsReceiverInfoParam",
+      "com.macro.mall.dto.SmsCouponParam",
+      "com.macro.mall.dto.UmsAdminLoginParam",
+      "com.macro.mall.dto.PmsBrandParam",
+      "com.macro.mall.dto.PmsProductAttributeParam",
+      "com.macro.mall.dto.PmsProductParam",
+      "com.macro.mall.dto.OmsReturnApplyQueryParam",
+      "com.macro.mall.dto.OssCallbackParam",
+      "com.macro.mall.dto.OssPolicyResult",
+      "com.macro.mall.dto.PmsProductCategoryWithChildrenItem",
+      "com.macro.mall.dto.OmsUpdateStatusParam",
+      "com.macro.mall.dto.ProductAttrInfo",
+      "com.macro.mall.dto.OmsOrderQueryParam",
+      "com.macro.mall.dto.BucketPolicyConfigDto",
+      "com.macro.mall.dto.PmsProductResult",
+      "com.macro.mall.dto.PmsProductCategoryParam"
+    ],
+    "class": {
+      "name": "OmsOrderQueryParam",
+      "classPath": "com.macro.mall.dto.OmsOrderQueryParam",
+      "description": {
+        "text": "订单查询参数\nCreated by macro on 2018/10/11.",
+        "tag": {}
+      },
+      "annotations": [
+        {
+          "name": "Getter",
+          "classPath": "lombok.Getter",
+          "fields": []
+        },
+        {
+          "name": "Setter",
+          "classPath": "lombok.Setter",
+          "fields": []
+        }
+      ],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": false,
+      "isPrivate": false,
+      "isPublic": true,
+      "fields": [
+        {
+          "name": "orderSn",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "订单编号"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "receiverKeyword",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "收货人姓名/号码"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "orderType",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "订单类型：0->正常订单；1->秒杀订单"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sourceType",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "订单来源：0->PC订单；1->app订单"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "createTime",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "订单提交时间"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "order",
+          "type": {
+            "name": "OmsOrder",
+            "classPath": "com.macro.mall.model.OmsOrder"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": []
+        }
+      ],
+      "methods": []
+    }
+  },
+  "com.macro.mall.model.OmsOrder": {
+    "filePath": "/Users/java/mall/mall-mbg/src/main/java/com/macro/mall/model/OmsOrder.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.macro.mall.model",
+    "description": {
+      "tag": {}
+    },
+    "imports": [
+      "io.swagger.annotations.ApiModelProperty",
+      "java.io.Serializable",
+      "java.math.BigDecimal",
+      "java.util.Date",
+      "com.macro.mall.model.SmsHomeNewProduct",
+      "com.macro.mall.model.CmsPrefrenceAreaProductRelationExample",
+      "com.macro.mall.model.OmsOrder",
+      "com.macro.mall.model.CmsSubjectCategoryExample",
+      "com.macro.mall.model.PmsAlbumExample",
+      "com.macro.mall.model.UmsResourceCategory",
+      "com.macro.mall.model.OmsOrderReturnReasonExample",
+      "com.macro.mall.model.PmsProductVertifyRecord",
+      "com.macro.mall.model.UmsMemberReceiveAddress",
+      "com.macro.mall.model.PmsProductCategoryExample",
+      "com.macro.mall.model.UmsMemberLoginLogExample",
+      "com.macro.mall.model.SmsFlashPromotionProductRelation",
+      "com.macro.mall.model.OmsOrderExample",
+      "com.macro.mall.model.UmsGrowthChangeHistory",
+      "com.macro.mall.model.UmsRoleResourceRelationExample",
+      "com.macro.mall.model.PmsAlbumPicExample",
+      "com.macro.mall.model.OmsOrderSettingExample",
+      "com.macro.mall.model.CmsSubjectProductRelationExample",
+      "com.macro.mall.model.UmsMemberRuleSetting",
+      "com.macro.mall.model.SmsCouponExample",
+      "com.macro.mall.model.PmsProductCategory",
+      "com.macro.mall.model.UmsResourceExample",
+      "com.macro.mall.model.OmsOrderItemExample",
+      "com.macro.mall.model.UmsGrowthChangeHistoryExample",
+      "com.macro.mall.model.UmsMemberLevel",
+      "com.macro.mall.model.PmsFeightTemplateExample",
+      "com.macro.mall.model.PmsProductVertifyRecordExample",
+      "com.macro.mall.model.UmsMemberRuleSettingExample",
+      "com.macro.mall.model.PmsProductAttributeCategoryExample",
+      "com.macro.mall.model.PmsProductFullReductionExample",
+      "com.macro.mall.model.UmsPermission",
+      "com.macro.mall.model.UmsMemberLevelExample",
+      "com.macro.mall.model.OmsCartItem",
+      "com.macro.mall.model.SmsFlashPromotionExample",
+      "com.macro.mall.model.OmsOrderReturnApply",
+      "com.macro.mall.model.CmsTopicCommentExample",
+      "com.macro.mall.model.OmsOrderOperateHistoryExample",
+      "com.macro.mall.model.SmsFlashPromotionSession",
+      "com.macro.mall.model.CmsTopicCategory",
+      "com.macro.mall.model.PmsProductCategoryAttributeRelation",
+      "com.macro.mall.model.UmsMemberTag",
+      "com.macro.mall.model.SmsFlashPromotion",
+      "com.macro.mall.model.CmsSubjectCategory",
+      "com.macro.mall.model.UmsIntegrationConsumeSetting",
+      "com.macro.mall.model.CmsHelpCategory",
+      "com.macro.mall.model.UmsMember",
+      "com.macro.mall.model.CmsSubject",
+      "com.macro.mall.model.UmsIntegrationChangeHistoryExample",
+      "com.macro.mall.model.UmsAdminLoginLog",
+      "com.macro.mall.model.PmsProductAttributeValue",
+      "com.macro.mall.model.UmsMemberStatisticsInfoExample",
+      "com.macro.mall.model.PmsProductLadderExample",
+      "com.macro.mall.model.CmsPrefrenceArea",
+      "com.macro.mall.model.PmsComment",
+      "com.macro.mall.model.CmsHelpExample",
+      "com.macro.mall.model.PmsCommentExample",
+      "com.macro.mall.model.UmsMemberLoginLog",
+      "com.macro.mall.model.PmsProductAttribute",
+      "com.macro.mall.model.SmsFlashPromotionSessionExample",
+      "com.macro.mall.model.UmsIntegrationChangeHistory",
+      "com.macro.mall.model.OmsCompanyAddress",
+      "com.macro.mall.model.UmsResource",
+      "com.macro.mall.model.PmsCommentReplay",
+      "com.macro.mall.model.PmsProductFullReduction",
+      "com.macro.mall.model.UmsRolePermissionRelation",
+      "com.macro.mall.model.PmsProductOperateLog",
+      "com.macro.mall.model.SmsHomeAdvertise",
+      "com.macro.mall.model.PmsSkuStock",
+      "com.macro.mall.model.SmsHomeRecommendProduct",
+      "com.macro.mall.model.CmsTopicCategoryExample",
+      "com.macro.mall.model.UmsIntegrationConsumeSettingExample",
+      "com.macro.mall.model.SmsFlashPromotionLog",
+      "com.macro.mall.model.UmsRoleMenuRelation",
+      "com.macro.mall.model.UmsAdminRoleRelationExample",
+      "com.macro.mall.model.UmsMenuExample",
+      "com.macro.mall.model.SmsHomeAdvertiseExample",
+      "com.macro.mall.model.SmsCouponProductCategoryRelation",
+      "com.macro.mall.model.UmsRolePermissionRelationExample",
+      "com.macro.mall.model.PmsProductAttributeExample",
+      "com.macro.mall.model.PmsBrand",
+      "com.macro.mall.model.UmsRoleResourceRelation",
+      "com.macro.mall.model.UmsAdminRoleRelation",
+      "com.macro.mall.model.PmsMemberPriceExample",
+      "com.macro.mall.model.PmsProduct",
+      "com.macro.mall.model.SmsHomeBrandExample",
+      "com.macro.mall.model.CmsSubjectProductRelation",
+      "com.macro.mall.model.UmsMemberTagExample",
+      "com.macro.mall.model.UmsMemberMemberTagRelationExample",
+      "com.macro.mall.model.PmsAlbumPic",
+      "com.macro.mall.model.CmsMemberReport",
+      "com.macro.mall.model.UmsAdmin",
+      "com.macro.mall.model.OmsOrderReturnReason",
+      "com.macro.mall.model.OmsOrderSetting",
+      "com.macro.mall.model.SmsHomeBrand",
+      "com.macro.mall.model.CmsPrefrenceAreaProductRelation",
+      "com.macro.mall.model.UmsMenu",
+      "com.macro.mall.model.PmsMemberPrice",
+      "com.macro.mall.model.PmsProductLadder",
+      "com.macro.mall.model.PmsSkuStockExample",
+      "com.macro.mall.model.PmsCommentReplayExample",
+      "com.macro.mall.model.PmsProductCategoryAttributeRelationExample",
+      "com.macro.mall.model.UmsAdminExample",
+      "com.macro.mall.model.CmsTopic",
+      "com.macro.mall.model.UmsMemberTask",
+      "com.macro.mall.model.UmsMemberMemberTagRelation",
+      "com.macro.mall.model.SmsFlashPromotionLogExample",
+      "com.macro.mall.model.CmsHelp",
+      "com.macro.mall.model.UmsRole",
+      "com.macro.mall.model.PmsFeightTemplate",
+      "com.macro.mall.model.OmsCartItemExample",
+      "com.macro.mall.model.UmsMemberReceiveAddressExample",
+      "com.macro.mall.model.UmsResourceCategoryExample",
+      "com.macro.mall.model.PmsProductExample",
+      "com.macro.mall.model.UmsRoleExample",
+      "com.macro.mall.model.CmsTopicComment",
+      "com.macro.mall.model.SmsHomeRecommendProductExample",
+      "com.macro.mall.model.OmsOrderOperateHistory",
+      "com.macro.mall.model.UmsAdminPermissionRelation",
+      "com.macro.mall.model.UmsMemberExample",
+      "com.macro.mall.model.SmsCoupon",
+      "com.macro.mall.model.SmsCouponHistory",
+      "com.macro.mall.model.SmsCouponProductCategoryRelationExample",
+      "com.macro.mall.model.UmsMemberStatisticsInfo",
+      "com.macro.mall.model.PmsAlbum",
+      "com.macro.mall.model.SmsHomeRecommendSubject",
+      "com.macro.mall.model.CmsSubjectExample",
+      "com.macro.mall.model.PmsProductAttributeValueExample",
+      "com.macro.mall.model.PmsBrandExample",
+      "com.macro.mall.model.SmsCouponHistoryExample",
+      "com.macro.mall.model.UmsMemberTaskExample",
+      "com.macro.mall.model.SmsCouponProductRelationExample",
+      "com.macro.mall.model.SmsHomeNewProductExample",
+      "com.macro.mall.model.CmsHelpCategoryExample",
+      "com.macro.mall.model.SmsCouponProductRelation",
+      "com.macro.mall.model.UmsRoleMenuRelationExample",
+      "com.macro.mall.model.UmsMemberProductCategoryRelation",
+      "com.macro.mall.model.UmsAdminPermissionRelationExample",
+      "com.macro.mall.model.OmsOrderReturnApplyExample",
+      "com.macro.mall.model.CmsSubjectCommentExample",
+      "com.macro.mall.model.OmsCompanyAddressExample",
+      "com.macro.mall.model.CmsSubjectComment",
+      "com.macro.mall.model.OmsOrderItem",
+      "com.macro.mall.model.CmsPrefrenceAreaExample",
+      "com.macro.mall.model.CmsTopicExample",
+      "com.macro.mall.model.SmsFlashPromotionProductRelationExample",
+      "com.macro.mall.model.PmsProductOperateLogExample",
+      "com.macro.mall.model.SmsHomeRecommendSubjectExample",
+      "com.macro.mall.model.CmsMemberReportExample",
+      "com.macro.mall.model.UmsAdminLoginLogExample",
+      "com.macro.mall.model.PmsProductAttributeCategory",
+      "com.macro.mall.model.UmsMemberProductCategoryRelationExample",
+      "com.macro.mall.model.UmsPermissionExample"
+    ],
+    "class": {
+      "name": "OmsOrder",
+      "classPath": "com.macro.mall.model.OmsOrder",
+      "description": {
+        "tag": {}
+      },
+      "annotations": [],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": false,
+      "isPrivate": false,
+      "isPublic": true,
+      "fields": [
+        {
+          "name": "id",
+          "type": {
+            "name": "Long",
+            "classPath": "java.lang.Long"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "订单id"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "memberId",
+          "type": {
+            "name": "Long",
+            "classPath": "java.lang.Long"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": []
+        },
+        {
+          "name": "couponId",
+          "type": {
+            "name": "Long",
+            "classPath": "java.lang.Long"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": []
+        },
+        {
+          "name": "orderSn",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "订单编号"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "createTime",
+          "type": {
+            "name": "Date",
+            "classPath": "java.util.Date"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "提交时间"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "memberUsername",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "用户帐号"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "totalAmount",
+          "type": {
+            "name": "BigDecimal",
+            "classPath": "java.math.BigDecimal"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "订单总金额"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "payAmount",
+          "type": {
+            "name": "BigDecimal",
+            "classPath": "java.math.BigDecimal"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "应付金额（实际支付金额）"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "freightAmount",
+          "type": {
+            "name": "BigDecimal",
+            "classPath": "java.math.BigDecimal"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "运费金额"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "promotionAmount",
+          "type": {
+            "name": "BigDecimal",
+            "classPath": "java.math.BigDecimal"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "促销优化金额（促销价、满减、阶梯价）"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "integrationAmount",
+          "type": {
+            "name": "BigDecimal",
+            "classPath": "java.math.BigDecimal"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "积分抵扣金额"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "couponAmount",
+          "type": {
+            "name": "BigDecimal",
+            "classPath": "java.math.BigDecimal"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "优惠券抵扣金额"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "discountAmount",
+          "type": {
+            "name": "BigDecimal",
+            "classPath": "java.math.BigDecimal"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "管理员后台调整订单使用的折扣金额"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "payType",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "支付方式：0->未支付；1->支付宝；2->微信"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sourceType",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "订单来源：0->PC订单；1->app订单"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "orderType",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "订单类型：0->正常订单；1->秒杀订单"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "deliveryCompany",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "物流公司(配送方式)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "deliverySn",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "物流单号"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "autoConfirmDay",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "自动确认时间（天）"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "integration",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "可以获得的积分"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "growth",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "可以活动的成长值"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "promotionInfo",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "活动信息"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "billType",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "发票类型：0->不开发票；1->电子发票；2->纸质发票"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "billHeader",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "发票抬头"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "billContent",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "发票内容"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "billReceiverPhone",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "收票人电话"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "billReceiverEmail",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "收票人邮箱"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "receiverName",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "收货人姓名"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "receiverPhone",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "收货人电话"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "receiverPostCode",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "收货人邮编"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "receiverProvince",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "省份/直辖市"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "receiverCity",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "城市"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "receiverRegion",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "区"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "receiverDetailAddress",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "详细地址"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "note",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "订单备注"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "confirmStatus",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "确认收货状态：0->未确认；1->已确认"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "deleteStatus",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "删除状态：0->未删除；1->已删除"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "useIntegration",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "下单时使用的积分"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "paymentTime",
+          "type": {
+            "name": "Date",
+            "classPath": "java.util.Date"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "支付时间"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "deliveryTime",
+          "type": {
+            "name": "Date",
+            "classPath": "java.util.Date"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "发货时间"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "receiveTime",
+          "type": {
+            "name": "Date",
+            "classPath": "java.util.Date"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "确认收货时间"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "commentTime",
+          "type": {
+            "name": "Date",
+            "classPath": "java.util.Date"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "评价时间"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "modifyTime",
+          "type": {
+            "name": "Date",
+            "classPath": "java.util.Date"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "修改时间"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "methods": []
+    }
+  },
   "com.macro.mall.controller.OmsOrderController": {
     "filePath": "/Users/java/mall/mall-admin/src/main/java/com/macro/mall/controller/OmsOrderController.java",
     "fileType": "ENTRY",

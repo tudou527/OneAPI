@@ -8,7 +8,7 @@ import { OpenApi } from '../../lib/http/output/openapi';
 import { ServiceGenerator } from '../../lib/http/output/service';
 import { ModelAdapter, ServiceAdapter } from '../../lib/http/adapter';
 
-describe('lib/http', () => {
+describe('lib/http/index', () => {
   afterEach(() => {
     sinon.restore();
   });
