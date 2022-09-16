@@ -25,7 +25,8 @@ describe('lib/http/adapter/service', () => {
       'com.macro.mall.common.api.CommonResult': 'CommonResult',
       'com.macro.mall.common.api.CommonPage': 'CommonPage',
       'com.macro.mall.model.OmsOrder': 'OmsOrder',
-      'com.macro.mall.dto.OmsOrderDetail': 'OmsOrderDetail'
+      'com.macro.mall.dto.PmsProductAttributeCategoryItem': 'PmsProductAttributeCategoryItem',
+      'com.macro.mall.portal.domain.OmsOrderDetail': 'OmsOrderDetail',
     });
 
     expect(attrs.services.length > 1).to.equal(true);

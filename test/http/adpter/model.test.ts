@@ -77,25 +77,24 @@ describe('lib/http/adapter/model', () => {
 
   it('generic super class', () => {
     const adapter = new ModelAdapter('com.macro.mall.portal.domain.OmsOrderDetail', fileMetaData).convert();
-
     const { superClass: { type, jsType, items } } = adapter;
 
     expect(type).to.deep.equal({
       name: 'CommonResult',
       classPath: 'com.macro.mall.common.api.CommonResult',
       items: [{
-        name: 'ConfirmOrderResult',
-        classPath: 'com.macro.mall.portal.domain.ConfirmOrderResult'
+        name: 'OmsOrderQueryParam',
+        classPath: 'com.macro.mall.dto.OmsOrderQueryParam'
       }],
     });
-    expect(jsType).to.equal('CommonResult<ConfirmOrderResult>');
+    expect(jsType).to.equal('CommonResult<OmsOrderQueryParam>');
     expect(items).to.deep.equal([
       {
         type: {
-          name: 'ConfirmOrderResult',
-          classPath: 'com.macro.mall.portal.domain.ConfirmOrderResult'
+          name: 'OmsOrderQueryParam',
+          classPath: 'com.macro.mall.dto.OmsOrderQueryParam'
         },
-        jsType: 'ConfirmOrderResult'
+        jsType: 'OmsOrderQueryParam'
       },
     ]);
   });

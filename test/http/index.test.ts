@@ -69,7 +69,10 @@ describe('lib/http/index', () => {
         'com.macro.mall.common.api.CommonResult',
         'com.macro.mall.common.api.CommonPage',
         'com.macro.mall.model.OmsOrder',
-        'com.macro.mall.dto.OmsOrderDetail',
+        'com.macro.mall.dto.PmsProductAttributeCategoryItem',
+        'com.macro.mall.portal.domain.OmsOrderDetail',
+        'com.macro.mall.model.PmsProductAttribute',
+        'com.macro.mall.model.PmsProductAttributeCategory',
       ]);
     });
   });
