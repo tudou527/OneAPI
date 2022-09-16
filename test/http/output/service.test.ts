@@ -36,14 +36,14 @@ describe('lib/http/output/service', () => {
   });
 
   afterEach(() => {
-    sinon.restore();
-
     project = null;
     httpPotocol = null;
+
+    sinon.restore();
   });
 
   describe('service', () => {
-    it('normal', (done) => {
+    it('normal', () => {
       let fakeArgs: any = [];
       const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
       // 只保留一个方法方便断言
@@ -100,11 +100,10 @@ describe('lib/http/output/service', () => {
       expect(methodBody.includes(`pageNum: args.pageNum,`)).to.equal(true);
       
       expect(methodBody.includes(`'Content-Type': 'application/json',`)).to.equal(true);
-
-      done();
     });
 
     it('post request', () => {
+      expect('').to.equal('');
     });
   });
 
@@ -180,6 +179,7 @@ describe('lib/http/output/service', () => {
     });
 
     it('super class', () => {
+      expect('').to.equal('');
     });
   });
 });

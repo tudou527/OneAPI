@@ -13,51 +13,63 @@ describe('lib/main', () => {
     sinon.restore();
   });
 
-  it('without java env var', async () => {
-    sinon.stub(cp, 'execSync').withArgs('which java').throws(new Error('mvn not found'));
+  it('without java env var', function() {
+    return new Promise(async (resolve) => {
+      sinon.stub(cp, 'execSync').withArgs('which java').throws(new Error('mvn not found'));
 
-    try {
-      await main({ projectDir: '', saveDir: '' });
-    } catch(e) {
-      expect(e.message).to.include('Java');
-    }
-  });
+      try {
+        await main({ projectDir: '', saveDir: '' });
+      } catch(e) {
+        expect(e.message).to.include('Java');
+      }
 
-  it('without mvn env var', async () => {
-    sinon.stub(cp, 'execSync').withArgs('which java').resolves("/usr/bin/java").withArgs('which mvn').throws(new Error('mvn not found'));
-
-    try {
-      await main({ projectDir: '', saveDir: '' });
-    } catch(e) {
-      expect(e.message).to.include('Maven');
-    }
-  });
-
-  it('normal', async () => {
-    const proc: any = new events.EventEmitter();
-    proc.stdin = new stream.Writable();
-    proc.stdout = <stream.Readable> new events.EventEmitter();
-    proc.stderr = <stream.Readable> new events.EventEmitter();
-
-    const fake = sinon.fake(() => {
-      setTimeout(() => {
-        proc.emit('close');
-      }, 5);
-      return proc;
+      resolve('');
     });
-    sinon.replace(cp, 'spawn', fake);
+  });
 
-    let fsArg: string = '';
-    sinon.replace(fs, 'readJSONSync', sinon.fake((...args) => {
-      fsArg = args[0];
-      return {};
-    }));
+  it('without mvn env var', function() {
+    return new Promise(async (resolve) => {
+      sinon.stub(cp, 'execSync').withArgs('which java').resolves("/usr/bin/java").withArgs('which mvn').throws(new Error('mvn not found'));
 
-    sinon.stub(HttpProtocol.prototype, <any>'generateService').resolves();
-    sinon.stub(HttpProtocol.prototype, <any>'convertModel').resolves();
-    sinon.stub(HttpProtocol.prototype, <any>'generateOpenApi').resolves();
+      try {
+        await main({ projectDir: '', saveDir: '' });
+      } catch(e) {
+        expect(e.message).to.include('Maven');
+      }
 
-    await main({ projectDir: '/projectDir', saveDir: '/saveDir' });
-    expect(fsArg).to.equal('/saveDir/oneapi.json');
+      resolve('');
+    });
+  });
+
+  it('normal', function() {
+    return new Promise(async (resolve) => {
+      const proc: any = new events.EventEmitter();
+      proc.stdin = new stream.Writable();
+      proc.stdout = <stream.Readable> new events.EventEmitter();
+      proc.stderr = <stream.Readable> new events.EventEmitter();
+
+      const fake = sinon.fake(() => {
+        setTimeout(() => {
+          proc.emit('close');
+        }, 5);
+        return proc;
+      });
+      sinon.replace(cp, 'spawn', fake);
+
+      let fsArg: string = '';
+      sinon.replace(fs, 'readJSONSync', sinon.fake((...args) => {
+        fsArg = args[0];
+        return {};
+      }));
+
+      sinon.stub(HttpProtocol.prototype, <any>'generateService').resolves();
+      sinon.stub(HttpProtocol.prototype, <any>'convertModel').resolves();
+      sinon.stub(HttpProtocol.prototype, <any>'generateOpenApi').resolves();
+
+      await main({ projectDir: '/projectDir', saveDir: '/saveDir' });
+      expect(fsArg).to.equal('/saveDir/oneapi.json');
+
+      resolve('');
+    });
   });
 });
