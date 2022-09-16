@@ -46,10 +46,12 @@ describe('lib/http/output/service', () => {
     it('normal', () => {
       let fakeArgs: any = [];
       const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
-      // 只保留一个方法方便断言
-      adapter.services = adapter.services.splice(0, 1);
-
-      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter);
+      const apiGenerator = new ServiceGenerator(
+        path.join(__dirname, '../../services'),
+        project,
+        // 只保留一个方法方便断言
+        { ...adapter, services: adapter.services.splice(0, 1) },
+      );
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake((...args) => {
         fakeArgs = args;
@@ -63,12 +65,14 @@ describe('lib/http/output/service', () => {
         name: im.getNamedImports().at(0).getName(),
         moduleSpecifier: im.getModuleSpecifier().getText(),
       }));
+      
       expect(importDeclarations).to.deep.equal([
         { name: 'OmsOrderQueryParam', moduleSpecifier: '"./model/dto/OmsOrderQueryParam"'},
         { name: 'CommonResult', moduleSpecifier: '"./model/api/CommonResult"' },
         { name: 'CommonPage', moduleSpecifier: '"./model/api/CommonPage"' },
         { name: 'OmsOrder', moduleSpecifier: '"./model/model/OmsOrder"' },
-        { name: 'OmsOrderDetail', moduleSpecifier: '"./model/dto/OmsOrderDetail"'}
+        { name: 'PmsProductAttributeCategoryItem', moduleSpecifier: '"./model/dto/PmsProductAttributeCategoryItem"'},
+        { name: 'OmsOrderDetail', moduleSpecifier: '"./model/domain/OmsOrderDetail"'},
       ]);
 
       // method
@@ -98,28 +102,93 @@ describe('lib/http/output/service', () => {
       expect(methodBody.includes(`queryParam: args.queryParam,`)).to.equal(true);
       expect(methodBody.includes(`pageSize: args.pageSize,`)).to.equal(true);
       expect(methodBody.includes(`pageNum: args.pageNum,`)).to.equal(true);
-      
+
       expect(methodBody.includes(`'Content-Type': 'application/json',`)).to.equal(true);
     });
 
-    it('post request', () => {
-      expect('').to.equal('');
+    it('services is null', () => {
+      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
+      const apiGenerator = new ServiceGenerator(
+        path.join(__dirname, '../../services'),
+        project,
+        // 删除 service
+        { ...adapter, services: null },
+      );
+      // mock save 方法（不写文件）
+      sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
+
+      apiGenerator.generate(projectImportClassPath);
+
+      // method 不存在
+      const methods = apiGenerator.sourceFile.getFunctions();
+      expect(methods.length).to.equal(0);
+    });
+
+    it('post method', () => {
+      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
+      const apiGenerator = new ServiceGenerator(
+        path.join(__dirname, '../../services'),
+        project,
+        { ...adapter, services: adapter.services.filter(se => se.operationId === 'upload') },
+      );
+      // mock save 方法（不写文件）
+      sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
+
+      apiGenerator.generate(projectImportClassPath);
+
+      // 方法体
+      const methodBody = apiGenerator.sourceFile.getFunctions().at(0).getBodyText();
+      
+      expect(methodBody.includes(`method: 'POST',`)).to.equal(true);
+      expect(methodBody.includes(`data: {`)).to.equal(true);
+      expect(methodBody.includes(`file: args.file,`)).to.equal(true);
+      expect(methodBody.includes(`'Content-Type': 'multipart/form-data',`)).to.equal(true);
+    });
+
+    it('url params', () => {
+      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
+      const apiGenerator = new ServiceGenerator(
+        path.join(__dirname, '../../services'),
+        project,
+        { ...adapter, services: adapter.services.filter(se => se.operationId === 'detail') },
+      );
+      // mock save 方法（不写文件）
+      sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
+
+      apiGenerator.generate(projectImportClassPath);
+
+      // 方法体
+      const methodBody = apiGenerator.sourceFile.getFunctions().at(0).getBodyText();
+
+      expect(methodBody.includes('url: `/order/${args.id}`,')).to.equal(true);
+    });
+
+    it('method include js keywords', () => {
+      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
+      const apiGenerator = new ServiceGenerator(
+        path.join(__dirname, '../../services'),
+        project,
+        { ...adapter, services: adapter.services.filter(se => se.operationId === 'delete') },
+      );
+      // mock save 方法（不写文件）
+      sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
+
+      apiGenerator.generate(projectImportClassPath);
+
+      // 断言方法名
+      const method = apiGenerator.sourceFile.getFunctions().at(0);
+      expect(method.getName()).to.equal('deleteController');
     });
   });
 
   describe('model', () => {
     it('normal', () => {
-      let fakeArgs: any = [];
       const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderQueryParam');
-
       const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter);
-      // mock save 方法（不写文件）
-      sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake((...args) => {
-        fakeArgs = args;
-      }));
 
+      // mock save 方法（不写文件）
+      sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
       apiGenerator.generate(projectImportClassPath);
-      expect(fakeArgs).to.deep.equal([]);
 
       // import
       const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => ({
@@ -131,14 +200,14 @@ describe('lib/http/output/service', () => {
       ]);
 
       // interface 
-      const orderFields = apiGenerator.sourceFile.getInterfaces().at(0).getProperties().map((property) => {
+      const fields = apiGenerator.sourceFile.getInterfaces().at(0).getProperties().map((property) => {
         return {
           name: property.getName(),
           type: property.getType().getText(),
           descText: property.getJsDocs().map(doc => doc.getText()),
         };
       });
-      expect(orderFields).to.deep.equal([
+      expect(fields).to.deep.equal([
         {
           name: 'orderSn',
           type: 'string',
@@ -178,8 +247,85 @@ describe('lib/http/output/service', () => {
       ]);
     });
 
+    it('generic class model', () => {
+      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'CommonPage');
+      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter);
+
+      // mock save 方法（不写文件）
+      sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
+      apiGenerator.generate(projectImportClassPath);
+
+      const interfaceText = apiGenerator.sourceFile.getInterfaces().at(0).getText();
+      
+      expect(interfaceText.includes('export interface CommonPage<T> {')).to.equal(true);
+      expect(interfaceText.includes('list: Array<T>;')).to.equal(true);
+    });
+
+    it('empty fields', () => {
+      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderQueryParam');
+      const apiGenerator = new ServiceGenerator(
+        path.join(__dirname, '../../services'),
+        project,
+        { ...adapter, fields: null },
+      );
+
+      // mock save 方法（不写文件）
+      sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
+      apiGenerator.generate(projectImportClassPath);
+
+      // 空字段 
+      const fields = apiGenerator.sourceFile.getInterfaces().at(0).getProperties();
+      expect(fields.length).to.equal(0);
+    });
+
     it('super class', () => {
-      expect('').to.equal('');
+      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderDetail');
+      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter);
+
+      // mock save 方法（不写文件）
+      sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
+      apiGenerator.generate(projectImportClassPath);
+
+      // import
+      const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => ({
+        name: im.getNamedImports().at(0).getName(),
+        moduleSpecifier: im.getModuleSpecifier().getText(),
+      }));
+      expect(importDeclarations).to.deep.equal([
+        { name: 'CommonResult', moduleSpecifier: '"../api/CommonResult"' },
+        { name: 'OmsOrderQueryParam', moduleSpecifier: '"../dto/OmsOrderQueryParam"' },
+      ]);
+
+      // interface extend
+      const interfaceText = apiGenerator.sourceFile.getText();
+      expect(interfaceText.includes('export interface OmsOrderDetail extends CommonResult<OmsOrderQueryParam> {')).to.equal(true);
+    });
+
+    it('super class item is null', () => {
+      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'PmsProductAttributeCategoryItem');
+      const apiGenerator = new ServiceGenerator(
+        path.join(__dirname, '../../services'),
+        project,
+        { ...adapter, superClass: { ...adapter.superClass, items: null } },
+      );
+
+      // mock save 方法（不写文件）
+      sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
+      apiGenerator.generate(projectImportClassPath);
+
+      // import
+      const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => ({
+        name: im.getNamedImports().at(0).getName(),
+        moduleSpecifier: im.getModuleSpecifier().getText(),
+      }));
+      expect(importDeclarations).to.deep.equal([
+        { name: 'PmsProductAttribute', moduleSpecifier: '"../model/PmsProductAttribute"' },
+        { name: 'PmsProductAttributeCategory', moduleSpecifier: '"../model/PmsProductAttributeCategory"' },
+      ]);
+
+      // interface extend
+      const interfaceText = apiGenerator.sourceFile.getText();
+      expect(interfaceText.includes('export interface PmsProductAttributeCategoryItem extends PmsProductAttributeCategory {')).to.equal(true);
     });
   });
 });

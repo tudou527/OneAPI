@@ -174,8 +174,8 @@
         "classPath": "com.macro.mall.common.api.CommonResult",
         "items": [
           {
-            "name": "ConfirmOrderResult",
-            "classPath": "com.macro.mall.portal.domain.ConfirmOrderResult"
+            "name": "OmsOrderQueryParam",
+            "classPath": "com.macro.mall.dto.OmsOrderQueryParam"
           }
         ]
       },
@@ -1986,8 +1986,8 @@
         {
           "name": "orderService",
           "type": {
-            "name": "OmsOrderService",
-            "classPath": "com.macro.mall.service.OmsOrderService"
+            "name": "PmsProductAttributeCategory",
+            "classPath": "com.macro.mall.model.PmsProductAttributeCategory"
           },
           "defaultValue": "",
           "isPrivate": true,
@@ -2214,8 +2214,8 @@
             {
               "name": "note",
               "type": {
-                "name": "String",
-                "classPath": "java.lang.String"
+                "name": "PmsProductAttributeCategoryItem",
+                "classPath": "com.macro.mall.dto.PmsProductAttributeCategoryItem"
               },
               "description": {
                 "tag": {}
@@ -2374,7 +2374,7 @@
             "items": [
               {
                 "name": "OmsOrderDetail",
-                "classPath": "com.macro.mall.dto.OmsOrderDetail"
+                "classPath": "com.macro.mall.portal.domain.OmsOrderDetail"
               }
             ]
           }
@@ -2501,6 +2501,217 @@
           }
         }
       ]
+    }
+  },
+  "com.macro.mall.common.api.CommonPage": {
+    "filePath": "/Users/java/mall/mall-common/src/main/java/com/macro/mall/common/api/CommonPage.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.macro.mall.common.api",
+    "description": {
+      "text": "分页数据封装类\nCreated by macro on 2019/4/19.",
+      "tag": {}
+    },
+    "imports": [
+      "com.github.pagehelper.PageInfo",
+      "org.springframework.data.domain.Page",
+      "java.util.List",
+      "com.macro.mall.common.api.CommonPage",
+      "com.macro.mall.common.api.IErrorCode",
+      "com.macro.mall.common.api.ResultCode",
+      "com.macro.mall.common.api.CommonResult"
+    ],
+    "class": {
+      "name": "CommonPage",
+      "classPath": "com.macro.mall.common.api.CommonPage",
+      "actualType": [
+        {
+          "name": "T"
+        }
+      ],
+      "description": {
+        "text": "分页数据封装类\nCreated by macro on 2019/4/19.",
+        "tag": {}
+      },
+      "annotations": [],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": false,
+      "isPrivate": false,
+      "isPublic": true,
+      "fields": [
+        {
+          "name": "pageNum",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "text": "当前页码",
+            "tag": {}
+          },
+          "annotations": []
+        },
+        {
+          "name": "pageSize",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "text": "每页数量",
+            "tag": {}
+          },
+          "annotations": []
+        },
+        {
+          "name": "totalPage",
+          "type": {
+            "name": "Integer",
+            "classPath": "java.lang.Integer"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "text": "总页数",
+            "tag": {}
+          },
+          "annotations": []
+        },
+        {
+          "name": "total",
+          "type": {
+            "name": "Long",
+            "classPath": "java.lang.Long"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "text": "总条数",
+            "tag": {}
+          },
+          "annotations": []
+        },
+        {
+          "name": "list",
+          "type": {
+            "name": "List",
+            "classPath": "java.util.List",
+            "items": [
+              {
+                "name": "T",
+                "classPath": "T"
+              }
+            ]
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "text": "分页数据",
+            "tag": {}
+          },
+          "annotations": []
+        }
+      ],
+      "methods": []
+    }
+  },
+  "com.macro.mall.common.api.CommonResult": {
+    "filePath": "/Users/java/mall/mall-common/src/main/java/com/macro/mall/common/api/CommonResult.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.macro.mall.common.api",
+    "description": {
+      "text": "通用返回对象\nCreated by macro on 2019/4/19.",
+      "tag": {}
+    },
+    "imports": [
+      "com.macro.mall.common.api.CommonPage",
+      "com.macro.mall.common.api.IErrorCode",
+      "com.macro.mall.common.api.ResultCode",
+      "com.macro.mall.common.api.CommonResult"
+    ],
+    "class": {
+      "name": "CommonResult",
+      "classPath": "com.macro.mall.common.api.CommonResult",
+      "actualType": [
+        {
+          "name": "T"
+        }
+      ],
+      "description": {
+        "text": "通用返回对象\nCreated by macro on 2019/4/19.",
+        "tag": {}
+      },
+      "annotations": [],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": false,
+      "isPrivate": false,
+      "isPublic": true,
+      "fields": [
+        {
+          "name": "code",
+          "type": {
+            "name": "long",
+            "classPath": "long"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "text": "状态码",
+            "tag": {}
+          },
+          "annotations": []
+        },
+        {
+          "name": "message",
+          "type": {
+            "name": "String",
+            "classPath": "java.lang.String"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "text": "提示信息",
+            "tag": {}
+          },
+          "annotations": []
+        },
+        {
+          "name": "data",
+          "type": {
+            "name": "T",
+            "classPath": "T"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "text": "数据封装",
+            "tag": {}
+          },
+          "annotations": []
+        }
+      ],
+      "methods": []
     }
   }
 }
