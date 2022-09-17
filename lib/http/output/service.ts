@@ -25,7 +25,7 @@ export class ServiceGenerator {
     if (fs.existsSync(fileSavePath)) {
       this.sourceFile = project.getSourceFile(fileSavePath);
     } else {
-      this.sourceFile = project.createSourceFile(fileSavePath);
+      this.sourceFile = project.createSourceFile(fileSavePath, null, { overwrite: true });
     }
   }
 
@@ -43,10 +43,10 @@ export class ServiceGenerator {
     this.addImport(projectImportClassPath);
 
     // 增加文件注释
-    const firstLine = this.sourceFile.getStatementsWithComments().at(0);
-    if (!firstLine.getText().includes('@ts-nocheck')) {
-      this.sourceFile.insertStatements(0, '// @ts-nocheck');
-    }
+    // const firstLine = this.sourceFile.getStatementsWithComments().at(0);
+    // if (!firstLine.getText().includes('@ts-nocheck')) {
+    //   this.sourceFile.insertStatements(0, '// @ts-nocheck');
+    // }
 
     this.sourceFile.saveSync();
   }
@@ -150,13 +150,16 @@ export class ServiceGenerator {
 
   // 生成 interface
   private generateInterface() {
-    const { className, actualType, superClass, fields } = this.httpAdapter;
+    const { description, className, actualType, superClass, fields } = this.httpAdapter;
 
     const exportInterface = this.sourceFile.addInterface({
       name: className,
       isExported: true,
       typeParameters: actualType?.map(t => t.name),
     });
+
+    // 增加方法注释
+    description && exportInterface.addJsDoc(description);
 
     // 增加字段
     fields?.forEach((f, index) => {

@@ -12,11 +12,13 @@ export default class ModelAdapter {
   // 这里要为 fileMeta 不存在做兜底
   constructor(classPath: string, fileMetaDict: { [key: string]: JavaMeta.FileMeta }) {
     const fileMeta = fileMetaDict[classPath];
+    const className = classPath.slice().split('.').at(-1);
 
     this.httpAdapter = {
       filePath: fileMeta?.filePath,
       description: getJsDoc(fileMeta?.description),
-      className: classPath.slice().split('.').reverse().at(0),
+      // 删除 sub class 中的 $
+      className: className.replace('$', ''),
       classPath: classPath,
       actualType: fileMeta?.class.actualType,
       fileType: fileMeta?.fileType,

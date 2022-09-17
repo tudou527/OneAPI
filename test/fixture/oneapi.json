@@ -1,4 +1,682 @@
 {
+  "com.macro.mall.controller.OmsOrderController": {
+    "filePath": "/Users/java/mall/mall-admin/src/main/java/com/macro/mall/controller/OmsOrderController.java",
+    "fileType": "ENTRY",
+    "packageName": "com.macro.mall.controller",
+    "description": {
+      "text": "订单管理Controller",
+      "tag": {}
+    },
+    "imports": [
+      "com.macro.mall.common.api.CommonPage",
+      "com.macro.mall.common.api.CommonResult",
+      "com.macro.mall.portal.domain.OmsOrderDetail",
+      "com.macro.mall.dto.PmsProductQueryParam",
+      "com.macro.mall.dto.OmsOrderReturnApplyResult",
+      "com.macro.mall.dto.UmsAdminParam",
+      "com.macro.mall.dto.SmsFlashPromotionProduct",
+      "com.macro.mall.dto.OmsMoneyInfoParam",
+      "com.macro.mall.dto.OmsOrderDeliveryParam",
+      "com.macro.mall.dto.PmsProductAttributeCategoryItem",
+      "com.macro.mall.dto.UmsMenuNode",
+      "com.macro.mall.dto.SmsFlashPromotionSessionDetail",
+      "com.macro.mall.dto.UpdateAdminPasswordParam",
+      "com.macro.mall.dto.OssCallbackResult",
+      "com.macro.mall.dto.MinioUploadDto",
+      "com.macro.mall.dto.OmsReceiverInfoParam",
+      "com.macro.mall.dto.SmsCouponParam",
+      "com.macro.mall.dto.UmsAdminLoginParam",
+      "com.macro.mall.dto.PmsBrandParam",
+      "com.macro.mall.dto.PmsProductAttributeParam",
+      "com.macro.mall.dto.PmsProductParam",
+      "com.macro.mall.dto.OmsReturnApplyQueryParam",
+      "com.macro.mall.dto.OssCallbackParam",
+      "com.macro.mall.dto.OssPolicyResult",
+      "com.macro.mall.dto.PmsProductCategoryWithChildrenItem",
+      "com.macro.mall.dto.OmsUpdateStatusParam",
+      "com.macro.mall.dto.ProductAttrInfo",
+      "com.macro.mall.dto.OmsOrderQueryParam",
+      "com.macro.mall.dto.BucketPolicyConfigDto",
+      "com.macro.mall.dto.PmsProductResult",
+      "com.macro.mall.dto.PmsProductCategoryParam",
+      "com.macro.mall.model.OmsOrder",
+      "com.macro.mall.service.OmsOrderService",
+      "io.swagger.annotations.Api",
+      "io.swagger.annotations.ApiOperation",
+      "org.springframework.beans.factory.annotation.Autowired",
+      "org.springframework.stereotype.Controller",
+      "org.springframework.web.bind.annotation.package-info",
+      "org.springframework.web.bind.annotation.InitBinder",
+      "org.springframework.web.bind.annotation.CookieValue",
+      "org.springframework.web.bind.annotation.RequestMapping",
+      "org.springframework.web.bind.annotation.RestControllerAdvice",
+      "org.springframework.web.bind.annotation.SessionAttributes",
+      "org.springframework.web.bind.annotation.RequestPart",
+      "org.springframework.web.bind.annotation.PathVariable",
+      "org.springframework.web.bind.annotation.DeleteMapping",
+      "org.springframework.web.bind.annotation.ResponseBody",
+      "org.springframework.web.bind.annotation.RequestMethod",
+      "org.springframework.web.bind.annotation.ControllerAdvice",
+      "org.springframework.web.bind.annotation.RestController",
+      "org.springframework.web.bind.annotation.RequestBody",
+      "org.springframework.web.bind.annotation.RequestAttribute",
+      "org.springframework.web.bind.annotation.GetMapping",
+      "org.springframework.web.bind.annotation.CrossOrigin",
+      "org.springframework.web.bind.annotation.ExceptionHandler",
+      "org.springframework.web.bind.annotation.Mapping",
+      "org.springframework.web.bind.annotation.PostMapping",
+      "org.springframework.web.bind.annotation.SessionAttribute",
+      "org.springframework.web.bind.annotation.RequestParam",
+      "org.springframework.web.bind.annotation.MatrixVariable",
+      "org.springframework.web.bind.annotation.ValueConstants",
+      "org.springframework.web.bind.annotation.PatchMapping",
+      "org.springframework.web.bind.annotation.ResponseStatus",
+      "org.springframework.web.bind.annotation.ModelAttribute",
+      "org.springframework.web.bind.annotation.PutMapping",
+      "org.springframework.web.bind.annotation.RequestHeader",
+      "java.util.List",
+      "com.macro.mall.controller.SmsHomeRecommendSubjectController",
+      "com.macro.mall.controller.SmsCouponHistoryController",
+      "com.macro.mall.controller.UmsResourceController",
+      "com.macro.mall.controller.CmsSubjectController",
+      "com.macro.mall.controller.PmsProductAttributeCategoryController",
+      "com.macro.mall.controller.PmsProductCategoryController",
+      "com.macro.mall.controller.SmsCouponController",
+      "com.macro.mall.controller.PmsBrandController",
+      "com.macro.mall.controller.OmsCompanyAddressController",
+      "com.macro.mall.controller.OssController",
+      "com.macro.mall.controller.OmsOrderReturnApplyController",
+      "com.macro.mall.controller.CmsPrefrenceAreaController",
+      "com.macro.mall.controller.SmsHomeAdvertiseController",
+      "com.macro.mall.controller.SmsFlashPromotionSessionController",
+      "com.macro.mall.controller.SmsFlashPromotionController",
+      "com.macro.mall.controller.OmsOrderReturnReasonController",
+      "com.macro.mall.controller.SmsHomeRecommendProductController",
+      "com.macro.mall.controller.SmsFlashPromotionProductRelationController",
+      "com.macro.mall.controller.SmsHomeBrandController",
+      "com.macro.mall.controller.PmsSkuStockController",
+      "com.macro.mall.controller.OmsOrderSettingController",
+      "com.macro.mall.controller.PmsProductController",
+      "com.macro.mall.controller.OmsOrderController",
+      "com.macro.mall.controller.MinioController",
+      "com.macro.mall.controller.UmsResourceCategoryController",
+      "com.macro.mall.controller.PmsProductAttributeController",
+      "com.macro.mall.controller.UmsMenuController",
+      "com.macro.mall.controller.UmsMemberLevelController",
+      "com.macro.mall.controller.UmsAdminController",
+      "com.macro.mall.controller.UmsRoleController",
+      "com.macro.mall.controller.SmsHomeNewProductController"
+    ],
+    "class": {
+      "name": "OmsOrderController",
+      "classPath": "com.macro.mall.controller.OmsOrderController",
+      "description": {
+        "text": "订单管理Controller",
+        "tag": {}
+      },
+      "annotations": [
+        {
+          "name": "Controller",
+          "classPath": "org.springframework.stereotype.Controller",
+          "fields": []
+        },
+        {
+          "name": "Api",
+          "classPath": "io.swagger.annotations.Api",
+          "fields": [
+            {
+              "name": "tags",
+              "type": "Constant",
+              "array": false,
+              "value": "OmsOrderController"
+            },
+            {
+              "name": "description",
+              "type": "Constant",
+              "array": false,
+              "value": "订单管理"
+            }
+          ]
+        },
+        {
+          "name": "RequestMapping",
+          "classPath": "org.springframework.web.bind.annotation.RequestMapping",
+          "fields": [
+            {
+              "name": "value",
+              "type": "Constant",
+              "array": false,
+              "value": "/order"
+            }
+          ]
+        }
+      ],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": false,
+      "isPrivate": false,
+      "isPublic": true,
+      "fields": [
+        {
+          "name": "orderService",
+          "type": {
+            "name": "PmsProductAttributeCategory",
+            "classPath": "com.macro.mall.model.PmsProductAttributeCategory"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "Autowired",
+              "classPath": "org.springframework.beans.factory.annotation.Autowired",
+              "fields": []
+            }
+          ]
+        }
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiOperation",
+              "classPath": "io.swagger.annotations.ApiOperation",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "查询订单"
+                }
+              ]
+            },
+            {
+              "name": "RequestMapping",
+              "classPath": "org.springframework.web.bind.annotation.RequestMapping",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "/list"
+                },
+                {
+                  "name": "method",
+                  "type": "org.springframework.web.bind.annotation.RequestMethod",
+                  "array": false,
+                  "value": "RequestMethod.GET"
+                }
+              ]
+            },
+            {
+              "name": "ResponseBody",
+              "classPath": "org.springframework.web.bind.annotation.ResponseBody",
+              "fields": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "queryParam",
+              "type": {
+                "name": "OmsOrderQueryParam",
+                "classPath": "com.macro.mall.dto.OmsOrderQueryParam"
+              },
+              "description": {
+                "tag": {}
+              },
+              "annotations": []
+            },
+            {
+              "name": "pSize",
+              "type": {
+                "name": "Integer",
+                "classPath": "java.lang.Integer"
+              },
+              "description": {
+                "tag": {}
+              },
+              "annotations": [
+                {
+                  "name": "RequestParam",
+                  "classPath": "org.springframework.web.bind.annotation.RequestParam",
+                  "fields": [
+                    {
+                      "name": "value",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "pageSize"
+                    },
+                    {
+                      "name": "defaultValue",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "pNum",
+              "type": {
+                "name": "Integer",
+                "classPath": "java.lang.Integer"
+              },
+              "description": {
+                "tag": {}
+              },
+              "annotations": [
+                {
+                  "name": "RequestParam",
+                  "classPath": "org.springframework.web.bind.annotation.RequestParam",
+                  "fields": [
+                    {
+                      "name": "value",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "pageNum"
+                    },
+                    {
+                      "name": "required",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "true"
+                    },
+                    {
+                      "name": "defaultValue",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "return": {
+            "name": "CommonResult",
+            "classPath": "com.macro.mall.common.api.CommonResult",
+            "items": [
+              {
+                "name": "CommonPage",
+                "classPath": "com.macro.mall.common.api.CommonPage",
+                "items": [
+                  {
+                    "name": "OmsOrder",
+                    "classPath": "com.macro.mall.model.OmsOrder"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "close",
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiOperation",
+              "classPath": "io.swagger.annotations.ApiOperation",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "批量关闭订单"
+                }
+              ]
+            },
+            {
+              "name": "RequestMapping",
+              "classPath": "org.springframework.web.bind.annotation.RequestMapping",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "/update/close"
+                }
+              ]
+            },
+            {
+              "name": "ResponseBody",
+              "classPath": "org.springframework.web.bind.annotation.ResponseBody",
+              "fields": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "ids",
+              "type": {
+                "name": "List",
+                "classPath": "java.util.List",
+                "items": [
+                  {
+                    "name": "Long",
+                    "classPath": "java.lang.Long"
+                  }
+                ]
+              },
+              "description": {
+                "tag": {}
+              },
+              "annotations": [
+                {
+                  "name": "RequestParam",
+                  "classPath": "org.springframework.web.bind.annotation.RequestParam",
+                  "fields": [
+                    {
+                      "name": "value",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "ids"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "note",
+              "type": {
+                "name": "PmsProductAttributeCategoryItem",
+                "classPath": "com.macro.mall.dto.PmsProductAttributeCategoryItem"
+              },
+              "description": {
+                "tag": {}
+              },
+              "annotations": [
+                {
+                  "name": "RequestParam",
+                  "classPath": "org.springframework.web.bind.annotation.RequestParam",
+                  "fields": []
+                }
+              ]
+            }
+          ],
+          "return": {
+            "name": "CommonResult",
+            "classPath": "com.macro.mall.common.api.CommonResult"
+          }
+        },
+        {
+          "name": "delete",
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiOperation",
+              "classPath": "io.swagger.annotations.ApiOperation",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "批量删除订单"
+                }
+              ]
+            },
+            {
+              "name": "DeleteMapping",
+              "classPath": "org.springframework.web.bind.annotation.RequestMapping",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "/delete"
+                }
+              ]
+            },
+            {
+              "name": "ResponseBody",
+              "classPath": "org.springframework.web.bind.annotation.ResponseBody",
+              "fields": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "ids",
+              "type": {
+                "name": "List",
+                "classPath": "java.util.List",
+                "items": [
+                  {
+                    "name": "Long",
+                    "classPath": "java.lang.Long"
+                  }
+                ]
+              },
+              "description": {
+                "tag": {}
+              },
+              "annotations": [
+                {
+                  "name": "RequestParam",
+                  "classPath": "org.springframework.web.bind.annotation.RequestParam",
+                  "fields": [
+                    {
+                      "name": "value",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "ids"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "return": {
+            "name": "CommonResult",
+            "classPath": "com.macro.mall.common.api.CommonResult"
+          }
+        },
+        {
+          "name": "detail",
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiOperation",
+              "classPath": "io.swagger.annotations.ApiOperation",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "获取订单详情：订单信息、商品信息、操作记录"
+                }
+              ]
+            },
+            {
+              "name": "RequestMapping",
+              "classPath": "org.springframework.web.bind.annotation.RequestMapping",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "/{id}"
+                },
+                {
+                  "name": "method",
+                  "type": "org.springframework.web.bind.annotation.RequestMethod",
+                  "array": false,
+                  "value": "RequestMethod.GET"
+                }
+              ]
+            },
+            {
+              "name": "ResponseBody",
+              "classPath": "org.springframework.web.bind.annotation.ResponseBody",
+              "fields": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "type": {
+                "name": "Long",
+                "classPath": "java.lang.Long"
+              },
+              "description": {
+                "tag": {}
+              },
+              "annotations": [
+                {
+                  "name": "PathVariable",
+                  "classPath": "org.springframework.web.bind.annotation.PathVariable",
+                  "fields": []
+                }
+              ]
+            }
+          ],
+          "return": {
+            "name": "CommonResult",
+            "classPath": "com.macro.mall.common.api.CommonResult",
+            "items": [
+              {
+                "name": "OmsOrderDetail",
+                "classPath": "com.macro.mall.portal.domain.OmsOrderDetail"
+              }
+            ]
+          }
+        },
+        {
+          "name": "upload",
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiOperation",
+              "classPath": "io.swagger.annotations.ApiOperation",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "文件上传"
+                }
+              ]
+            },
+            {
+              "name": "RequestMapping",
+              "classPath": "org.springframework.web.bind.annotation.RequestMapping",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "/upload"
+                },
+                {
+                  "name": "method",
+                  "type": "org.springframework.web.bind.annotation.RequestMethod",
+                  "array": false,
+                  "value": "RequestMethod.GET"
+                }
+              ]
+            },
+            {
+              "name": "ResponseBody",
+              "classPath": "org.springframework.web.bind.annotation.ResponseBody",
+              "fields": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "file",
+              "type": {
+                "name": "MultipartFile",
+                "classPath": "org.springframework.web.multipart.MultipartFile"
+              },
+              "description": {
+                "tag": {}
+              },
+              "annotations": [
+                {
+                  "name": "RequestPart",
+                  "classPath": "org.springframework.web.bind.annotation.RequestPart",
+                  "fields": [
+                    {
+                      "name": "value",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "file"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "return": {
+            "name": "CommonResult",
+            "classPath": "com.macro.mall.common.api.CommonResult"
+          }
+        }
+      ]
+    }
+  },
+  "com.test.demo.noBaseURIController": {
+    "filePath": "/Users/java/mall/mall-admin/src/main/java/com/test/demo/noBaseURIController.java",
+    "fileType": "ENTRY",
+    "packageName": "com.test.demo.noBaseURIController",
+    "class": {
+      "name": "noBaseURIController",
+      "classPath": "com.test.demo.noBaseURIController",
+      "isPublic": true,
+      "methods": [
+        {
+          "name": "test",
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "RequestMapping",
+              "classPath": "org.springframework.web.bind.annotation.RequestMapping",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "/api/test"
+                },
+                {
+                  "name": "method",
+                  "type": "org.springframework.web.bind.annotation.RequestMethod",
+                  "array": false,
+                  "value": "RequestMethod.GET"
+                }
+              ]
+            },
+            {
+              "name": "ResponseBody",
+              "classPath": "org.springframework.web.bind.annotation.ResponseBody",
+              "fields": []
+            }
+          ],
+          "parameters": [],
+          "return": {
+            "name": "CommonResult",
+            "classPath": "com.macro.mall.common.api.CommonResult"
+          }
+        }
+      ]
+    }
+  },
   "com.macro.mall.dto.PmsProductAttributeCategoryItem": {
     "filePath": "/Users/java/mall/mall-admin/src/main/java/com/macro/mall/dto/PmsProductAttributeCategoryItem.java",
     "fileType": "RESOURCE",
@@ -423,6 +1101,21 @@
           "type": {
             "name": "OmsOrder",
             "classPath": "com.macro.mall.model.OmsOrder"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": []
+        },
+        {
+          "name": "calcAmount",
+          "type": {
+            "name": "CalcAmount",
+            "classPath": "com.macro.mall.dto.OmsOrderQueryParam$CalcAmount"
           },
           "defaultValue": "",
           "isPrivate": true,
@@ -1825,684 +2518,6 @@
       "methods": []
     }
   },
-  "com.macro.mall.controller.OmsOrderController": {
-    "filePath": "/Users/java/mall/mall-admin/src/main/java/com/macro/mall/controller/OmsOrderController.java",
-    "fileType": "ENTRY",
-    "packageName": "com.macro.mall.controller",
-    "description": {
-      "text": "订单管理Controller",
-      "tag": {}
-    },
-    "imports": [
-      "com.macro.mall.common.api.CommonPage",
-      "com.macro.mall.common.api.CommonResult",
-      "com.macro.mall.portal.domain.OmsOrderDetail",
-      "com.macro.mall.dto.PmsProductQueryParam",
-      "com.macro.mall.dto.OmsOrderReturnApplyResult",
-      "com.macro.mall.dto.UmsAdminParam",
-      "com.macro.mall.dto.SmsFlashPromotionProduct",
-      "com.macro.mall.dto.OmsMoneyInfoParam",
-      "com.macro.mall.dto.OmsOrderDeliveryParam",
-      "com.macro.mall.dto.PmsProductAttributeCategoryItem",
-      "com.macro.mall.dto.UmsMenuNode",
-      "com.macro.mall.dto.SmsFlashPromotionSessionDetail",
-      "com.macro.mall.dto.UpdateAdminPasswordParam",
-      "com.macro.mall.dto.OssCallbackResult",
-      "com.macro.mall.dto.MinioUploadDto",
-      "com.macro.mall.dto.OmsReceiverInfoParam",
-      "com.macro.mall.dto.SmsCouponParam",
-      "com.macro.mall.dto.UmsAdminLoginParam",
-      "com.macro.mall.dto.PmsBrandParam",
-      "com.macro.mall.dto.PmsProductAttributeParam",
-      "com.macro.mall.dto.PmsProductParam",
-      "com.macro.mall.dto.OmsReturnApplyQueryParam",
-      "com.macro.mall.dto.OssCallbackParam",
-      "com.macro.mall.dto.OssPolicyResult",
-      "com.macro.mall.dto.PmsProductCategoryWithChildrenItem",
-      "com.macro.mall.dto.OmsUpdateStatusParam",
-      "com.macro.mall.dto.ProductAttrInfo",
-      "com.macro.mall.dto.OmsOrderQueryParam",
-      "com.macro.mall.dto.BucketPolicyConfigDto",
-      "com.macro.mall.dto.PmsProductResult",
-      "com.macro.mall.dto.PmsProductCategoryParam",
-      "com.macro.mall.model.OmsOrder",
-      "com.macro.mall.service.OmsOrderService",
-      "io.swagger.annotations.Api",
-      "io.swagger.annotations.ApiOperation",
-      "org.springframework.beans.factory.annotation.Autowired",
-      "org.springframework.stereotype.Controller",
-      "org.springframework.web.bind.annotation.package-info",
-      "org.springframework.web.bind.annotation.InitBinder",
-      "org.springframework.web.bind.annotation.CookieValue",
-      "org.springframework.web.bind.annotation.RequestMapping",
-      "org.springframework.web.bind.annotation.RestControllerAdvice",
-      "org.springframework.web.bind.annotation.SessionAttributes",
-      "org.springframework.web.bind.annotation.RequestPart",
-      "org.springframework.web.bind.annotation.PathVariable",
-      "org.springframework.web.bind.annotation.DeleteMapping",
-      "org.springframework.web.bind.annotation.ResponseBody",
-      "org.springframework.web.bind.annotation.RequestMethod",
-      "org.springframework.web.bind.annotation.ControllerAdvice",
-      "org.springframework.web.bind.annotation.RestController",
-      "org.springframework.web.bind.annotation.RequestBody",
-      "org.springframework.web.bind.annotation.RequestAttribute",
-      "org.springframework.web.bind.annotation.GetMapping",
-      "org.springframework.web.bind.annotation.CrossOrigin",
-      "org.springframework.web.bind.annotation.ExceptionHandler",
-      "org.springframework.web.bind.annotation.Mapping",
-      "org.springframework.web.bind.annotation.PostMapping",
-      "org.springframework.web.bind.annotation.SessionAttribute",
-      "org.springframework.web.bind.annotation.RequestParam",
-      "org.springframework.web.bind.annotation.MatrixVariable",
-      "org.springframework.web.bind.annotation.ValueConstants",
-      "org.springframework.web.bind.annotation.PatchMapping",
-      "org.springframework.web.bind.annotation.ResponseStatus",
-      "org.springframework.web.bind.annotation.ModelAttribute",
-      "org.springframework.web.bind.annotation.PutMapping",
-      "org.springframework.web.bind.annotation.RequestHeader",
-      "java.util.List",
-      "com.macro.mall.controller.SmsHomeRecommendSubjectController",
-      "com.macro.mall.controller.SmsCouponHistoryController",
-      "com.macro.mall.controller.UmsResourceController",
-      "com.macro.mall.controller.CmsSubjectController",
-      "com.macro.mall.controller.PmsProductAttributeCategoryController",
-      "com.macro.mall.controller.PmsProductCategoryController",
-      "com.macro.mall.controller.SmsCouponController",
-      "com.macro.mall.controller.PmsBrandController",
-      "com.macro.mall.controller.OmsCompanyAddressController",
-      "com.macro.mall.controller.OssController",
-      "com.macro.mall.controller.OmsOrderReturnApplyController",
-      "com.macro.mall.controller.CmsPrefrenceAreaController",
-      "com.macro.mall.controller.SmsHomeAdvertiseController",
-      "com.macro.mall.controller.SmsFlashPromotionSessionController",
-      "com.macro.mall.controller.SmsFlashPromotionController",
-      "com.macro.mall.controller.OmsOrderReturnReasonController",
-      "com.macro.mall.controller.SmsHomeRecommendProductController",
-      "com.macro.mall.controller.SmsFlashPromotionProductRelationController",
-      "com.macro.mall.controller.SmsHomeBrandController",
-      "com.macro.mall.controller.PmsSkuStockController",
-      "com.macro.mall.controller.OmsOrderSettingController",
-      "com.macro.mall.controller.PmsProductController",
-      "com.macro.mall.controller.OmsOrderController",
-      "com.macro.mall.controller.MinioController",
-      "com.macro.mall.controller.UmsResourceCategoryController",
-      "com.macro.mall.controller.PmsProductAttributeController",
-      "com.macro.mall.controller.UmsMenuController",
-      "com.macro.mall.controller.UmsMemberLevelController",
-      "com.macro.mall.controller.UmsAdminController",
-      "com.macro.mall.controller.UmsRoleController",
-      "com.macro.mall.controller.SmsHomeNewProductController"
-    ],
-    "class": {
-      "name": "OmsOrderController",
-      "classPath": "com.macro.mall.controller.OmsOrderController",
-      "description": {
-        "text": "订单管理Controller",
-        "tag": {}
-      },
-      "annotations": [
-        {
-          "name": "Controller",
-          "classPath": "org.springframework.stereotype.Controller",
-          "fields": []
-        },
-        {
-          "name": "Api",
-          "classPath": "io.swagger.annotations.Api",
-          "fields": [
-            {
-              "name": "tags",
-              "type": "Constant",
-              "array": false,
-              "value": "OmsOrderController"
-            },
-            {
-              "name": "description",
-              "type": "Constant",
-              "array": false,
-              "value": "订单管理"
-            }
-          ]
-        },
-        {
-          "name": "RequestMapping",
-          "classPath": "org.springframework.web.bind.annotation.RequestMapping",
-          "fields": [
-            {
-              "name": "value",
-              "type": "Constant",
-              "array": false,
-              "value": "/order"
-            }
-          ]
-        }
-      ],
-      "isEnum": false,
-      "isInterface": false,
-      "isAbstract": false,
-      "isPrivate": false,
-      "isPublic": true,
-      "fields": [
-        {
-          "name": "orderService",
-          "type": {
-            "name": "PmsProductAttributeCategory",
-            "classPath": "com.macro.mall.model.PmsProductAttributeCategory"
-          },
-          "defaultValue": "",
-          "isPrivate": true,
-          "isPublic": false,
-          "isProtected": false,
-          "description": {
-            "tag": {}
-          },
-          "annotations": [
-            {
-              "name": "Autowired",
-              "classPath": "org.springframework.beans.factory.annotation.Autowired",
-              "fields": []
-            }
-          ]
-        }
-      ],
-      "methods": [
-        {
-          "name": "list",
-          "description": {
-            "tag": {}
-          },
-          "annotations": [
-            {
-              "name": "ApiOperation",
-              "classPath": "io.swagger.annotations.ApiOperation",
-              "fields": [
-                {
-                  "name": "value",
-                  "type": "Constant",
-                  "array": false,
-                  "value": "查询订单"
-                }
-              ]
-            },
-            {
-              "name": "RequestMapping",
-              "classPath": "org.springframework.web.bind.annotation.RequestMapping",
-              "fields": [
-                {
-                  "name": "value",
-                  "type": "Constant",
-                  "array": false,
-                  "value": "/list"
-                },
-                {
-                  "name": "method",
-                  "type": "org.springframework.web.bind.annotation.RequestMethod",
-                  "array": false,
-                  "value": "RequestMethod.GET"
-                }
-              ]
-            },
-            {
-              "name": "ResponseBody",
-              "classPath": "org.springframework.web.bind.annotation.ResponseBody",
-              "fields": []
-            }
-          ],
-          "parameters": [
-            {
-              "name": "queryParam",
-              "type": {
-                "name": "OmsOrderQueryParam",
-                "classPath": "com.macro.mall.dto.OmsOrderQueryParam"
-              },
-              "description": {
-                "tag": {}
-              },
-              "annotations": []
-            },
-            {
-              "name": "pSize",
-              "type": {
-                "name": "Integer",
-                "classPath": "java.lang.Integer"
-              },
-              "description": {
-                "tag": {}
-              },
-              "annotations": [
-                {
-                  "name": "RequestParam",
-                  "classPath": "org.springframework.web.bind.annotation.RequestParam",
-                  "fields": [
-                    {
-                      "name": "value",
-                      "type": "Constant",
-                      "array": false,
-                      "value": "pageSize"
-                    },
-                    {
-                      "name": "defaultValue",
-                      "type": "Constant",
-                      "array": false,
-                      "value": "5"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "pNum",
-              "type": {
-                "name": "Integer",
-                "classPath": "java.lang.Integer"
-              },
-              "description": {
-                "tag": {}
-              },
-              "annotations": [
-                {
-                  "name": "RequestParam",
-                  "classPath": "org.springframework.web.bind.annotation.RequestParam",
-                  "fields": [
-                    {
-                      "name": "value",
-                      "type": "Constant",
-                      "array": false,
-                      "value": "pageNum"
-                    },
-                    {
-                      "name": "required",
-                      "type": "Constant",
-                      "array": false,
-                      "value": "true"
-                    },
-                    {
-                      "name": "defaultValue",
-                      "type": "Constant",
-                      "array": false,
-                      "value": "1"
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "return": {
-            "name": "CommonResult",
-            "classPath": "com.macro.mall.common.api.CommonResult",
-            "items": [
-              {
-                "name": "CommonPage",
-                "classPath": "com.macro.mall.common.api.CommonPage",
-                "items": [
-                  {
-                    "name": "OmsOrder",
-                    "classPath": "com.macro.mall.model.OmsOrder"
-                  }
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "name": "close",
-          "description": {
-            "tag": {}
-          },
-          "annotations": [
-            {
-              "name": "ApiOperation",
-              "classPath": "io.swagger.annotations.ApiOperation",
-              "fields": [
-                {
-                  "name": "value",
-                  "type": "Constant",
-                  "array": false,
-                  "value": "批量关闭订单"
-                }
-              ]
-            },
-            {
-              "name": "RequestMapping",
-              "classPath": "org.springframework.web.bind.annotation.RequestMapping",
-              "fields": [
-                {
-                  "name": "value",
-                  "type": "Constant",
-                  "array": false,
-                  "value": "/update/close"
-                }
-              ]
-            },
-            {
-              "name": "ResponseBody",
-              "classPath": "org.springframework.web.bind.annotation.ResponseBody",
-              "fields": []
-            }
-          ],
-          "parameters": [
-            {
-              "name": "ids",
-              "type": {
-                "name": "List",
-                "classPath": "java.util.List",
-                "items": [
-                  {
-                    "name": "Long",
-                    "classPath": "java.lang.Long"
-                  }
-                ]
-              },
-              "description": {
-                "tag": {}
-              },
-              "annotations": [
-                {
-                  "name": "RequestParam",
-                  "classPath": "org.springframework.web.bind.annotation.RequestParam",
-                  "fields": [
-                    {
-                      "name": "value",
-                      "type": "Constant",
-                      "array": false,
-                      "value": "ids"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "note",
-              "type": {
-                "name": "PmsProductAttributeCategoryItem",
-                "classPath": "com.macro.mall.dto.PmsProductAttributeCategoryItem"
-              },
-              "description": {
-                "tag": {}
-              },
-              "annotations": [
-                {
-                  "name": "RequestParam",
-                  "classPath": "org.springframework.web.bind.annotation.RequestParam",
-                  "fields": []
-                }
-              ]
-            }
-          ],
-          "return": {
-            "name": "CommonResult",
-            "classPath": "com.macro.mall.common.api.CommonResult"
-          }
-        },
-        {
-          "name": "delete",
-          "description": {
-            "tag": {}
-          },
-          "annotations": [
-            {
-              "name": "ApiOperation",
-              "classPath": "io.swagger.annotations.ApiOperation",
-              "fields": [
-                {
-                  "name": "value",
-                  "type": "Constant",
-                  "array": false,
-                  "value": "批量删除订单"
-                }
-              ]
-            },
-            {
-              "name": "DeleteMapping",
-              "classPath": "org.springframework.web.bind.annotation.RequestMapping",
-              "fields": [
-                {
-                  "name": "value",
-                  "type": "Constant",
-                  "array": false,
-                  "value": "/delete"
-                }
-              ]
-            },
-            {
-              "name": "ResponseBody",
-              "classPath": "org.springframework.web.bind.annotation.ResponseBody",
-              "fields": []
-            }
-          ],
-          "parameters": [
-            {
-              "name": "ids",
-              "type": {
-                "name": "List",
-                "classPath": "java.util.List",
-                "items": [
-                  {
-                    "name": "Long",
-                    "classPath": "java.lang.Long"
-                  }
-                ]
-              },
-              "description": {
-                "tag": {}
-              },
-              "annotations": [
-                {
-                  "name": "RequestParam",
-                  "classPath": "org.springframework.web.bind.annotation.RequestParam",
-                  "fields": [
-                    {
-                      "name": "value",
-                      "type": "Constant",
-                      "array": false,
-                      "value": "ids"
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "return": {
-            "name": "CommonResult",
-            "classPath": "com.macro.mall.common.api.CommonResult"
-          }
-        },
-        {
-          "name": "detail",
-          "description": {
-            "tag": {}
-          },
-          "annotations": [
-            {
-              "name": "ApiOperation",
-              "classPath": "io.swagger.annotations.ApiOperation",
-              "fields": [
-                {
-                  "name": "value",
-                  "type": "Constant",
-                  "array": false,
-                  "value": "获取订单详情：订单信息、商品信息、操作记录"
-                }
-              ]
-            },
-            {
-              "name": "RequestMapping",
-              "classPath": "org.springframework.web.bind.annotation.RequestMapping",
-              "fields": [
-                {
-                  "name": "value",
-                  "type": "Constant",
-                  "array": false,
-                  "value": "/{id}"
-                },
-                {
-                  "name": "method",
-                  "type": "org.springframework.web.bind.annotation.RequestMethod",
-                  "array": false,
-                  "value": "RequestMethod.GET"
-                }
-              ]
-            },
-            {
-              "name": "ResponseBody",
-              "classPath": "org.springframework.web.bind.annotation.ResponseBody",
-              "fields": []
-            }
-          ],
-          "parameters": [
-            {
-              "name": "id",
-              "type": {
-                "name": "Long",
-                "classPath": "java.lang.Long"
-              },
-              "description": {
-                "tag": {}
-              },
-              "annotations": [
-                {
-                  "name": "PathVariable",
-                  "classPath": "org.springframework.web.bind.annotation.PathVariable",
-                  "fields": []
-                }
-              ]
-            }
-          ],
-          "return": {
-            "name": "CommonResult",
-            "classPath": "com.macro.mall.common.api.CommonResult",
-            "items": [
-              {
-                "name": "OmsOrderDetail",
-                "classPath": "com.macro.mall.portal.domain.OmsOrderDetail"
-              }
-            ]
-          }
-        },
-        {
-          "name": "upload",
-          "description": {
-            "tag": {}
-          },
-          "annotations": [
-            {
-              "name": "ApiOperation",
-              "classPath": "io.swagger.annotations.ApiOperation",
-              "fields": [
-                {
-                  "name": "value",
-                  "type": "Constant",
-                  "array": false,
-                  "value": "文件上传"
-                }
-              ]
-            },
-            {
-              "name": "RequestMapping",
-              "classPath": "org.springframework.web.bind.annotation.RequestMapping",
-              "fields": [
-                {
-                  "name": "value",
-                  "type": "Constant",
-                  "array": false,
-                  "value": "/upload"
-                },
-                {
-                  "name": "method",
-                  "type": "org.springframework.web.bind.annotation.RequestMethod",
-                  "array": false,
-                  "value": "RequestMethod.GET"
-                }
-              ]
-            },
-            {
-              "name": "ResponseBody",
-              "classPath": "org.springframework.web.bind.annotation.ResponseBody",
-              "fields": []
-            }
-          ],
-          "parameters": [
-            {
-              "name": "file",
-              "type": {
-                "name": "MultipartFile",
-                "classPath": "org.springframework.web.multipart.MultipartFile"
-              },
-              "description": {
-                "tag": {}
-              },
-              "annotations": [
-                {
-                  "name": "RequestPart",
-                  "classPath": "org.springframework.web.bind.annotation.RequestPart",
-                  "fields": [
-                    {
-                      "name": "value",
-                      "type": "Constant",
-                      "array": false,
-                      "value": "file"
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "return": {
-            "name": "CommonResult",
-            "classPath": "com.macro.mall.common.api.CommonResult"
-          }
-        }
-      ]
-    }
-  },
-  "com.test.demo.noBaseURIController": {
-    "filePath": "/Users/java/mall/mall-admin/src/main/java/com/test/demo/noBaseURIController.java",
-    "fileType": "ENTRY",
-    "packageName": "com.test.demo.noBaseURIController",
-    "class": {
-      "name": "noBaseURIController",
-      "classPath": "com.test.demo.noBaseURIController",
-      "isPublic": true,
-      "methods": [
-        {
-          "name": "test",
-          "description": {
-            "tag": {}
-          },
-          "annotations": [
-            {
-              "name": "RequestMapping",
-              "classPath": "org.springframework.web.bind.annotation.RequestMapping",
-              "fields": [
-                {
-                  "name": "value",
-                  "type": "Constant",
-                  "array": false,
-                  "value": "/api/test"
-                },
-                {
-                  "name": "method",
-                  "type": "org.springframework.web.bind.annotation.RequestMethod",
-                  "array": false,
-                  "value": "RequestMethod.GET"
-                }
-              ]
-            },
-            {
-              "name": "ResponseBody",
-              "classPath": "org.springframework.web.bind.annotation.ResponseBody",
-              "fields": []
-            }
-          ],
-          "parameters": [],
-          "return": {
-            "name": "CommonResult",
-            "classPath": "com.macro.mall.common.api.CommonResult"
-          }
-        }
-      ]
-    }
-  },
   "com.macro.mall.common.api.CommonPage": {
     "filePath": "/Users/java/mall/mall-common/src/main/java/com/macro/mall/common/api/CommonPage.java",
     "fileType": "RESOURCE",
@@ -2709,6 +2724,180 @@
             "tag": {}
           },
           "annotations": []
+        }
+      ],
+      "methods": []
+    }
+  },
+  "com.macro.mall.dto.OmsOrderQueryParam$CalcAmount": {
+    "filePath": "/Users/java/mall/mall-admin/src/main/java/com/macro/mall/dto/OmsOrderQueryParam.java",
+    "fileType": "RESOURCE",
+    "packageName": "com.macro.mall.dto",
+    "description": {
+      "tag": {}
+    },
+    "imports": [
+      "com.macro.mall.model.UmsIntegrationConsumeSetting",
+      "com.macro.mall.model.UmsMemberReceiveAddress",
+      "io.swagger.annotations.ApiModelProperty",
+      "lombok.Getter",
+      "lombok.Setter",
+      "java.math.BigDecimal",
+      "java.util.List",
+      "com.macro.mall.portal.domain.MemberDetails",
+      "com.macro.mall.portal.domain.CartProduct",
+      "com.macro.mall.portal.domain.PmsPortalProductDetail",
+      "com.macro.mall.portal.domain.CartPromotionItem",
+      "com.macro.mall.portal.domain.PromotionProduct",
+      "com.macro.mall.portal.domain.MemberBrandAttention",
+      "com.macro.mall.portal.domain.OrderParam",
+      "com.macro.mall.portal.domain.MemberReadHistory",
+      "com.macro.mall.portal.domain.OmsOrderReturnApplyParam",
+      "com.macro.mall.portal.domain.HomeContentResult",
+      "com.macro.mall.portal.domain.QueueEnum",
+      "com.macro.mall.portal.domain.FlashPromotionProduct",
+      "com.macro.mall.portal.domain.SmsCouponHistoryDetail",
+      "com.macro.mall.portal.domain.PmsProductCategoryNode",
+      "com.macro.mall.portal.domain.HomeFlashPromotion",
+      "com.macro.mall.portal.domain.OmsOrderDetail",
+      "com.macro.mall.portal.domain.MemberProductCollection",
+      "com.macro.mall.portal.domain.ConfirmOrderResult"
+    ],
+    "class": {
+      "name": "OmsOrderQueryParam$CalcAmount",
+      "classPath": "com.macro.mall.dto.OmsOrderQueryParam$CalcAmount",
+      "description": {
+        "tag": {}
+      },
+      "annotations": [
+        {
+          "name": "Getter",
+          "classPath": "lombok.Getter",
+          "fields": []
+        },
+        {
+          "name": "Setter",
+          "classPath": "lombok.Setter",
+          "fields": []
+        }
+      ],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": false,
+      "isPrivate": false,
+      "isPublic": true,
+      "fields": [
+        {
+          "name": "totalAmount",
+          "type": {
+            "name": "BigDecimal",
+            "classPath": "java.math.BigDecimal"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "订单商品总金额"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "freightAmount",
+          "type": {
+            "name": "BigDecimal",
+            "classPath": "java.math.BigDecimal"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "运费"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "promotionAmount",
+          "type": {
+            "name": "BigDecimal",
+            "classPath": "java.math.BigDecimal"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "活动优惠"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "payAmount",
+          "type": {
+            "name": "BigDecimal",
+            "classPath": "java.math.BigDecimal"
+          },
+          "defaultValue": "",
+          "isPrivate": true,
+          "isPublic": false,
+          "isProtected": false,
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiModelProperty",
+              "classPath": "io.swagger.annotations.ApiModelProperty",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "应付金额"
+                }
+              ]
+            }
+          ]
         }
       ],
       "methods": []

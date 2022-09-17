@@ -1,6 +1,7 @@
-import { expect } from 'chai';
+import fs from 'fs';
 import path from 'path';
 import sinon from 'sinon';
+import { expect } from 'chai';
 import { IndentationText, Project } from 'ts-morph';
 
 import HttpProtocol from '../../../lib/http';
@@ -184,9 +185,11 @@ describe('lib/http/output/service', () => {
   describe('model', () => {
     it('normal', () => {
       const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderQueryParam');
-      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter);
-
-      // mock save 方法（不写文件）
+      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixture'), project, adapter);
+      // mock existsSync
+      sinon.stub(fs, 'existsSync').callsFake(sinon.fake(() => {
+        return false;
+      }));
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
       apiGenerator.generate(projectImportClassPath);
 
@@ -243,7 +246,12 @@ describe('lib/http/output/service', () => {
           name: 'order',
           type: 'OmsOrder',
           descText: [ '/** */' ],
-        }
+        },
+        { 
+          name: 'calcAmount',
+          type: 'OmsOrderQueryParamCalcAmount',
+          descText: [ '/** */' ],
+        },
       ]);
     });
 
@@ -326,6 +334,19 @@ describe('lib/http/output/service', () => {
       // interface extend
       const interfaceText = apiGenerator.sourceFile.getText();
       expect(interfaceText.includes('export interface PmsProductAttributeCategoryItem extends PmsProductAttributeCategory {')).to.equal(true);
+    });
+
+    it('sub class', () => {
+      const adapter = httpPotocol.adapterDataList.find(ada => ada.className === 'OmsOrderQueryParam');
+      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixture'), project, adapter);
+      apiGenerator.generate(projectImportClassPath);
+
+      // 写入 sub class
+      const subAdapter = httpPotocol.adapterDataList.find(ada => ada.className === 'OmsOrderQueryParamCalcAmount');
+      const subApiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixture'), project, subAdapter);
+      subApiGenerator.generate(projectImportClassPath);
+
+      fs.rmSync(path.join(__dirname, '../../fixture/model'), { recursive: true, force: true });
     });
   });
 });

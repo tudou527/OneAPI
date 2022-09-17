@@ -18,7 +18,12 @@ export default class TypeTransfer {
 
   // 把 Java 类型转换为 JS 类型
   private convert(javaType: JavaMeta.ActualType): string {
-    const { name, classPath, items } = javaType;
+    let { name, classPath, items } = javaType;
+
+    // sub class 的情况下要替换 name
+    if (classPath && classPath.includes('$')) {
+      name = classPath.split('.').at(-1).replace('$', '');
+    }
 
     // java.util.List<?> 类似的情况
     if (!name) {
@@ -70,10 +75,10 @@ export default class TypeTransfer {
     // Map 的各种情况
     if (
       (
-        classPath.startsWith('com.google.common') &&
+        classPath?.startsWith('com.google.common') &&
         ['map', 'entry'].find(str => name.toLocaleLowerCase().includes(str))
       ) || (
-        ['.Map', '.HashMap'].find(str => classPath.endsWith(str))
+        ['.Map', '.HashMap'].find(str => classPath?.endsWith(str))
       )
     ) {
       return `Map<${this.convert(items.at(0))}, ${this.convert(items.at(1))}>`;

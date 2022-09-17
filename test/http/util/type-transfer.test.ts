@@ -239,4 +239,18 @@ describe('lib/http/util/type-transfer', () => {
       expect(Object.keys(imports)).to.have.lengthOf(0);
     });
   });
+
+  describe('sub class', () => {
+    it('normal', () => {
+      const { jsType, imports } = new TypeTransfer().transform({
+        name: 'CalcAmount',
+        classPath: 'com.macro.mall.portal.domain.ConfirmOrderResult$CalcAmount',
+      });
+
+      expect(jsType).to.equal('ConfirmOrderResultCalcAmount');
+      expect(imports).to.deep.equal({
+        'com.macro.mall.portal.domain.ConfirmOrderResult$CalcAmount': 'ConfirmOrderResultCalcAmount',
+      });
+    });
+  });
 });

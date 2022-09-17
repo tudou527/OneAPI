@@ -1,6 +1,7 @@
+import fs from 'fs';
 import path from 'path';
 import sinon from 'sinon';
-import fs from 'fs-extra';
+import fsExtra from 'fs-extra';
 import { expect } from 'chai';
 
 import HttpProtocol from '../../lib/http';
@@ -27,7 +28,7 @@ describe('lib/http/index', () => {
         },
       } as any);
       sinon.stub(OpenApi.prototype, 'convert').returns({ a: 'b' } as any);
-      sinon.stub(fs, 'writeJSONSync').callsFake(sinon.fake((...args) => {
+      sinon.stub(fsExtra, 'writeJSONSync').callsFake(sinon.fake((...args) => {
         fakeArgs = args;
       }));
 
@@ -55,6 +56,9 @@ describe('lib/http/index', () => {
       sinon.stub(ServiceGenerator.prototype, 'generate').callsFake(sinon.fake(async (args) => {
         fakeArgs = args;
       }));
+      sinon.stub(fs, 'existsSync').callsFake(sinon.fake(() => {
+        return false;
+      }));
 
       const httpProtocol = new HttpProtocol({
         filePath: path.join(__dirname, '../fixture/oneapi.json'),
@@ -71,6 +75,7 @@ describe('lib/http/index', () => {
         'com.macro.mall.model.OmsOrder',
         'com.macro.mall.dto.PmsProductAttributeCategoryItem',
         'com.macro.mall.portal.domain.OmsOrderDetail',
+        'com.macro.mall.dto.OmsOrderQueryParam$CalcAmount',
         'com.macro.mall.model.PmsProductAttribute',
         'com.macro.mall.model.PmsProductAttributeCategory',
       ]);
