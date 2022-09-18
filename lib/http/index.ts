@@ -37,6 +37,9 @@ export default class HttpProtocol {
 
     this.convertService();
     this.convertModel();
+
+    // 写临时文件
+    fs.writeJSONSync(path.join(this.saveDir, 'temp.json'), this.adapterDataList, { spaces: 2 });
   }
 
   private convertService() {

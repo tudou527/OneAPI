@@ -8,6 +8,13 @@ import { JSDocStructure, OptionalKind } from 'ts-morph';
 import ModelAdapter from './model';
 import ServiceAdapter from './service';
 
+export interface IAdapterField {
+  name: string;
+  type: JavaMeta.ActualType;
+  jsType: string;
+  description: OptionalKind<JSDocStructure>;
+}
+
 export interface IHttpAdapter {
   // 文件路径
   filePath: string;
@@ -25,12 +32,7 @@ export interface IHttpAdapter {
   // API 描述信息
   services?: IHttpAdapterService[];
   // 属性
-  fields?: {
-    name: string;
-    type: JavaMeta.ActualType;
-    jsType: string;
-    description: OptionalKind<JSDocStructure>;
-  }[];
+  fields?: IAdapterField[];
   // 父类
   superClass?: {
     // 冗余字段
