@@ -1,6 +1,6 @@
 import path from 'path';
 import chalk from 'chalk';
-import { execSync } from 'child_process';
+import { spawn, execSync } from 'child_process';
 
 import HttpProtocol from './http/index';
 
@@ -20,7 +20,7 @@ export default async function main(args: { projectDir: string; saveDir: string }
     throw new Error(chalk.red('❎ 请安装 Maven 运行环境并添加环境变量。'));
   }
 
-  /*/ 安装依赖
+  // 安装依赖
   await new Promise((resolve) => {
     const jar = spawn('mvn', [
       'source:jar',
@@ -48,9 +48,7 @@ export default async function main(args: { projectDir: string; saveDir: string }
     jar.on('close', function() {
       resolve(path.join(args.saveDir, 'oneapi.json'))
     });
-  });*/
-
-  const jsonSchemaPath = path.join(args.saveDir, 'oneapi.json');
+  });
 
   // 实例化 http 协议
   const httpPotocol = new HttpProtocol({

@@ -224,7 +224,6 @@ export class OpenApi {
 
       // 处理字段
       componentFields.forEach((field) => {
-        field.name === 'pic' && console.log('>>>>> field: ', field.name, field.type);
         // 判断字段类型
         const { jsType: fieldJsType } = new TypeTransfer().transform(field.type);
         // 指端属性
