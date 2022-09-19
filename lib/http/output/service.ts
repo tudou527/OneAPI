@@ -45,7 +45,7 @@ export class ServiceGenerator {
     // 增加文件注释
     const firstLine = this.sourceFile.getStatementsWithComments().at(0);
     if (!firstLine.getText().includes('@ts-nocheck')) {
-      this.sourceFile.insertStatements(0, '// @ts-nocheck');
+      this.sourceFile.insertStatements(0, 'import request from "@/utils/request";');
     }
 
     this.sourceFile.saveSync();

@@ -100,8 +100,12 @@ export default class HttpProtocol {
       });
     });
 
+    const serviceDir = path.join(this.saveDir, 'services');
+    // 清空 services 目录
+    fs.emptyDirSync(serviceDir);
+
     for (let adapter of this.adapterDataList) {
-      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter);
+      const apiGenerator = new ServiceGenerator(serviceDir, project, adapter);
       apiGenerator.generate(projectImportClassPath);
     }
   }

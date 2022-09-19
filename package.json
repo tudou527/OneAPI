@@ -9,7 +9,7 @@
     "oneapi": "ts-node ./bin/index.ts"
   },
   "scripts": {
-    "dev": "ts-node ./bin/index.ts -p /Users/xiaoyun/java/mall -s ./",
+    "dev": "ts-node ./bin/index.ts -p /Users/xiaoyun/java/mall -s /Users/xiaoyun/github/oneapi-ts-demo/src",
     "build": "tsc -p tsconfig.json",
     "lint": "eslint . --ext .ts --ext .mts",
     "test": "mocha --timeout 5000 -r ts-node/register \"test/**/*.test.ts\"",
