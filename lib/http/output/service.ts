@@ -155,7 +155,8 @@ export class ServiceGenerator {
     const exportInterface = this.sourceFile.addInterface({
       name: className,
       isExported: true,
-      typeParameters: actualType?.map(t => t.name),
+      // 泛型默认值设置为 any
+      typeParameters: actualType?.map(t => ({ name: t.name, default: 'any' })),
     });
 
     // 增加方法注释
