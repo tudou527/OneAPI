@@ -58,8 +58,8 @@ export default async function main(args: { projectDir: string; saveDir: string }
   }); 
   
   // 生成 service 文件
-  // httpPotocol.generateService();
-
+  httpPotocol.generateService();
+  
   // 生成 OpenAPI schema
   httpPotocol.generateOpenApi();
 }

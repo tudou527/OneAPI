@@ -62,9 +62,13 @@ describe('lib/main', () => {
         return {};
       }));
 
-      sinon.stub(HttpProtocol.prototype, <any>'generateService').resolves();
-      sinon.stub(HttpProtocol.prototype, <any>'convertModel').resolves();
-      sinon.stub(HttpProtocol.prototype, <any>'generateOpenApi').resolves();
+      sinon.stub(fs, 'writeJSONSync').callsFake(() => {});
+
+      sinon.stub(HttpProtocol.prototype as any, 'convertService').callsFake(() => {});
+      sinon.stub(HttpProtocol.prototype as any, 'convertModel').callsFake(() => {});
+
+      sinon.stub(HttpProtocol.prototype, 'generateService').callsFake(() => {});
+      sinon.stub(HttpProtocol.prototype, 'generateOpenApi').callsFake(() => {});
 
       await main({ projectDir: '/projectDir', saveDir: '/saveDir' });
       expect(fsArg).to.equal('/saveDir/oneapi.json');
