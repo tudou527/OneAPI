@@ -62,12 +62,15 @@ describe('lib/http/output/service', () => {
       expect(fakeArgs).to.deep.equal([]);
 
       // import
-      const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => ({
-        name: im.getNamedImports().at(0).getName(),
-        moduleSpecifier: im.getModuleSpecifier().getText(),
-      }));
-      
+      const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => {
+        return {
+          // 匹配 import { name } from ... 或 import name from ...  
+          name: im.getNamedImports().at(0)?.getName() || im.getDefaultImport().getText(),
+          moduleSpecifier: im.getModuleSpecifier().getText(),
+        };
+      });
       expect(importDeclarations).to.deep.equal([
+        { name: 'request', moduleSpecifier: '"@/utils/request"' },
         { name: 'OmsOrderQueryParam', moduleSpecifier: '"./model/dto/OmsOrderQueryParam"'},
         { name: 'CommonResult', moduleSpecifier: '"./model/api/CommonResult"' },
         { name: 'CommonPage', moduleSpecifier: '"./model/api/CommonPage"' },
@@ -195,10 +198,11 @@ describe('lib/http/output/service', () => {
 
       // import
       const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => ({
-        name: im.getNamedImports().at(0).getName(),
+        name: im.getNamedImports().at(0)?.getName() || im.getDefaultImport().getText(),
         moduleSpecifier: im.getModuleSpecifier().getText(),
       }));
       expect(importDeclarations).to.deep.equal([
+        { name: 'request', moduleSpecifier: '"@/utils/request"' },
         { name: 'OmsOrder', moduleSpecifier: '"../model/OmsOrder"' },
       ]);
 
@@ -264,8 +268,9 @@ describe('lib/http/output/service', () => {
       apiGenerator.generate(projectImportClassPath);
 
       const interfaceText = apiGenerator.sourceFile.getInterfaces().at(0).getText();
-      
-      expect(interfaceText.includes('export interface CommonPage<T> {')).to.equal(true);
+
+      // 泛型默认值为 any      
+      expect(interfaceText.includes('export interface CommonPage<T = any> {')).to.equal(true);
       expect(interfaceText.includes('list: Array<T>;')).to.equal(true);
     });
 
@@ -296,10 +301,11 @@ describe('lib/http/output/service', () => {
 
       // import
       const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => ({
-        name: im.getNamedImports().at(0).getName(),
+        name: im.getNamedImports().at(0)?.getName() || im.getDefaultImport().getText(),
         moduleSpecifier: im.getModuleSpecifier().getText(),
       }));
       expect(importDeclarations).to.deep.equal([
+        { name: 'request', moduleSpecifier: '"@/utils/request"' },
         { name: 'CommonResult', moduleSpecifier: '"../api/CommonResult"' },
         { name: 'OmsOrderQueryParam', moduleSpecifier: '"../dto/OmsOrderQueryParam"' },
       ]);
@@ -323,10 +329,11 @@ describe('lib/http/output/service', () => {
 
       // import
       const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => ({
-        name: im.getNamedImports().at(0).getName(),
+        name: im.getNamedImports().at(0)?.getName() || im.getDefaultImport().getText(),
         moduleSpecifier: im.getModuleSpecifier().getText(),
       }));
       expect(importDeclarations).to.deep.equal([
+        { name: 'request', moduleSpecifier: '"@/utils/request"' },
         { name: 'PmsProductAttribute', moduleSpecifier: '"../model/PmsProductAttribute"' },
         { name: 'PmsProductAttributeCategory', moduleSpecifier: '"../model/PmsProductAttributeCategory"' },
       ]);
