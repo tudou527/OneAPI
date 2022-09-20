@@ -71,12 +71,12 @@ describe('lib/http/output/service', () => {
       });
       expect(importDeclarations).to.deep.equal([
         { name: 'request', moduleSpecifier: '"@/utils/request"' },
-        { name: 'OmsOrderQueryParam', moduleSpecifier: '"./model/dto/OmsOrderQueryParam"'},
-        { name: 'CommonResult', moduleSpecifier: '"./model/api/CommonResult"' },
-        { name: 'CommonPage', moduleSpecifier: '"./model/api/CommonPage"' },
-        { name: 'OmsOrder', moduleSpecifier: '"./model/model/OmsOrder"' },
-        { name: 'PmsProductAttributeCategoryItem', moduleSpecifier: '"./model/dto/PmsProductAttributeCategoryItem"'},
-        { name: 'OmsOrderDetail', moduleSpecifier: '"./model/domain/OmsOrderDetail"'},
+        { name: 'OmsOrderQueryParam', moduleSpecifier: '"./model/dto/omsOrderQueryParam"'},
+        { name: 'CommonResult', moduleSpecifier: '"./model/api/commonResult"' },
+        { name: 'CommonPage', moduleSpecifier: '"./model/api/commonPage"' },
+        { name: 'OmsOrder', moduleSpecifier: '"./model/model/omsOrder"' },
+        { name: 'PmsProductAttributeCategoryItem', moduleSpecifier: '"./model/dto/pmsProductAttributeCategoryItem"'},
+        { name: 'OmsOrderDetail', moduleSpecifier: '"./model/domain/omsOrderDetail"'},
       ]);
 
       // method
@@ -166,23 +166,6 @@ describe('lib/http/output/service', () => {
 
       expect(methodBody.includes('url: `/order/${args.id}`,')).to.equal(true);
     });
-
-    it('method include js keywords', () => {
-      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
-      const apiGenerator = new ServiceGenerator(
-        path.join(__dirname, '../../services'),
-        project,
-        { ...adapter, services: adapter.services.filter(se => se.operationId === 'delete') },
-      );
-      // mock save 方法（不写文件）
-      sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
-
-      apiGenerator.generate(projectImportClassPath);
-
-      // 断言方法名
-      const method = apiGenerator.sourceFile.getFunctions().at(0);
-      expect(method.getName()).to.equal('deleteController');
-    });
   });
 
   describe('model', () => {
@@ -202,8 +185,7 @@ describe('lib/http/output/service', () => {
         moduleSpecifier: im.getModuleSpecifier().getText(),
       }));
       expect(importDeclarations).to.deep.equal([
-        { name: 'request', moduleSpecifier: '"@/utils/request"' },
-        { name: 'OmsOrder', moduleSpecifier: '"../model/OmsOrder"' },
+        { name: 'OmsOrder', moduleSpecifier: '"../model/omsOrder"' },
       ]);
 
       // interface 
@@ -305,9 +287,8 @@ describe('lib/http/output/service', () => {
         moduleSpecifier: im.getModuleSpecifier().getText(),
       }));
       expect(importDeclarations).to.deep.equal([
-        { name: 'request', moduleSpecifier: '"@/utils/request"' },
-        { name: 'CommonResult', moduleSpecifier: '"../api/CommonResult"' },
-        { name: 'OmsOrderQueryParam', moduleSpecifier: '"../dto/OmsOrderQueryParam"' },
+        { name: 'CommonResult', moduleSpecifier: '"../api/commonResult"' },
+        { name: 'OmsOrderQueryParam', moduleSpecifier: '"../dto/omsOrderQueryParam"' },
       ]);
 
       // interface extend
@@ -332,10 +313,10 @@ describe('lib/http/output/service', () => {
         name: im.getNamedImports().at(0)?.getName() || im.getDefaultImport().getText(),
         moduleSpecifier: im.getModuleSpecifier().getText(),
       }));
+      
       expect(importDeclarations).to.deep.equal([
-        { name: 'request', moduleSpecifier: '"@/utils/request"' },
-        { name: 'PmsProductAttribute', moduleSpecifier: '"../model/PmsProductAttribute"' },
-        { name: 'PmsProductAttributeCategory', moduleSpecifier: '"../model/PmsProductAttributeCategory"' },
+        { name: 'PmsProductAttribute', moduleSpecifier: '"../model/pmsProductAttribute"' },
+        { name: 'PmsProductAttributeCategory', moduleSpecifier: '"../model/pmsProductAttributeCategory"' },
       ]);
 
       // interface extend

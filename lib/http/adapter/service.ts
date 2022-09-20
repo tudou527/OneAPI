@@ -2,6 +2,7 @@
  * service 适配
  */
 import path from 'path';
+import camelCase from 'camelcase';
 
 import { IHttpAdapter, getJsDoc, IHttpServiceParameter } from '.';
 import TypeTransfer from '../util/type-transfer';
@@ -11,6 +12,8 @@ export default class ServiceAdapter {
   private httpAdapter: IHttpAdapter = null;
   // 从文件读取的解析结果
   private fileMeta: JavaMeta.FileMeta;
+  // 保存用于判断 methodName 是否重复的对象 value 为重复次数
+  methodData: { [key: string]: number } = {};
 
   constructor(fileMeta: JavaMeta.FileMeta) {
     this.fileMeta = fileMeta;
@@ -31,14 +34,28 @@ export default class ServiceAdapter {
   public convert() {
     const { fileMeta, httpAdapter } = this;
 
+    fileMeta.class.methods.map(method => {
+      const name = this.escapeMethodName(method.name);
+      this.methodData[name] = !this.methodData[name] ? 1 : this.methodData[name] + 1;
+    });
+
     // 过滤出符合条件的方法列表，这里只判断是否以 Mapping 结束（某些代码可能会自己包 annotation）
     fileMeta.class.methods.filter(m => m.annotations.find(an => an.classPath.endsWith('Mapping'))).forEach(method => {
+      const escapeName = this.escapeMethodName(method.name);
       // 方法入参
       const methodParams = this.getMethodParams(method);
       // url、请求类型等基础信息
       const { url, type, contentType } = this.getMethodBaseInfo(method, methodParams);
       // 转换返回值类型
       const { jsType, imports } = new TypeTransfer().transform(method.return);
+      // 方法注释
+      const methodDoc = getJsDoc(method.description, method.annotations);
+      // 方法名称
+      const operationId = this.getUniqueMethodName(escapeName, url, type);
+
+      if (this.methodData[escapeName] > 1) {
+        methodDoc.description = `${methodDoc.description}（由于 ${this.fileMeta.class.name} 中 ${method.name} 方法重复，此处已自动重命名为 ${operationId})`;
+      }
 
       // 合并导入项
       httpAdapter.importDeclaration = {
@@ -50,14 +67,14 @@ export default class ServiceAdapter {
         url,
         type,
         contentType,
-        description: getJsDoc(method.description, method.annotations),
+        description: methodDoc,
         parameter: methodParams,
         response: {
           jsType,
           type: method.return,
         },
         classPath: this.fileMeta.class.classPath,
-        operationId: method.name,
+        operationId,
       });
     });
 
@@ -176,5 +193,29 @@ export default class ServiceAdapter {
 
       return param;
     });
+  }
+
+  // 替换 method 中的关键字
+  private escapeMethodName(name: string) {
+    const whiteList = ['delete'];
+
+    // name 匹配白名单列表时根据一定的规则转换名称
+    if (whiteList.includes(name)) {
+      return camelCase(`${name}_${this.httpAdapter.classPath.split('.').reverse().at(1)}`);
+    }
+
+    return name;
+  }
+
+  // 返回不重复的 methodName
+  private getUniqueMethodName(escapeName: string, url: string, methodType: string) {
+    // 不存在或只出现一次时使用 defaultName 
+    if (!this.methodData[escapeName] || this.methodData[escapeName] === 1) {
+      return escapeName;
+    }
+
+    const urlStr = url.split('/').map(str => str.replace(/[^a-z0-9]/gi, '')).reverse();
+
+    return camelCase(`${urlStr.at(1) || ''}_${urlStr.at(0)}_with_${methodType}`);
   }
 }

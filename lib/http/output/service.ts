@@ -20,7 +20,7 @@ export class ServiceGenerator {
     this.httpAdapter = httpAdapter;
     this.project = project;
 
-    const fileSavePath = this.getFilePath(httpAdapter.classPath,httpAdapter.fileType);
+    const fileSavePath = this.getFilePath(httpAdapter.classPath, httpAdapter.fileType);
 
     if (fs.existsSync(fileSavePath)) {
       this.sourceFile = project.getSourceFile(fileSavePath);
@@ -42,10 +42,12 @@ export class ServiceGenerator {
     // 导入 requests
     this.addImport(projectImportClassPath);
 
-    // 增加文件注释
-    const firstLine = this.sourceFile.getStatementsWithComments().at(0);
-    if (!firstLine.getText().includes('@ts-nocheck')) {
-      this.sourceFile.insertStatements(0, 'import request from "@/utils/request";');
+    // 为入口文件增加 request
+    if (fileType === 'ENTRY') {
+      const firstLine = this.sourceFile.getStatementsWithComments().at(0);
+      if (!firstLine.getText().includes('@ts-nocheck')) {
+        this.sourceFile.insertStatements(0, 'import request from "@/utils/request";');
+      }
     }
 
     this.sourceFile.saveSync();
@@ -64,7 +66,7 @@ export class ServiceGenerator {
       fileName = fileName.split('$')[0];
     }
 
-    return path.join(this.baseDir, fileType === 'ENTRY' ? '' : `model/${fileDir}`, `${fileName}.ts`);
+    return path.join(this.baseDir, fileType === 'ENTRY' ? '' : `model/${fileDir}`, `${camelCase(fileName)}.ts`);
   }
 
   // 增加导入
@@ -95,7 +97,7 @@ export class ServiceGenerator {
   // 生成调用方法
   private generateMethod(service: IHttpAdapterService) {
     const func = this.sourceFile.addFunction({
-      name: this.escapeMethodName(service.operationId),
+      name: service.operationId,
       isAsync: true,
       isExported: true,
     });
@@ -181,17 +183,5 @@ export class ServiceGenerator {
         extend.insertTypeArgument(index, item.jsType);
       });
     }
-  }
-
-  // 替换 method 中的关键字
-  private escapeMethodName(name: string) {
-    const whiteList = ['delete'];
-
-    // name 匹配白名单列表时根据一定的规则转换名称
-    if (whiteList.includes(name)) {
-      return camelCase(`${name}_${this.httpAdapter.classPath.split('.').reverse().at(1)}`);
-    }
-
-    return name;
   }
 }

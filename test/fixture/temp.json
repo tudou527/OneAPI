@@ -151,7 +151,7 @@
           }
         },
         "classPath": "com.macro.mall.controller.OmsOrderController",
-        "operationId": "delete"
+        "operationId": "deleteController"
       },
       {
         "url": "/order/{id}",

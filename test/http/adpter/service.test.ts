@@ -116,7 +116,7 @@ describe('lib/http/adapter/service', () => {
       const meta = fileMetaData['com.macro.mall.controller.OmsOrderController'];
   
       const { services } = new ServiceAdapter(meta).convert();
-      const deleteService = services.find((se: any) => se.operationId === 'delete');
+      const deleteService = services.find((se: any) => se.url === '/order/delete');
       // methodType 应该都是 POST
       expect(deleteService.type).to.equal('POST');
     });
@@ -129,6 +129,42 @@ describe('lib/http/adapter/service', () => {
       const { services } = new ServiceAdapter(meta).convert();
 
       expect(services[0].url).to.equal('/api/test');
+    });
+
+    it('repeat method', () => {
+      const meta = fileMetaData['com.macro.mall.controller.OmsOrderController'];
+      // 修改 method 创造重复 method
+      meta.class.methods.forEach((m: any) => {
+        if (m.name === 'upload') {
+          m.name = 'detail';
+        }
+      });
+
+      const { services } = new ServiceAdapter(meta).convert();
+      const detailService = services.find(se => se.url === '/order/{id}');
+      const uploadService = services.find(se => se.url === '/order/upload');
+
+      expect(detailService.operationId).to.equal('orderIdWithGet');
+      expect(uploadService.operationId).to.equal('orderUploadWithPost');
+    });
+
+    it('repeat method with simple like: /url', () => {
+      const meta = fileMetaData['com.macro.mall.controller.OmsOrderController'];
+      // 删除 contrller 上的 base uri
+      meta.class.annotations = meta.class.annotations.filter((an: any) => an.name !== 'RequestMapping');
+      // 修改 method 创造重复 method
+      meta.class.methods.forEach((m: any) => {
+        if (m.name === 'upload') {
+          m.name = 'detail';
+        }
+      });
+
+      const { services } = new ServiceAdapter(meta).convert();
+      const detailService = services.find(se => se.url === '/{id}');
+      const uploadService = services.find(se => se.url === '/upload');
+
+      expect(detailService.operationId).to.equal('idWithGet');
+      expect(uploadService.operationId).to.equal('uploadWithPost');
     });
 
     it('class getMapping annotation without fields', () => {
