@@ -29,7 +29,7 @@ export class ServiceGenerator {
     }
   }
 
-  generate(projectImportClassPath: string[]) {
+  generate(projectImportClassPath: string[], requestStr: string) {
     const { fileType, services } = this.httpAdapter;
 
     // 生成调用方法
@@ -46,7 +46,7 @@ export class ServiceGenerator {
     if (fileType === 'ENTRY') {
       const firstLine = this.sourceFile.getStatementsWithComments().at(0);
       if (!firstLine.getText().includes('@ts-nocheck')) {
-        this.sourceFile.insertStatements(0, 'import request from "@/utils/request";');
+        this.sourceFile.insertStatements(0, requestStr);
       }
     }
 

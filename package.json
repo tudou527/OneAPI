@@ -1,12 +1,12 @@
 {
-  "name": "code-generator",
-  "version": "0.1.0",
-  "description": "",
+  "name": "oneapi-cli",
+  "version": "0.2.0",
+  "description": "一个 API 生产工具",
   "engines": {
     "node": ">= 16.13 <17"
   },
   "bin": {
-    "oneapi": "ts-node ./bin/index.ts"
+    "oneapi": "./bin/index.js"
   },
   "scripts": {
     "dev": "ts-node ./bin/index.ts",
@@ -15,13 +15,12 @@
     "test": "mocha --timeout 5000 -r ts-node/register \"test/**/*.test.ts\"",
     "ci": "nyc --reporter=lcov npm test",
     "prettier": "prettier --config .prettierrc --write .",
-    "demo": "npm run dev -- -p /Users/dandan/workspace/oneapi-java-demo/mall -s /Users/dandan/workspace/oneapi-ts-demo/src"
+    "tsc": "rm -rf ./build && tsc && cp -r ./sdk ./build && rm -rf ./build/test"
   },
   "dependencies": {
     "camelcase": "^6.0.0",
     "chalk": "^4.0.0",
     "commander": "^9.4.0",
-    "fast-xml-parser": "^4.0.9",
     "fs-extra": "^10.1.0",
     "ts-morph": "^15.1.0",
     "tslib": "~2.4"

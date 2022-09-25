@@ -22,7 +22,6 @@ describe('lib/http/output/service', () => {
 
     httpPotocol = new HttpProtocol({
       filePath: path.join(__dirname, '../../fixture/oneapi.json'),
-      projectDir: path.join(__dirname, '../../fixture'),
       saveDir: path.join(__dirname, '../../fixture'),
     });
 
@@ -58,7 +57,7 @@ describe('lib/http/output/service', () => {
         fakeArgs = args;
       }));
 
-      apiGenerator.generate(projectImportClassPath);
+      apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
       expect(fakeArgs).to.deep.equal([]);
 
       // import
@@ -121,7 +120,7 @@ describe('lib/http/output/service', () => {
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
 
-      apiGenerator.generate(projectImportClassPath);
+      apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       // method 不存在
       const methods = apiGenerator.sourceFile.getFunctions();
@@ -138,7 +137,7 @@ describe('lib/http/output/service', () => {
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
 
-      apiGenerator.generate(projectImportClassPath);
+      apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       // 方法体
       const methodBody = apiGenerator.sourceFile.getFunctions().at(0).getBodyText();
@@ -159,7 +158,7 @@ describe('lib/http/output/service', () => {
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
 
-      apiGenerator.generate(projectImportClassPath);
+      apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       // 方法体
       const methodBody = apiGenerator.sourceFile.getFunctions().at(0).getBodyText();
@@ -177,7 +176,7 @@ describe('lib/http/output/service', () => {
         return false;
       }));
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
-      apiGenerator.generate(projectImportClassPath);
+      apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       // import
       const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => ({
@@ -247,7 +246,7 @@ describe('lib/http/output/service', () => {
 
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
-      apiGenerator.generate(projectImportClassPath);
+      apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       const interfaceText = apiGenerator.sourceFile.getInterfaces().at(0).getText();
 
@@ -266,7 +265,7 @@ describe('lib/http/output/service', () => {
 
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
-      apiGenerator.generate(projectImportClassPath);
+      apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       // 空字段 
       const fields = apiGenerator.sourceFile.getInterfaces().at(0).getProperties();
@@ -279,7 +278,7 @@ describe('lib/http/output/service', () => {
 
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
-      apiGenerator.generate(projectImportClassPath);
+      apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       // import
       const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => ({
@@ -306,7 +305,7 @@ describe('lib/http/output/service', () => {
 
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
-      apiGenerator.generate(projectImportClassPath);
+      apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       // import
       const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => ({
@@ -327,12 +326,12 @@ describe('lib/http/output/service', () => {
     it('sub class', () => {
       const adapter = httpPotocol.adapterDataList.find(ada => ada.className === 'OmsOrderQueryParam');
       const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixture'), project, adapter);
-      apiGenerator.generate(projectImportClassPath);
+      apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       // 写入 sub class
       const subAdapter = httpPotocol.adapterDataList.find(ada => ada.className === 'OmsOrderQueryParamCalcAmount');
       const subApiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixture'), project, subAdapter);
-      subApiGenerator.generate(projectImportClassPath);
+      subApiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       fs.rmSync(path.join(__dirname, '../../fixture/model'), { recursive: true, force: true });
     });

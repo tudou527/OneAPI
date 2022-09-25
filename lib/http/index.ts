@@ -1,16 +1,10 @@
-import path from 'path';
 import fs from 'fs-extra';
-import { IndentationText, Project } from 'ts-morph';
 
-import { OpenApi } from './output/openapi';
-import { ServiceGenerator } from './output/service';
 import { ServiceAdapter, ModelAdapter, IHttpAdapter } from './adapter';
 
 export default class HttpProtocol {
   // 原始的 .json 文件
   filePath: string;
-  // 项目根目录
-  projectDir: string;
   // 结果保存目录
   saveDir: string;
   // 从文件解析得到的数据
@@ -26,9 +20,8 @@ export default class HttpProtocol {
 
   loopCount: number;
 
-  constructor(args: { filePath: string; projectDir: string; saveDir: string; }) {
+  constructor(args: { filePath: string; saveDir: string; }) {
     this.filePath = args.filePath;
-    this.projectDir = args.projectDir;
     this.saveDir = args.saveDir;
 
     this.fileMetaData = fs.readJSONSync(args.filePath);
@@ -37,9 +30,6 @@ export default class HttpProtocol {
 
     this.convertService();
     this.convertModel();
-
-    // 写临时文件
-    fs.writeJSONSync(path.join(this.saveDir, 'temp.json'), this.adapterDataList, { spaces: 2 });
   }
 
   private convertService() {
@@ -79,44 +69,5 @@ export default class HttpProtocol {
       this.loopCount++;
       this.convertModel();
     }
-  }
-
-  // 生成 service/interface
-  generateService() {
-    const project = new Project({
-      manipulationSettings: {
-        // 使用 2 个空格作为缩进
-        indentationText: IndentationText.TwoSpaces
-      },
-    });
-
-    // 整个项目所有依赖的 classPath
-    let projectImportClassPath: string[] = [];
-    this.adapterDataList.map(adapter => {
-      Object.keys(adapter.importDeclaration).forEach(classPath => {
-        if (!projectImportClassPath.includes(classPath)) {
-          projectImportClassPath.push(classPath);
-        }
-      });
-    });
-
-    const serviceDir = path.join(this.saveDir, 'services');
-    // 清空 services 目录
-    fs.emptyDirSync(serviceDir);
-
-    for (let adapter of this.adapterDataList) {
-      const apiGenerator = new ServiceGenerator(serviceDir, project, adapter);
-      apiGenerator.generate(projectImportClassPath);
-    }
-  }
-
-  // 转换为 OpenAPI 格式
-  generateOpenApi() {
-    const openApi = new OpenApi({
-      projectDir: this.projectDir,
-      httpAdapter: this.adapterDataList,
-    }).convert();
-
-    fs.writeJSONSync(path.join(this.saveDir, 'openapi.json'), openApi, { spaces: 2 });
   }
 }

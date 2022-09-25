@@ -1,14 +1,10 @@
 /**
  * 适配 OpenAPI3.0 协议
  */
-import fs from 'fs';
-import { XMLParser } from 'fast-xml-parser';
-
 import TypeTransfer from '../util/type-transfer';
 import { IAdapterField, IHttpAdapter, IHttpAdapterService } from '../adapter';
 
 export class OpenApi {
-  projectDir: string;
   openApi = {
     openapi: '3.0.0',
     info: {
@@ -24,8 +20,7 @@ export class OpenApi {
   // 转换结果
   httpAdapter: IHttpAdapter[] = [];
 
-  constructor(args: { httpAdapter: IHttpAdapter[], projectDir: string }) {
-    this.projectDir = args.projectDir;
+  constructor(args: { httpAdapter: IHttpAdapter[] }) {
     this.httpAdapter = args.httpAdapter;
   }
 
@@ -38,29 +33,10 @@ export class OpenApi {
   }
 
   private updateInfo () {
-    // 尝试读取根目录下的 pom.xml 获取应用信息
-    const pom = this.projectDir + '/pom.xml';
-
-    // 默认使用目录名作为 title
-    let title = this.projectDir.split('/').reverse()[0];
-    let version = '';
-
-    if (fs.existsSync(pom)) {
-      try {
-        const parser = new XMLParser({ ignoreAttributes: false });
-        const jsonData = parser.parse(fs.readFileSync(pom, 'utf8'));
-
-        title = jsonData?.project?.artifactId || title;
-        version = jsonData?.project?.vertion || version;
-
-      } catch(_e){
-      }
-    }
-
     this.openApi.info = {
-      title,
-      version,
-      description: `${title} API`
+      title: '',
+      version: '',
+      description: '',
     }
   }
 
