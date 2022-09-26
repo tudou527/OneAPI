@@ -78,3 +78,6 @@ oneapi service -s /Users/admin/demo/oneapi.json -r 'import request from "@/utils
 ```
 oneapi service -s /Users/admin/demo/oneapi.json -o /Users/admin/demo
 ```
+
+### 其他
+* 欢迎提交 [issue](https://github.com/tudou527/oneapi/issues) 反馈解析失败的 bad case
