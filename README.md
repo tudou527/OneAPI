@@ -21,7 +21,7 @@
   * [Maven 下载地址](https://maven.apache.org/download.cgi) 
   * Maven 不是可执行文件，下载后需要解压使用[官方文档](https://maven.apache.org/install.html) 
   * 安装完成后，执行 `mvn -version` 能正常打印版本表示安装成功
-  * 安装完成后找后端让他复制一份 [settings.html](https://maven.apache.org/settings.html) 给你，保存到 `${user.home}/.m2/settings.xml`。没有这个文件的情况下，默认会从官方 mvn 仓库下载依赖（某些内部包可能下载不到）
+  * 安装完成后找后端让他复制一份 [settings.xml](https://maven.apache.org/settings.html) 给你，保存到 `${user.home}/.m2/settings.xml`。没有这个文件的情况下，默认会从官方 mvn 仓库下载依赖（某些内部包可能下载不到）
 
 ### 安装 OneAPI CLI
 
