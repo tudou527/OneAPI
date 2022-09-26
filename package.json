@@ -1,6 +1,6 @@
 {
   "name": "oneapi-cli",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "description": "一个 API 生产工具",
   "engines": {
     "node": ">= 16.13 <17"

@@ -125,7 +125,6 @@ describe('lib/main', () => {
       expect(fakeArgs).to.deep.equal([
         path.join(__dirname, 'openapi.json'),
         { a: 'b' },
-        { spaces: 2 }
       ]);
     });
   });

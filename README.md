@@ -1,8 +1,12 @@
-# OneAPI CLI
-<img src="https://raw.githubusercontent.com/tudou527/tudou527.github.io/master/src/assets/intro-banner.png" width="600" />
+## OneAPI
+![ci](https://github.com/tudou527/oneapi/actions/workflows/ci.yml/badge.svg)
+[![codecov](https://codecov.io/gh/tudou527/oneapi/branch/master/graph/badge.svg)](https://codecov.io/gh/tudou527/oneapi)
+
+
+<img src="https://raw.githubusercontent.com/tudou527/tudou527.github.io/master/src/assets/intro-banner.png" width="820" />
 
 ## 特性
-<img src="https://raw.githubusercontent.com/tudou527/tudou527.github.io/master/src/assets/intro-feat.png" width="600" />
+<img src="https://raw.githubusercontent.com/tudou527/tudou527.github.io/master/src/assets/intro-feat.png" width="820" />
 
 
 ## 使用
