@@ -1,4 +1,5 @@
 ## OneAPI
+![npm](https://img.shields.io/npm/v/oneapi-cli)
 ![ci](https://github.com/tudou527/oneapi/actions/workflows/ci.yml/badge.svg)
 [![codecov](https://codecov.io/gh/tudou527/oneapi/branch/master/graph/badge.svg)](https://codecov.io/gh/tudou527/oneapi)
 
@@ -57,7 +58,7 @@ oneapi analysis -p /Users/admin/workspace/mall -o /Users/admin/demo
 
 调用示例，：
 
-> 在 mall-web/src 目录下生成前端 service。真实示例 Demo：http://tudou527.github.io/
+> 在 mall-web/src 目录下生成前端 service。真实示例 Demo：https://oneapi.app
 
 ```
 oneapi service -s /Users/admin/demo/oneapi.json -r 'import request from "@/utils/request";' -o /Users/admin/workspace/mall-web/src
@@ -72,7 +73,7 @@ oneapi service -s /Users/admin/demo/oneapi.json -r 'import request from "@/utils
 
 调用示例，：
 
-> 把解析结果转换为 OpeAPI 3.0 schema（可以导入其他 API 工具使用）。真实示例 Demo：http://tudou527.github.io/
+> 把解析结果转换为 OpeAPI 3.0 schema（可以导入其他 API 工具使用）。真实示例 Demo：https://oneapi.app
 
 ```
 oneapi service -s /Users/admin/demo/oneapi.json -o /Users/admin/demo
