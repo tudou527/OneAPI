@@ -10,8 +10,6 @@ jobs:
       - name: Run CI
         run: npm i && npm run ci
       - name: Upload Coverage
-        env:
-          CODECOV_TOKEN: f14b823b-b2fc-4dc6-b1ae-97bba0ba27ac
         uses: codecov/codecov-action@v3.1.0
         with:
           files: ${{ github.workspace }}/.nyc_output/coverage/lcov.info
