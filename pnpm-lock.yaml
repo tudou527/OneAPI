@@ -15,7 +15,6 @@ specifiers:
   commander: ^9.4.0
   eslint: ~8.16
   eslint-config-prettier: ~8.5
-  fast-xml-parser: ^4.0.9
   fs-extra: ^10.1.0
   mocha: ^10.0.0
   nyc: ^15.1.0
@@ -30,7 +29,6 @@ dependencies:
   camelcase: 6.3.0
   chalk: 4.1.2
   commander: 9.4.0
-  fast-xml-parser: 4.0.9
   fs-extra: 10.1.0
   ts-morph: 15.1.0
   tslib: 2.4.0
@@ -1178,13 +1176,6 @@ packages:
       punycode: 1.4.1
     dev: true
 
-  /fast-xml-parser/4.0.9:
-    resolution: {integrity: sha512-4G8EzDg2Nb1Qurs3f7BpFV4+jpMVsdgLVuG1Uv8O2OHJfVCg7gcA53obuKbmVqzd4Y7YXVBK05oJG7hzGIdyzg==}
-    hasBin: true
-    dependencies:
-      strnum: 1.0.5
-    dev: false
-
   /fastq/1.13.0:
     resolution: {integrity: sha512-YpkpUnK8od0o1hmeSc7UUs/eB/vIPWJYjKck2QKIzAf71Vm1AAQ3EbuZB3g2JIy+pg+ERD0vqI79KyZiB2e2Nw==}
     dependencies:
@@ -2176,10 +2167,6 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
     dev: true
-
-  /strnum/1.0.5:
-    resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
-    dev: false
 
   /stubs/3.0.0:
     resolution: {integrity: sha512-PdHt7hHUJKxvTCgbKX9C1V/ftOcjJQgz8BZwNfV5c4B6dcGqlpelTbJ999jBGZ2jYiPAwcX5dP6oBwVlBlUbxw==}
