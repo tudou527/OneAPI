@@ -107,7 +107,7 @@ export class OpenApi {
     if (service.parameter.find(p => p.isPathVariable)) {
       requestBody.parameters = service.parameter.filter(p => p.isPathVariable).map(p => ({
         name: p.name,
-        in: p.isPathVariable ? 'path' : 'query',
+        in: 'path',
         description: '',
         required: p.isRequired,
         ...this.getSchema(p.type),
@@ -261,7 +261,6 @@ export class OpenApi {
       });
 
       componentData[res.jsType] = {
-        title: res.jsType,
         type: 'object',
         properties: {
           ...properties,
@@ -279,7 +278,6 @@ export class OpenApi {
         });
 
         componentData[res.jsType] = {
-          title: res.jsType,
           type: 'array',
           items: {
             $ref: `#/components/schemas/${childJsType.jsType}`,

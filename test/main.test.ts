@@ -46,24 +46,23 @@ describe('lib/main', () => {
       });
     });
   
-    it('normal', function() {
-      return new Promise(async (resolve) => {
-        const proc: any = new events.EventEmitter();
-        proc.stdin = new stream.Writable();
-        proc.stdout = <stream.Readable> new events.EventEmitter();
-        proc.stderr = <stream.Readable> new events.EventEmitter();
-  
-        sinon.replace(cp, 'spawn', sinon.fake(() => {
-          setTimeout(() => {
-            proc.emit('close');
-          }, 5);
-          return proc;
-        }));
-  
-        await analysis({ projectDir: '/projectDir', saveDir: '/saveDir' });
-  
-        resolve('');
-      });
+    it('normal', async function() {
+      const proc: any = new events.EventEmitter();
+      proc.stdin = new stream.Writable();
+      proc.stdout = <stream.Readable> new events.EventEmitter();
+      proc.stderr = <stream.Readable> new events.EventEmitter();
+
+      sinon.replace(cp, 'spawn', sinon.fake(() => {
+        setTimeout(() => {
+          proc.emit('close');
+        }, 5);
+        return proc;
+      }));
+      sinon.stub(cp, 'execSync').withArgs('which java').resolves("/usr/bin/java").withArgs('which mvn').resolves("/usr/bin/mvn");
+
+      const result = await analysis({ projectDir: '/projectDir', saveDir: '/saveDir' });
+
+      expect(result).to.be.equal('/saveDir/oneapi.json');
     });
   });
 
