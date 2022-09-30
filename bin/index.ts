@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import path from 'path';
 import chalk from 'chalk';
 import { program } from 'commander';
 
+import { getAbsolutePath } from '../lib/utils/common';
 import { analysis, generateService, convertOpenApi } from '../lib/main';
 
 program
@@ -15,13 +15,10 @@ program
       // 开始时间
       const startTime = Date.now();
 
-      const projectDir = args.project.startsWith('/') ? args.project : path.join(__dirname, args.project);
-      const saveDir = args.output.startsWith('/') ? args.output : path.join(__dirname, args.output);
-
       // 解析 OneAPI Schema
       const oneApiFilePath = await analysis({
-        projectDir,
-        saveDir,
+        projectDir: getAbsolutePath(args.project),
+        saveDir: getAbsolutePath(args.output),
       });
 
       // 解析时间
@@ -43,7 +40,11 @@ program
   .requiredOption('-o, --output <dir>', 'Servies 输出目录（目录下的文件在执行过程中会被清空）')
   .action(async (args: { schema: string; requestStr: string, output: string }) => {
     // 生成 service
-    const serviceDir = generateService(args);
+    const serviceDir = generateService({
+      schema: getAbsolutePath(args.schema),
+      requestStr: args.requestStr,
+      output: getAbsolutePath(args.output),
+    });
 
     console.log();
     console.log('✅ Services 文件生成完成: %s', chalk.green(serviceDir));
@@ -56,7 +57,10 @@ program
   .requiredOption('-o, --output <dir>', 'OpenAPI schema 输出目录')
   .action(async (args: { schema: string; output: string }) => {
     // 转换为 OpenAPI
-    const openApiPath = convertOpenApi(args);
+    const openApiPath = convertOpenApi({
+      schema: getAbsolutePath(args.schema),
+      output: getAbsolutePath(args.output),
+    });
 
     console.log();
     console.log('✅ openapi.json 转换完成: %s', chalk.green(openApiPath));

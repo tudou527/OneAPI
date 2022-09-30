@@ -1,6 +1,7 @@
+import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
-import fs from 'fs-extra';
+import fsExtra from 'fs-extra';
 import { spawn, execSync } from 'child_process';
 import { IndentationText, Project } from 'ts-morph';
 
@@ -23,6 +24,11 @@ export async function analysis(args: { projectDir: string; saveDir: string }) {
     execSync('which mvn');
   } catch(e) {
     throw new Error(chalk.red('❎ 请安装 Maven 运行环境并添加环境变量。'));
+  }
+
+  // 判断 projectDir 是否存在
+  if (!fs.existsSync(args.projectDir)) {
+    throw new Error(chalk.red(`❎ ${args.projectDir} 目录不存在`));
   }
 
   // 安装依赖
@@ -85,7 +91,7 @@ export function generateService(args: { schema: string; requestStr: string, outp
 
   const serviceDir = path.join(args.output, 'services');
   // 清空 services 目录
-  fs.emptyDirSync(serviceDir);
+  fsExtra.emptyDirSync(serviceDir);
 
   for (let adapter of httpPotocol.adapterDataList) {
     const apiGenerator = new ServiceGenerator(serviceDir, project, adapter);
@@ -114,7 +120,7 @@ export function convertOpenApi(args: { schema: string; output: string }){
     httpAdapter: httpPotocol.adapterDataList,
   }).convert();
 
-  fs.writeJSONSync(openApiPath, openApi);
+  fsExtra.writeJSONSync(openApiPath, openApi);
 
   return openApiPath;
 }
