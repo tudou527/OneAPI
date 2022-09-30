@@ -1,4 +1,4 @@
-import fs from 'fs-extra';
+import fs from 'fs';
 import sinon from 'sinon';
 import path from 'path';
 import stream from 'stream';
@@ -45,6 +45,27 @@ describe('lib/main', () => {
         resolve('');
       });
     });
+
+    it('project dir not exists', async function() {
+      const proc: any = new events.EventEmitter();
+      proc.stdin = new stream.Writable();
+      proc.stdout = <stream.Readable> new events.EventEmitter();
+      proc.stderr = <stream.Readable> new events.EventEmitter();
+
+      sinon.replace(cp, 'spawn', sinon.fake(() => {
+        setTimeout(() => {
+          proc.emit('close');
+        }, 5);
+        return proc;
+      }));
+      sinon.stub(cp, 'execSync').withArgs('which java').resolves("/usr/bin/java").withArgs('which mvn').resolves("/usr/bin/mvn");
+
+      try {
+        await analysis({ projectDir: '/projectDir', saveDir: '/saveDir' });
+      } catch(e) {
+        expect(e.message.toString().indexOf('/projectDir 目录不存在') > 0).to.be.equal(true);
+      }
+    });
   
     it('normal', async function() {
       const proc: any = new events.EventEmitter();
@@ -52,6 +73,7 @@ describe('lib/main', () => {
       proc.stdout = <stream.Readable> new events.EventEmitter();
       proc.stderr = <stream.Readable> new events.EventEmitter();
 
+      sinon.stub(fs, 'existsSync').returns(true);
       sinon.replace(cp, 'spawn', sinon.fake(() => {
         setTimeout(() => {
           proc.emit('close');
