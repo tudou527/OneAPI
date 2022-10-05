@@ -30,6 +30,9 @@
     "services/**/*",
     "test/**/*"
   ],
+  "exclude": [
+    "test"
+  ],
   "ts-node": {
     "files": true
   },
