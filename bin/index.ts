@@ -5,6 +5,8 @@ import { program } from 'commander';
 import { getAbsolutePath } from '../lib/utils/common';
 import { analysis, generateService, convertOpenApi } from '../lib/main';
 
+import pkg from '../package.json';
+
 program
   .command('analysis')
   .description('从 Spring 项目解析出 OneAPI schema')
@@ -66,5 +68,6 @@ program
     console.log('✅ openapi.json 转换完成: %s', chalk.green(openApiPath));
   });
 
+program.version(pkg.version, '-v, --version', '打印版本号');
 
 program.parseAsync(process.argv);
