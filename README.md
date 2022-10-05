@@ -31,7 +31,7 @@ npm install -g oneapi-cli
 
 ### CLI 相关命令
 
-> 可以在 [CodeSandBox](https://codesandbox.io/s/oneapi-services-demo-ktyw7i) 查看开源项目 [mall](https://github.com/macrozheng/mall) 的解析结果。
+> 可以在 [CodeSandBox](https://codesandbox.io/s/oneapi-services-demo-ktyw7i?file=/src/demo/oneapi.json) 查看开源项目 [mall](https://github.com/macrozheng/mall) 的解析结果。
 
 #### `oneapi analysis`
 
@@ -41,10 +41,10 @@ npm install -g oneapi-cli
 * -o: 必须，解析结果 oneapi.json 保存目录
 
 调用示例：
-
-> 解析 mall 目录下的后端应用，并保存解析结果到 demo 文件夹(文件名默认为 oneapi.json)
+> 开源项目 [mall](https://github.com/macrozheng/mall) 执行结果结果：[CodeSandBox](https://codesandbox.io/s/oneapi-services-demo-ktyw7i?file=/src/demo/oneapi.json)
 
 ```
+// 解析 mall 目录下的后端应用，并保存解析结果到 demo 文件夹(文件名默认为 oneapi.json)
 oneapi analysis -p /Users/admin/workspace/mall -o /Users/admin/demo
 ```
 
@@ -56,11 +56,12 @@ oneapi analysis -p /Users/admin/workspace/mall -o /Users/admin/demo
 * -r: 必须，Request 导入字符串(service 方法中导入的 request)
 * -o: 必须，Servies 输出目录（目录下的文件在执行过程中会被清空）
 
-调用示例，：
+调用示例：
 
-> 在 mall-web/src 目录下生成前端 service。真实示例 Demo：https://oneapi.app
+> 开源项目 [mall](https://github.com/macrozheng/mall) 执行结果结果：[CodeSandBox](https://codesandbox.io/s/oneapi-services-demo-ktyw7i?file=/src/services/demoController.ts)
 
 ```
+// 在 mall-web/src 目录下生成前端 service
 oneapi service -s /Users/admin/demo/oneapi.json -r 'import request from "@/utils/request";' -o /Users/admin/workspace/mall-web/src
 ```
 
@@ -73,9 +74,10 @@ oneapi service -s /Users/admin/demo/oneapi.json -r 'import request from "@/utils
 
 调用示例，：
 
-> 把解析结果转换为 OpeAPI 3.0 schema（可以导入其他 API 工具使用）。真实示例 Demo：https://oneapi.app
+> 开源项目 [mall](https://github.com/macrozheng/mall) 执行结果结果：[CodeSandBox](https://codesandbox.io/s/oneapi-services-demo-ktyw7i?file=/src/demo/openapi.json)
 
 ```
+// 把解析结果转换为 OpeAPI 3.0 schema（可以导入其他 API 工具使用）
 oneapi service -s /Users/admin/demo/oneapi.json -o /Users/admin/demo
 ```
 
