@@ -18,6 +18,5 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm install && npm run tsc
       - run: cd build && npm install && npm publish
-      - name: 'Publish to the npm registry'
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
