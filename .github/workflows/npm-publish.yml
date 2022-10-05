@@ -1,0 +1,23 @@
+name: Public npm
+
+on:
+  push:
+    tags:
+      - 'v**'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: 'publish npm'
+    environment: npm
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - run: npm install && npm run tsc
+      - run: cd build && npm install && npm publish
+      - name: 'Publish to the npm registry'
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
