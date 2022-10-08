@@ -9,8 +9,10 @@
 ## 特性
 <img src="https://raw.githubusercontent.com/tudou527/tudou527.github.io/master/src/assets/intro-feat.png" width="820" />
 
-
 ## 使用
+
+<img src="https://github.com/tudou527/tudou527.github.io/raw/master/public/demo.gif" width="850" />
+
 ### 环境准备
 * 安装 Java 环境，并设置好环境变量
   * [Oracle JDK](https://www.oracle.com/java/technologies/downloads)
