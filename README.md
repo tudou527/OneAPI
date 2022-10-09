@@ -80,7 +80,7 @@ oneapi service -s /Users/admin/demo/oneapi.json -r 'import request from "@/utils
 
 ```
 // 把解析结果转换为 OpeAPI 3.0 schema（可以导入其他 API 工具使用）
-oneapi service -s /Users/admin/demo/oneapi.json -o /Users/admin/demo
+oneapi openapi -s /Users/admin/demo/oneapi.json -o /Users/admin/demo
 ```
 
 ### 其他
