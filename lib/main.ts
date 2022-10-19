@@ -46,7 +46,7 @@ export async function analysis(args: { projectDir: string; saveDir: string }) {
 
   // 从项目解析出 oneapi.json
   return await new Promise((resolve) => {
-    const springAdapter = path.join(__dirname, '../sdk/spring-adapter-1.0.1.jar');
+    const springAdapter = path.join(__dirname, '../sdk/spring-adapter-1.0.2.jar');
 
     const jar = spawn('java', [
       '-jar',
