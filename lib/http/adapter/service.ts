@@ -45,17 +45,11 @@ export default class ServiceAdapter {
       // 方法入参
       const methodParams = this.getMethodParams(method);
       // url、请求类型等基础信息
-      const { url, type, contentType } = this.getMethodBaseInfo(method, methodParams);
+      const { urls, type, contentType } = this.getMethodBaseInfo(method, methodParams);
       // 转换返回值类型
       const { jsType, imports } = new TypeTransfer().transform(method.return);
       // 方法注释
       const methodDoc = getJsDoc(method.description, method.annotations);
-      // 方法名称
-      const operationId = this.getUniqueMethodName(escapeName, url, type);
-
-      if (this.methodData[escapeName] > 1) {
-        methodDoc.description = `${methodDoc.description}（由于 ${this.fileMeta.class.name} 中 ${method.name} 方法重复，此处已自动重命名为 ${operationId})`;
-      }
 
       // 合并导入项
       httpAdapter.importDeclaration = {
@@ -63,38 +57,51 @@ export default class ServiceAdapter {
         ...imports,
       }
 
-      httpAdapter.services.push({
-        url,
-        type,
-        contentType,
-        description: methodDoc,
-        parameter: methodParams,
-        response: {
-          jsType,
-          type: method.return,
-        },
-        classPath: this.fileMeta.class.classPath,
-        operationId,
+      urls.forEach(url => {
+        // 方法名称
+        const operationId = this.getUniqueMethodName(escapeName, url, type);
+
+        if (this.methodData[escapeName] > 1) {
+          methodDoc.description = `${methodDoc.description}（由于 ${this.fileMeta.class.name} 中 ${method.name} 方法重复，此处已自动重命名为 ${operationId})`;
+        }
+
+        httpAdapter.services.push({
+          url,
+          type,
+          contentType,
+          description: methodDoc,
+          parameter: methodParams,
+          response: {
+            jsType,
+            type: method.return,
+          },
+          classPath: this.fileMeta.class.classPath,
+          operationId,
+        });
       });
     });
 
-    return this.httpAdapter;
+    return httpAdapter;
   }
 
-  // 返回 class 中定义的路由前缀
+  /**
+   * 返回 class 中定义的路由前缀，可能存在多个：
+   * Exp: @RequestMapping({"/xxx/a","/xxx/b"})
+   */
   private getBaseURI() {
-    let baseURI = '';
+    // 注解可能不存在，所以这里需要返回一个空数组
+    let baseURIs: string[] = [''];
 
     this.fileMeta.class.annotations?.forEach(an => {
       if (an.name.endsWith('Mapping')) {
         const uriField = an.fields?.find(f => f.name === 'value');
         if (uriField) {
-          baseURI = uriField.value;
+          baseURIs = [].concat(uriField.value);
         }
       }
     });
 
-    return baseURI;
+    return baseURIs;
   }
 
   // 返回请求类型
@@ -117,12 +124,19 @@ export default class ServiceAdapter {
 
   // Api 基础信息
   private getMethodBaseInfo(method: JavaMeta.ClassMethod, params: IHttpServiceParameter[]) {
-    const baseURI = this.getBaseURI();
+    const baseURIs = this.getBaseURI();
     // method 中申明请求基本信息的注解
     const apiAnnotation = method.annotations.find(an => an.name.endsWith('Mapping'));
-    // 注解中定义的请求 uri
-    const methodURI = apiAnnotation.fields?.find(f => f.name === 'value')?.value || '';
-    const url = path.join(baseURI, methodURI).replace(/\*/gi, '');
+    // 方法注解中定义的请求 uri，也可能存在多个
+    const methodURIs = [].concat(apiAnnotation.fields?.find(f => f.name === 'value')?.value || '');
+
+    // 组合 controller、method 中定义的 uri
+    const urls = baseURIs.map((baseURI: string) => {
+      return methodURIs.map((methodURI: string) => {
+        return path.join(baseURI, methodURI).replace(/\*/gi, '');
+      });
+    }).flat();
+
     // 过滤掉 pathVariable 后的参数列表
     const apiParams = params.filter(p => !p.isPathVariable);
 
@@ -135,7 +149,7 @@ export default class ServiceAdapter {
     }
 
     return {
-      url,
+      urls: urls,
       type: methodType,
       contentType,
     }

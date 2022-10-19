@@ -219,4 +219,18 @@ describe('lib/http/adapter/service', () => {
       expect(uploadService.contentType).to.equal('multipart/form-data');
     });
   });
+
+  describe('multi url', () => {
+    it('multi base uri and method uri', () => {
+      const meta = fileMetaData['com.macro.mall.controller.multiMappingController'];
+
+      const { services } = new ServiceAdapter(meta).convert();
+      expect(services.length).to.equal(4);
+
+      expect(services.at(0).url).to.equal('/api/v1/list/all');
+      expect(services.at(1).url).to.equal('/api/v1/list-all');
+      expect(services.at(2).url).to.equal('/api/v2/list/all');
+      expect(services.at(3).url).to.equal('/api/v2/list-all');
+    });
+  });
 });

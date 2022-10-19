@@ -2902,5 +2902,181 @@
       ],
       "methods": []
     }
+  },
+  "com.macro.mall.controller.multiMappingController": {
+    "filePath": "/Users/java/mall/mall-admin/src/main/java/com/macro/mall/controller/multiMappingController.java",
+    "fileType": "ENTRY",
+    "packageName": "com.macro.mall.controller",
+    "imports": [],
+    "class": {
+      "name": "multiMappingController",
+      "classPath": "com.macro.mall.controller.multiMappingController",
+      "annotations": [
+        {
+          "name": "RestController",
+          "classPath": "org.springframework.stereotype.RestController",
+          "fields": []
+        },
+        {
+          "name": "RequestMapping",
+          "classPath": "org.springframework.annotations.RequestMapping",
+          "fields": [
+            {
+              "name": "value",
+              "type": "Constant",
+              "array": true,
+              "value": ["/api/v1", "/api/v2"]
+            }
+          ]
+        }
+      ],
+      "isEnum": false,
+      "isInterface": false,
+      "isAbstract": false,
+      "isPrivate": false,
+      "isPublic": true,
+      "fields": [
+      ],
+      "methods": [
+        {
+          "name": "list",
+          "description": {
+            "tag": {}
+          },
+          "annotations": [
+            {
+              "name": "ApiOperation",
+              "classPath": "io.swagger.annotations.ApiOperation",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "查询订单"
+                }
+              ]
+            },
+            {
+              "name": "RequestMapping",
+              "classPath": "org.springframework.web.bind.annotation.RequestMapping",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": true,
+                  "value": ["/list/all", "/list-all"]
+                },
+                {
+                  "name": "method",
+                  "type": "org.springframework.web.bind.annotation.RequestMethod",
+                  "array": false,
+                  "value": "RequestMethod.GET"
+                }
+              ]
+            },
+            {
+              "name": "ResponseBody",
+              "classPath": "org.springframework.web.bind.annotation.ResponseBody",
+              "fields": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "queryParam",
+              "type": {
+                "name": "OmsOrderQueryParam",
+                "classPath": "com.macro.mall.dto.OmsOrderQueryParam"
+              },
+              "description": {
+                "tag": {}
+              },
+              "annotations": []
+            },
+            {
+              "name": "pSize",
+              "type": {
+                "name": "Integer",
+                "classPath": "java.lang.Integer"
+              },
+              "description": {
+                "tag": {}
+              },
+              "annotations": [
+                {
+                  "name": "RequestParam",
+                  "classPath": "org.springframework.web.bind.annotation.RequestParam",
+                  "fields": [
+                    {
+                      "name": "value",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "pageSize"
+                    },
+                    {
+                      "name": "defaultValue",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "pNum",
+              "type": {
+                "name": "Integer",
+                "classPath": "java.lang.Integer"
+              },
+              "description": {
+                "tag": {}
+              },
+              "annotations": [
+                {
+                  "name": "RequestParam",
+                  "classPath": "org.springframework.web.bind.annotation.RequestParam",
+                  "fields": [
+                    {
+                      "name": "value",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "pageNum"
+                    },
+                    {
+                      "name": "required",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "true"
+                    },
+                    {
+                      "name": "defaultValue",
+                      "type": "Constant",
+                      "array": false,
+                      "value": "1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "return": {
+            "name": "CommonResult",
+            "classPath": "com.macro.mall.common.api.CommonResult",
+            "items": [
+              {
+                "name": "CommonPage",
+                "classPath": "com.macro.mall.common.api.CommonPage",
+                "items": [
+                  {
+                    "name": "OmsOrder",
+                    "classPath": "com.macro.mall.model.OmsOrder"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
   }
 }
