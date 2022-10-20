@@ -5,8 +5,6 @@ import { ServiceAdapter, ModelAdapter, IHttpAdapter } from './adapter';
 export default class HttpProtocol {
   // 原始的 .json 文件
   filePath: string;
-  // 结果保存目录
-  saveDir: string;
   // 从文件解析得到的数据
   fileMetaData: { [key: string]: JavaMeta.FileMeta } = {};
   // 适配 http 协议数据
@@ -20,23 +18,32 @@ export default class HttpProtocol {
 
   loopCount: number;
 
-  constructor(args: { filePath: string; saveDir: string; }) {
+  public convert(args: { filePath: string }) {
     this.filePath = args.filePath;
-    this.saveDir = args.saveDir;
 
-    this.fileMetaData = fs.readJSONSync(args.filePath);
+    const jsonData = fs.readJSONSync(args.filePath);
 
     this.loopCount = 0;
 
-    this.convertService();
-    this.convertModel();
+    // 兼容不存在 oneapi 的情况
+    if (!jsonData.oneapi) {
+      this.fileMetaData = jsonData;
+
+      this.convertService();
+      this.convertModel();
+    } else {
+      // 直接读取 http key 下的数据作为解析结果
+      this.adapterDataList = jsonData.http as IHttpAdapter[];
+    }
+
+    return this.adapterDataList;
   }
 
   private convertService() {
     // 遍历入口
     Object.keys(this.fileMetaData).filter(classPath => this.fileMetaData[classPath].fileType === 'ENTRY').forEach(classPath => {
       const serviceAdapter = new ServiceAdapter(this.fileMetaData[classPath]).convert();
-      
+
       this.adapterDataList.push(serviceAdapter);
 
       // 缓存待解析的 import 列表
@@ -53,6 +60,7 @@ export default class HttpProtocol {
       return a.indexOf('$') - b.indexOf('$');
     }).forEach(classPath => {
       const modelAdapter = new ModelAdapter(classPath, this.fileMetaData).convert();
+      
       this.adapterDataList.push(modelAdapter);
       // 更新解析状态
       this.sourceClassPathMap[modelAdapter.classPath] = true;

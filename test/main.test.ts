@@ -7,12 +7,23 @@ import { expect } from 'chai';
 import fsExtra from 'fs-extra';
 import cp from 'child_process';
 
+import HttpProtocol from '../lib/http';
 import { OpenApi } from '../lib/http/output/openapi';
 import { ServiceGenerator } from '../lib/http/output/service';
-import { ModelAdapter, ServiceAdapter } from '../lib/http/adapter';
 import { analysis, generateService, convertOpenApi } from '../lib/main';
+import { IHttpAdapter, ModelAdapter, ServiceAdapter } from '../lib/http/adapter';
 
 describe('lib/main', () => {
+  beforeEach(() => {
+    sinon.stub(HttpProtocol.prototype, 'convert').callsFake(sinon.fake(() => {
+      return [
+        { classPath: 'com.a.b', fileType: 'ENTRY', importDeclaration: { 'com.a.b.c': 'c' } },
+        { classPath: 'com.a.b', fileType: 'ENTRY', importDeclaration: { 'com.a.b.d': 'd' } },
+        { classPath: 'com.a.b', fileType: 'ENTRY', importDeclaration: { 'com.a.b.c': 'c' } },
+      ] as unknown as IHttpAdapter[]
+    }));
+  });
+
   afterEach(() => {
     sinon.restore();
   });
@@ -68,6 +79,7 @@ describe('lib/main', () => {
     });
   
     it('normal', async function() {
+      let fakeArgs: any = null;
       const proc: any = new events.EventEmitter();
       proc.stdin = new stream.Writable();
       proc.stdout = <stream.Readable> new events.EventEmitter();
@@ -81,47 +93,44 @@ describe('lib/main', () => {
         return proc;
       }));
       sinon.stub(cp, 'execSync').withArgs('which java').resolves("/usr/bin/java").withArgs('which mvn').resolves("/usr/bin/mvn");
+      sinon.stub(fsExtra, 'writeJSONSync').callsFake(sinon.fake((...args) => {
+        fakeArgs = args;
+      }));
 
       const result = await analysis({ projectDir: '/projectDir', saveDir: '/saveDir' });
 
       expect(result).to.be.equal('/saveDir/oneapi.json');
+
+      expect(/^[\d\.]{1,}/.test(fakeArgs.at(1).oneapi.version)).to.be.equal(true);
+      expect(/^[\d\.]{1,}/.test(fakeArgs.at(1).oneapi.adapterVersion)).to.be.equal(true);
     });
   });
 
   describe('generate service', () => {
     it('normal', async () => {
-      let fakeArgs: any;
-      sinon.stub(ServiceGenerator.prototype, 'generate').callsFake(sinon.fake(async (args) => {
-        fakeArgs = args;
+      let fakeArgs: any = [];
+      
+      sinon.stub(ServiceGenerator.prototype, 'generate').callsFake(sinon.fake((...args) => {
+        fakeArgs.push(args);
       }));
       sinon.stub(fs, 'existsSync').callsFake(sinon.fake(() => {
         return false;
       }));
 
       const oneApiFilePath = generateService({
-        schema: path.join(__dirname, './fixture/oneapi.json'),
+        schema: path.join(__dirname, './fixtures/oneapi-origin.json'),
         requestStr: '',
         output: __dirname,
       });
 
       expect(oneApiFilePath).to.be.equal(path.join(__dirname, '/services'));
-      expect(fakeArgs).to.deep.equal([
-        'com.macro.mall.dto.OmsOrderQueryParam',
-        'com.macro.mall.common.api.CommonResult',
-        'com.macro.mall.common.api.CommonPage',
-        'com.macro.mall.model.OmsOrder',
-        'com.macro.mall.dto.PmsProductAttributeCategoryItem',
-        'com.macro.mall.portal.domain.OmsOrderDetail',
-        'com.macro.mall.dto.OmsOrderQueryParam$CalcAmount',
-        'com.macro.mall.model.PmsProductAttribute',
-        'com.macro.mall.model.PmsProductAttributeCategory',
-      ]);
+      expect(fakeArgs.flat().at(0)).to.deep.equal(['com.a.b.c', 'com.a.b.d']);
     });
   });
 
   describe('generate openapi', () => {
     it('normal', () => {
-      let fakeArgs: any[];
+      let fakeArgs: any[] = [];
       sinon.stub(ServiceAdapter.prototype, 'convert').returns({
         importDeclaration: {
           'com.macro.mall.dto.PmsProductAttributeCategoryItem': 'PmsProductAttributeCategoryItem',
@@ -138,7 +147,7 @@ describe('lib/main', () => {
       }));
 
       const openApiFilePath = convertOpenApi({
-        schema: path.join(__dirname, './fixture/oneapi.json'),
+        schema: path.join(__dirname, './fixtures/oneapi-origin.json'),
         output: __dirname,
       });
 

@@ -1,22 +1,20 @@
 import path from 'path';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import HttpProtocol from '../../../lib/http';
+import fsExtra from 'fs-extra';
+import { IHttpAdapter } from '../../../lib/http/adapter';
 import { OpenApi } from '../../../lib/http/output/openapi';
 
 describe('lib/http/output/openapi', () => {
-  let httpPotocol: HttpProtocol = null;
+  let adapterDataList: IHttpAdapter[] = [];
   // 整个项目所有依赖的 classPath
   let projectImportClassPath: string[] = [];
 
   beforeEach(() => {
-    httpPotocol = new HttpProtocol({
-      filePath: path.join(__dirname, '../../fixture/oneapi.json'),
-      saveDir: path.join(__dirname, '../../fixture'),
-    });
+    adapterDataList = fsExtra.readJSONSync(path.resolve(__dirname, '../../fixtures/oneapi.json')).http;
 
     // 整个项目所有依赖的 classPath
-    httpPotocol.adapterDataList.map(adapter => {
+    adapterDataList.map(adapter => {
       Object.keys(adapter.importDeclaration).forEach(classPath => {
         if (!projectImportClassPath.includes(classPath)) {
           projectImportClassPath.push(classPath);
@@ -26,14 +24,14 @@ describe('lib/http/output/openapi', () => {
   });
 
   afterEach(() => {
-    httpPotocol = null;
+    adapterDataList = [];
 
     sinon.restore();
   });
 
   it('normal', () => {
     const result = new OpenApi({
-      httpAdapter: httpPotocol.adapterDataList,
+      httpAdapter: adapterDataList,
     }).convert();
 
     expect(result.openapi).to.be.equal('3.0.0');
@@ -44,7 +42,7 @@ describe('lib/http/output/openapi', () => {
   describe('addPath', () => {
     it('normal', () => {
       const result = new OpenApi({
-        httpAdapter: httpPotocol.adapterDataList,
+        httpAdapter: adapterDataList,
       }).convert();
 
       const orderList = result.paths['/order/list'];
@@ -90,7 +88,7 @@ describe('lib/http/output/openapi', () => {
     });
 
     it('path variable', () => {
-      httpPotocol.adapterDataList.forEach(adapter => {
+      adapterDataList.forEach(adapter => {
         adapter.services?.forEach((service) => {
           if (service.url === '/order/{id}') {
             service.type = 'POST';
@@ -99,7 +97,7 @@ describe('lib/http/output/openapi', () => {
       });
 
       const { paths } = new OpenApi({
-        httpAdapter: httpPotocol.adapterDataList,
+        httpAdapter: adapterDataList,
       }).convert();
 
       const orderDetail = paths['/order/{id}'];
@@ -116,26 +114,26 @@ describe('lib/http/output/openapi', () => {
     });
 
     it('empty services', () => {
-      httpPotocol.adapterDataList.forEach((adapter) => {
+      adapterDataList.forEach((adapter) => {
         delete adapter.services;
       });
 
       const result = new OpenApi({
-        httpAdapter: httpPotocol.adapterDataList,
+        httpAdapter: adapterDataList,
       }).convert();
       
       expect(result.paths).to.not.equal({});
     });
 
     it('description is null', () => {
-      httpPotocol.adapterDataList.forEach((adapter) => {
+      adapterDataList.forEach((adapter) => {
         adapter.services?.forEach(service => {
           delete service.description;
         });
       });
 
       const result = new OpenApi({
-        httpAdapter: httpPotocol.adapterDataList,
+        httpAdapter: adapterDataList,
       }).convert();
 
       expect(Object.keys(result.paths).length > 1).to.be.equal(true);
@@ -152,7 +150,7 @@ describe('lib/http/output/openapi', () => {
   describe('addComponents', () => {
     it('normal', () => {
       const { components: { schemas } } = new OpenApi({
-        httpAdapter: httpPotocol.adapterDataList,
+        httpAdapter: adapterDataList,
       }).convert();
 
       const { type, properties } = schemas['OmsOrderQueryParam'];
@@ -195,7 +193,7 @@ describe('lib/http/output/openapi', () => {
 
     it('basic generic type', () => {
       const { components: { schemas } } = new OpenApi({
-        httpAdapter: httpPotocol.adapterDataList,
+        httpAdapter: adapterDataList,
       }).convert();
 
       const { type, properties } = schemas['CommonPage'];
@@ -229,7 +227,7 @@ describe('lib/http/output/openapi', () => {
 
     it('union generic type', () => {
       const { components: { schemas } } = new OpenApi({
-        httpAdapter: httpPotocol.adapterDataList,
+        httpAdapter: adapterDataList,
       }).convert();
       
       const { type, properties } = schemas['CommonResult<OmsOrderDetail>'];
@@ -248,12 +246,12 @@ describe('lib/http/output/openapi', () => {
     });
 
     it('description is null', () => {
-      httpPotocol.adapterDataList.forEach((adapter) => {
+      adapterDataList.forEach((adapter) => {
         adapter.fields?.forEach(f => delete f.description);
       });
 
       const { components: { schemas } } = new OpenApi({
-        httpAdapter: httpPotocol.adapterDataList,
+        httpAdapter: adapterDataList,
       }).convert();
 
       Object.keys(schemas).forEach(name => {

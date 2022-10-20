@@ -24,7 +24,7 @@ export interface IHttpAdapter {
   className: string;
   // 包名
   classPath: string;
-  actualType: JavaMeta.ActualType[];
+  actualType?: JavaMeta.ActualType[];
   // 类型
   fileType: 'RESOURCE' | 'ENTRY';
   // 依赖的导入项(key 为 classPath, value 为导入名称)
@@ -82,7 +82,7 @@ export interface IHttpServiceParameter {
 }
 
 // 生成 JS DOC 作为注释
-export function getJsDoc(desc: JavaMeta.Description, annotations?: JavaMeta.Annotation[]): OptionalKind<JSDocStructure> {
+export function getJsDoc(desc: JavaMeta.Description, annotations?: JavaMeta.Annotation[]) {
   let description = desc?.text || '';
   const tags: { tagName: string, text: string }[] = [];
 

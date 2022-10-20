@@ -9,6 +9,8 @@ import HttpProtocol from './http/index';
 import { ServiceGenerator } from './http/output/service';
 import { OpenApi } from './http/output/openapi';
 
+import pkg from '../package.json';
+
 /**
  * 从 Spring 项目解析出 OneAPI Schema
  * @param args.dir spring 项目目录
@@ -44,8 +46,8 @@ export async function analysis(args: { projectDir: string; saveDir: string }) {
     });
   });
 
-  // 从项目解析出 oneapi.json
-  return await new Promise((resolve) => {
+  // 从项目解析出原始数据
+  const schemaUrl: string = await new Promise((resolve) => {
     const springAdapter = path.join(__dirname, '../sdk/spring-adapter-1.0.2.jar');
 
     const jar = spawn('java', [
@@ -57,9 +59,24 @@ export async function analysis(args: { projectDir: string; saveDir: string }) {
     ], { stdio: 'inherit', cwd: args.projectDir });
 
     jar.on('close', function() {
-      resolve(path.join(args.saveDir, 'oneapi.json'))
+      resolve(path.join(args.saveDir, 'oneapi-meta.json'))
     });
   });
+
+  // schema 保存路径
+  const savePath = path.join(args.saveDir, 'oneapi.json');
+  // 实例化 http 协议
+  const adapterDataList = new HttpProtocol().convert({ filePath: schemaUrl });
+
+  fsExtra.writeJSONSync(savePath, {
+    oneapi: {
+      version: pkg.version,
+      adapterVersion: '1.0.2',
+    },
+    http: adapterDataList,
+  });
+
+  return savePath;
 }
 
 /**
@@ -67,10 +84,7 @@ export async function analysis(args: { projectDir: string; saveDir: string }) {
  */
 export function generateService(args: { schema: string; requestStr: string, output: string }){
   // 实例化 http 协议
-  const httpPotocol = new HttpProtocol({
-    filePath: args.schema,
-    saveDir: args.output,
-  });
+  const adapterDataList = new HttpProtocol().convert({ filePath: args.schema });
 
   const project = new Project({
     manipulationSettings: {
@@ -81,7 +95,7 @@ export function generateService(args: { schema: string; requestStr: string, outp
 
   // 整个项目所有依赖的 classPath
   let projectImportClassPath: string[] = [];
-  httpPotocol.adapterDataList.map(adapter => {
+  adapterDataList.map(adapter => {
     Object.keys(adapter.importDeclaration).forEach(classPath => {
       if (!projectImportClassPath.includes(classPath)) {
         projectImportClassPath.push(classPath);
@@ -93,7 +107,7 @@ export function generateService(args: { schema: string; requestStr: string, outp
   // 清空 services 目录
   fsExtra.emptyDirSync(serviceDir);
 
-  for (let adapter of httpPotocol.adapterDataList) {
+  for (let adapter of adapterDataList) {
     const apiGenerator = new ServiceGenerator(serviceDir, project, adapter);
     // 遍历创建 service
     apiGenerator.generate(projectImportClassPath, args.requestStr);
@@ -107,18 +121,13 @@ export function generateService(args: { schema: string; requestStr: string, outp
  */
 export function convertOpenApi(args: { schema: string; output: string }){
   // 实例化 http 协议
-  const httpPotocol = new HttpProtocol({
-    filePath: args.schema,
-    saveDir: args.output,
-  });
+  const adapterDataList = new HttpProtocol().convert({ filePath: args.schema });
 
   // openApi 保存路径
   const openApiPath = path.join(args.output, 'openapi.json');
 
   // 转换为 OpenAPI 格式
-  const openApi = new OpenApi({
-    httpAdapter: httpPotocol.adapterDataList,
-  }).convert();
+  const openApi = new OpenApi({ httpAdapter: adapterDataList }).convert();
 
   fsExtra.writeJSONSync(openApiPath, openApi);
 

@@ -1,14 +1,22 @@
 import path from 'path';
 import fs from 'fs-extra';
+import sinon from 'sinon';
 import { expect } from 'chai';
 
+import * as util from '../../../lib/http/adapter/index';
 import ServiceAdapter from '../../../lib/http/adapter/service';
+import { IHttpAdapterService } from '../../../lib/http/adapter/index';
 
 describe('lib/http/adapter/service', () => {
   let fileMetaData = {};
 
   beforeEach(() => {
-    fileMetaData = fs.readJSONSync(path.join(__dirname, '../../fixture/oneapi.json'));
+    sinon.stub(util, 'getJsDoc').resolves({ description: '', });
+    fileMetaData = fs.readJSONSync(path.join(__dirname, '../../fixtures/oneapi-origin.json'));
+  });
+
+  afterEach(() => {
+    sinon.restore();
   });
 
   it('normal', () => {
@@ -29,12 +37,12 @@ describe('lib/http/adapter/service', () => {
       'com.macro.mall.portal.domain.OmsOrderDetail': 'OmsOrderDetail',
     });
 
-    expect(attrs.services.length > 1).to.equal(true);
+    expect(attrs.services!.length > 1).to.equal(true);
 
-    const listService = attrs.services.find((se: any) => se.operationId === 'list');
+    const listService = attrs.services!.find((se: any) => se.operationId === 'list');
     expect(!listService).to.equal(false);
 
-    const { description: listDesc, ...listAttrs } = listService;
+    const { description: listDesc, ...listAttrs } = listService as unknown as IHttpAdapterService;
 
     expect(!listDesc).to.equal(false);
 
@@ -106,19 +114,19 @@ describe('lib/http/adapter/service', () => {
       const meta = fileMetaData['com.macro.mall.controller.OmsOrderController'];
   
       const { services } = new ServiceAdapter(meta).convert();
-      const closeService = services.find((se: any) => se.operationId === 'close');
+      const closeService = services!.find((se: any) => se.operationId === 'close');
       
       // methodType 应该都是 POST
-      expect(closeService.type).to.equal('POST');
+      expect(closeService!.type).to.equal('POST');
     });
 
     it('DeleteMapping should return post', () => {
       const meta = fileMetaData['com.macro.mall.controller.OmsOrderController'];
   
       const { services } = new ServiceAdapter(meta).convert();
-      const deleteService = services.find((se: any) => se.url === '/order/delete');
+      const deleteService = services!.find((se: any) => se.url === '/order/delete');
       // methodType 应该都是 POST
-      expect(deleteService.type).to.equal('POST');
+      expect(deleteService!.type).to.equal('POST');
     });
   });
 
@@ -128,7 +136,7 @@ describe('lib/http/adapter/service', () => {
 
       const { services } = new ServiceAdapter(meta).convert();
 
-      expect(services[0].url).to.equal('/api/test');
+      expect(services![0].url).to.equal('/api/test');
     });
 
     it('repeat method', () => {
@@ -141,11 +149,11 @@ describe('lib/http/adapter/service', () => {
       });
 
       const { services } = new ServiceAdapter(meta).convert();
-      const detailService = services.find(se => se.url === '/order/{id}');
-      const uploadService = services.find(se => se.url === '/order/upload');
+      const detailService = services!.find(se => se.url === '/order/{id}');
+      const uploadService = services!.find(se => se.url === '/order/upload');
 
-      expect(detailService.operationId).to.equal('orderIdWithGet');
-      expect(uploadService.operationId).to.equal('orderUploadWithPost');
+      expect(detailService!.operationId).to.equal('orderIdWithGet');
+      expect(uploadService!.operationId).to.equal('orderUploadWithPost');
     });
 
     it('repeat method with simple like: /url', () => {
@@ -160,11 +168,11 @@ describe('lib/http/adapter/service', () => {
       });
 
       const { services } = new ServiceAdapter(meta).convert();
-      const detailService = services.find(se => se.url === '/{id}');
-      const uploadService = services.find(se => se.url === '/upload');
+      const detailService = services!.find(se => se.url === '/{id}');
+      const uploadService = services!.find(se => se.url === '/upload');
 
-      expect(detailService.operationId).to.equal('idWithGet');
-      expect(uploadService.operationId).to.equal('uploadWithPost');
+      expect(detailService!.operationId).to.equal('idWithGet');
+      expect(uploadService!.operationId).to.equal('uploadWithPost');
     });
 
     it('class getMapping annotation without fields', () => {
@@ -177,7 +185,7 @@ describe('lib/http/adapter/service', () => {
 
       const { services } = new ServiceAdapter(meta).convert();
 
-      expect(services[0].url).to.equal('/list');
+      expect(services!.at(0)!.url).to.equal('/list');
     });
 
     it('method getMapping annotation without fields', () => {
@@ -190,7 +198,7 @@ describe('lib/http/adapter/service', () => {
       });
 
       const { services } = new ServiceAdapter(meta).convert();
-      expect(services.at(0).url).to.equal('/order');
+      expect(services!.at(0)!.url).to.equal('/order');
     });
 
     it('use method annotation field info if exist', () => {
@@ -204,7 +212,7 @@ describe('lib/http/adapter/service', () => {
       });
 
       const { services } = new ServiceAdapter(fileMeta).convert();
-      const listServices = services.at(0);
+      const listServices = services!.at(0)!;
 
       expect(listServices.parameter.find(p => p.name === 'pageNum')?.isRequired).to.equal(false);
     });
@@ -213,10 +221,10 @@ describe('lib/http/adapter/service', () => {
       const meta = fileMetaData['com.macro.mall.controller.OmsOrderController'];
 
       const { services } = new ServiceAdapter(meta).convert();
-      const uploadService = services.find((se: any) => se.operationId === 'upload');
+      const uploadService = services!.find((se: any) => se.operationId === 'upload');
       // 请求类型一定是 post
-      expect(uploadService.type).to.equal('POST');
-      expect(uploadService.contentType).to.equal('multipart/form-data');
+      expect(uploadService!.type).to.equal('POST');
+      expect(uploadService!.contentType).to.equal('multipart/form-data');
     });
   });
 
@@ -225,12 +233,12 @@ describe('lib/http/adapter/service', () => {
       const meta = fileMetaData['com.macro.mall.controller.multiMappingController'];
 
       const { services } = new ServiceAdapter(meta).convert();
-      expect(services.length).to.equal(4);
+      expect(services!.length).to.equal(4);
 
-      expect(services.at(0).url).to.equal('/api/v1/list/all');
-      expect(services.at(1).url).to.equal('/api/v1/list-all');
-      expect(services.at(2).url).to.equal('/api/v2/list/all');
-      expect(services.at(3).url).to.equal('/api/v2/list-all');
+      expect(services!.at(0)!.url).to.equal('/api/v1/list/all');
+      expect(services!.at(1)!.url).to.equal('/api/v1/list-all');
+      expect(services!.at(2)!.url).to.equal('/api/v2/list/all');
+      expect(services!.at(3)!.url).to.equal('/api/v2/list-all');
     });
   });
 });

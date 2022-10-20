@@ -1,14 +1,22 @@
 import path from 'path';
 import fs from 'fs-extra';
+import sinon from 'sinon';
 import { expect } from 'chai';
 
+import * as util from '../../../lib/http/adapter/index';
 import ModelAdapter from '../../../lib/http/adapter/model';
+import { IAdapterField } from '../../../lib/http/adapter/index';
 
 describe('lib/http/adapter/model', () => {
   let fileMetaData = {};
 
   beforeEach(() => {
-    fileMetaData = fs.readJSONSync(path.join(__dirname, '../../fixture/oneapi.json'));
+    sinon.stub(util, 'getJsDoc').resolves({ description: '', });
+    fileMetaData = fs.readJSONSync(path.join(__dirname, '../../fixtures/oneapi-origin.json'));
+  });
+
+  afterEach(() => {
+    sinon.restore();
   });
 
   it('normal', () => {
@@ -31,7 +39,7 @@ describe('lib/http/adapter/model', () => {
     // 字段及类型
     expect(attrs.fields).to.have.lengthOf(1);
 
-    const { description: fieldDesc, ...fileAttrs } = attrs.fields.at(0);
+    const { description: fieldDesc, ...fileAttrs } = attrs.fields!.at(0) as unknown as IAdapterField;
 
     expect(!fieldDesc).to.equal(false);
     expect(fileAttrs).to.deep.equal({
@@ -62,10 +70,10 @@ describe('lib/http/adapter/model', () => {
 
   it('file meta is null', () => {
     const adapter = new ModelAdapter('com.demo', fileMetaData).convert();
+    const { description, ...attrs } = adapter;
 
-    expect(adapter).to.deep.equal({
+    expect(attrs).to.deep.equal({
       filePath: undefined,
-      description: { description: '', tags: [] },
       className: 'demo',
       classPath: 'com.demo',
       actualType: undefined,
@@ -77,7 +85,8 @@ describe('lib/http/adapter/model', () => {
 
   it('generic super class', () => {
     const adapter = new ModelAdapter('com.macro.mall.portal.domain.OmsOrderDetail', fileMetaData).convert();
-    const { superClass: { type, jsType, items } } = adapter;
+    const superClass = adapter.superClass!
+    const { type, jsType, items } = superClass;
 
     expect(type).to.deep.equal({
       name: 'CommonResult',
