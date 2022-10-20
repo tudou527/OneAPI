@@ -2,14 +2,15 @@ import fs from 'fs';
 import path from 'path';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { IndentationText, Project } from 'ts-morph';
+import fsExtra from 'fs-extra';
+import { FunctionDeclaration, IndentationText, Project } from 'ts-morph';
 
-import HttpProtocol from '../../../lib/http';
+import { IHttpAdapter } from '../../../lib/http/adapter';
 import { ServiceGenerator } from '../../../lib/http/output/service';
 
 describe('lib/http/output/service', () => {
-  let project: Project = null;
-  let httpPotocol: HttpProtocol = null;
+  let project: Project = null as unknown as Project;
+  let adapterDataList: IHttpAdapter[] = [];
   // 整个项目所有依赖的 classPath
   let projectImportClassPath: string[] = [];
 
@@ -20,13 +21,10 @@ describe('lib/http/output/service', () => {
       },
     });
 
-    httpPotocol = new HttpProtocol({
-      filePath: path.join(__dirname, '../../fixture/oneapi.json'),
-      saveDir: path.join(__dirname, '../../fixture'),
-    });
+    adapterDataList = fsExtra.readJSONSync(path.resolve(__dirname, '../../fixtures/oneapi.json')).http;
 
     // 整个项目所有依赖的 classPath
-    httpPotocol.adapterDataList.map(adapter => {
+    adapterDataList.map(adapter => {
       Object.keys(adapter.importDeclaration).forEach(classPath => {
         if (!projectImportClassPath.includes(classPath)) {
           projectImportClassPath.push(classPath);
@@ -36,8 +34,8 @@ describe('lib/http/output/service', () => {
   });
 
   afterEach(() => {
-    project = null;
-    httpPotocol = null;
+    project = null as unknown as Project;
+    adapterDataList = [];
 
     sinon.restore();
   });
@@ -45,12 +43,14 @@ describe('lib/http/output/service', () => {
   describe('service', () => {
     it('normal', () => {
       let fakeArgs: any = [];
-      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
+      const adapter = adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
+
+      // 只保留一个方法方便断言
+      adapter!.services = adapter!.services?.splice(0, 1);
       const apiGenerator = new ServiceGenerator(
         path.join(__dirname, '../../services'),
         project,
-        // 只保留一个方法方便断言
-        { ...adapter, services: adapter.services.splice(0, 1) },
+        adapter!,
       );
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake((...args) => {
@@ -64,7 +64,7 @@ describe('lib/http/output/service', () => {
       const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => {
         return {
           // 匹配 import { name } from ... 或 import name from ...  
-          name: im.getNamedImports().at(0)?.getName() || im.getDefaultImport().getText(),
+          name: im.getNamedImports().at(0)?.getName() || im.getDefaultImport()?.getText(),
           moduleSpecifier: im.getModuleSpecifier().getText(),
         };
       });
@@ -79,7 +79,7 @@ describe('lib/http/output/service', () => {
       ]);
 
       // method
-      const methodDeclarations = apiGenerator.sourceFile.getFunctions().at(0);
+      const methodDeclarations = apiGenerator.sourceFile.getFunctions().at(0) as FunctionDeclaration;
 
       // 入参
       const params = methodDeclarations.getParameters().map((param) => ({
@@ -98,7 +98,7 @@ describe('lib/http/output/service', () => {
       expect(returnText).to.equal('Promise<CommonResult<CommonPage<OmsOrder>>>');
 
       // 方法体
-      const methodBody = methodDeclarations.getBodyText();
+      const methodBody = methodDeclarations.getBodyText() as string;
       expect(methodBody.includes(`method: 'GET',`)).to.equal(true);
       expect(methodBody.includes(`url: '/order/list'`)).to.equal(true);
 
@@ -110,12 +110,13 @@ describe('lib/http/output/service', () => {
     });
 
     it('services is null', () => {
-      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
+      const adapter = adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
+      // 删除 service
+      delete adapter?.services;
       const apiGenerator = new ServiceGenerator(
         path.join(__dirname, '../../services'),
         project,
-        // 删除 service
-        { ...adapter, services: null },
+        adapter!,
       );
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
@@ -128,11 +129,13 @@ describe('lib/http/output/service', () => {
     });
 
     it('post method', () => {
-      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
+      const adapter = adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
+
+      adapter!.services = adapter!.services?.filter(se => se.operationId === 'upload')
       const apiGenerator = new ServiceGenerator(
         path.join(__dirname, '../../services'),
         project,
-        { ...adapter, services: adapter.services.filter(se => se.operationId === 'upload') },
+        adapter!,
       );
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
@@ -142,18 +145,19 @@ describe('lib/http/output/service', () => {
       // 方法体
       const methodBody = apiGenerator.sourceFile.getFunctions().at(0).getBodyText();
       
-      expect(methodBody.includes(`method: 'POST',`)).to.equal(true);
-      expect(methodBody.includes(`data: {`)).to.equal(true);
-      expect(methodBody.includes(`file: args.file,`)).to.equal(true);
-      expect(methodBody.includes(`'Content-Type': 'multipart/form-data',`)).to.equal(true);
+      expect(methodBody!.includes(`method: 'POST',`)).to.equal(true);
+      expect(methodBody!.includes(`data: {`)).to.equal(true);
+      expect(methodBody!.includes(`file: args.file,`)).to.equal(true);
+      expect(methodBody!.includes(`'Content-Type': 'multipart/form-data',`)).to.equal(true);
     });
 
     it('url params', () => {
-      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
+      const adapter = adapterDataList.find(adapter => adapter.className === 'OmsOrderController');
+      adapter!.services = adapter!.services?.filter(se => se.operationId === 'detail');
       const apiGenerator = new ServiceGenerator(
         path.join(__dirname, '../../services'),
         project,
-        { ...adapter, services: adapter.services.filter(se => se.operationId === 'detail') },
+        adapter!,
       );
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
@@ -163,14 +167,14 @@ describe('lib/http/output/service', () => {
       // 方法体
       const methodBody = apiGenerator.sourceFile.getFunctions().at(0).getBodyText();
 
-      expect(methodBody.includes('url: `/order/${args.id}`,')).to.equal(true);
+      expect(methodBody!.includes('url: `/order/${args.id}`,')).to.equal(true);
     });
   });
 
   describe('model', () => {
     it('normal', () => {
-      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderQueryParam');
-      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixture'), project, adapter);
+      const adapter = adapterDataList.find(adapter => adapter.className === 'OmsOrderQueryParam');
+      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixtures'), project, adapter);
       // mock existsSync
       sinon.stub(fs, 'existsSync').callsFake(sinon.fake(() => {
         return false;
@@ -180,7 +184,7 @@ describe('lib/http/output/service', () => {
 
       // import
       const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => ({
-        name: im.getNamedImports().at(0)?.getName() || im.getDefaultImport().getText(),
+        name: im.getNamedImports().at(0)?.getName() || im.getDefaultImport()!.getText(),
         moduleSpecifier: im.getModuleSpecifier().getText(),
       }));
       expect(importDeclarations).to.deep.equal([
@@ -241,7 +245,7 @@ describe('lib/http/output/service', () => {
     });
 
     it('generic class model', () => {
-      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'CommonPage');
+      const adapter = adapterDataList.find(adapter => adapter.className === 'CommonPage');
       const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter);
 
       // mock save 方法（不写文件）
@@ -256,11 +260,12 @@ describe('lib/http/output/service', () => {
     });
 
     it('empty fields', () => {
-      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderQueryParam');
+      const adapter = adapterDataList.find(adapter => adapter.className === 'OmsOrderQueryParam');
+      delete adapter?.fields;
       const apiGenerator = new ServiceGenerator(
         path.join(__dirname, '../../services'),
         project,
-        { ...adapter, fields: null },
+        adapter!,
       );
 
       // mock save 方法（不写文件）
@@ -273,7 +278,7 @@ describe('lib/http/output/service', () => {
     });
 
     it('super class', () => {
-      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'OmsOrderDetail');
+      const adapter = adapterDataList.find(adapter => adapter.className === 'OmsOrderDetail');
       const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter);
 
       // mock save 方法（不写文件）
@@ -296,11 +301,11 @@ describe('lib/http/output/service', () => {
     });
 
     it('super class item is null', () => {
-      const adapter = httpPotocol.adapterDataList.find(adapter => adapter.className === 'PmsProductAttributeCategoryItem');
+      const adapter = adapterDataList.find(adapter => adapter.className === 'PmsProductAttributeCategoryItem');
       const apiGenerator = new ServiceGenerator(
         path.join(__dirname, '../../services'),
         project,
-        { ...adapter, superClass: { ...adapter.superClass, items: null } },
+        { ...adapter, superClass: { ...adapter!.superClass, items: null } },
       );
 
       // mock save 方法（不写文件）
@@ -324,16 +329,16 @@ describe('lib/http/output/service', () => {
     });
 
     it('sub class', () => {
-      const adapter = httpPotocol.adapterDataList.find(ada => ada.className === 'OmsOrderQueryParam');
-      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixture'), project, adapter);
+      const adapter = adapterDataList.find(ada => ada.className === 'OmsOrderQueryParam');
+      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixtures'), project, adapter);
       apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       // 写入 sub class
-      const subAdapter = httpPotocol.adapterDataList.find(ada => ada.className === 'OmsOrderQueryParamCalcAmount');
-      const subApiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixture'), project, subAdapter);
+      const subAdapter = adapterDataList.find(ada => ada.className === 'OmsOrderQueryParamCalcAmount');
+      const subApiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixtures'), project, subAdapter);
       subApiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
-      fs.rmSync(path.join(__dirname, '../../fixture/model'), { recursive: true, force: true });
+      fs.rmSync(path.join(__dirname, '../../fixtures/model'), { recursive: true, force: true });
     });
   });
 });
