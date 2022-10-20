@@ -59,7 +59,7 @@ export async function analysis(args: { projectDir: string; saveDir: string }) {
     ], { stdio: 'inherit', cwd: args.projectDir });
 
     jar.on('close', function() {
-      resolve(path.join(args.saveDir, 'oneapi-meta.json'))
+      resolve(path.join(args.saveDir, 'oneapi.json'))
     });
   });
 
