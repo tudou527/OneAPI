@@ -3,9 +3,9 @@ import fs from 'fs-extra';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import * as util from '../../../lib/http/adapter/index';
-import ModelAdapter from '../../../lib/http/adapter/model';
-import { IAdapterField } from '../../../lib/http/adapter/index';
+import * as util from '../../../src/http/adapter/index';
+import ModelAdapter from '../../../src/http/adapter/model';
+import { IAdapterField } from '../../../src/http/adapter/index';
 
 describe('lib/http/adapter/model', () => {
   let fileMetaData = {};

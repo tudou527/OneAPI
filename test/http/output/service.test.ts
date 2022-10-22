@@ -5,8 +5,8 @@ import { expect } from 'chai';
 import fsExtra from 'fs-extra';
 import { FunctionDeclaration, IndentationText, Project } from 'ts-morph';
 
-import { IHttpAdapter } from '../../../lib/http/adapter';
-import { ServiceGenerator } from '../../../lib/http/output/service';
+import { IHttpAdapter } from '../../../src/http/adapter';
+import { ServiceGenerator } from '../../../src/http/output/service';
 
 describe('lib/http/output/service', () => {
   let project: Project = null as unknown as Project;

@@ -3,9 +3,9 @@ import fs from 'fs-extra';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import * as util from '../../../lib/http/adapter/index';
-import ServiceAdapter from '../../../lib/http/adapter/service';
-import { IHttpAdapterService } from '../../../lib/http/adapter/index';
+import * as util from '../../../src/http/adapter/index';
+import ServiceAdapter from '../../../src/http/adapter/service';
+import { IHttpAdapterService } from '../../../src/http/adapter/index';
 
 describe('lib/http/adapter/service', () => {
   let fileMetaData = {};

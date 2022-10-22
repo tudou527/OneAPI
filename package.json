@@ -8,14 +8,14 @@
   "bin": {
     "oneapi": "./bin/index.js"
   },
+  "main": "lib/index.js",
   "scripts": {
-    "dev": "ts-node ./bin/index.ts",
-    "build": "tsc -p tsconfig.json",
-    "lint": "eslint . --ext .ts",
+    "dev": "ts-node ./bin/index.js",
+    "lint": "eslint --fix src --ext .ts",
     "test": "mocha --timeout 5000 -r ts-node/register \"test/**/*.test.ts\"",
     "ci": "nyc --reporter=lcov npm test",
     "prettier": "prettier --config .prettierrc --write .",
-    "tsc": "rm -rf ./build && tsc && cp -r ./sdk ./build && cp package.json ./build && cp README.md ./build && rm -rf ./build/sdk/lib"
+    "build": "rm -rf ./lib && tsc"
   },
   "dependencies": {
     "camelcase": "^6.0.0",
@@ -31,12 +31,10 @@
     "@types/mocha": "^9.1.1",
     "@types/node": "^18.7.23",
     "@types/sinon": "^10.0.13",
-    "@typescript-eslint/eslint-plugin": "~5.26",
-    "@typescript-eslint/parser": "~5.26",
+    "@typescript-eslint/eslint-plugin": "~5.40",
+    "@typescript-eslint/parser": "~5.40",
     "chai": "^4.3.6",
-    "codecov": "^3.8.3",
     "eslint": "~8.16",
-    "eslint-config-prettier": "~8.5",
     "mocha": "^10.0.0",
     "nyc": "^15.1.0",
     "prettier": "~2.6",

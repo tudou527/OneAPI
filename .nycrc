@@ -1,8 +1,7 @@
 {
   "all": true,
   "include": [
-    "bin/*.ts",
-    "lib/**/*.ts"
+    "src/**/*.ts"
   ],
   "reporter":[
     "text-summary",

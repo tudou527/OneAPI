@@ -2,8 +2,8 @@ import path from 'path';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import fsExtra from 'fs-extra';
-import { IHttpAdapter } from '../../../lib/http/adapter';
-import { OpenApi } from '../../../lib/http/output/openapi';
+import { IHttpAdapter } from '../../../src/http/adapter';
+import { OpenApi } from '../../../src/http/output/openapi';
 
 describe('lib/http/output/openapi', () => {
   let adapterDataList: IHttpAdapter[] = [];

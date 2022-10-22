@@ -2,8 +2,8 @@ import path from 'path';
 import sinon from 'sinon';
 import fsExtra from 'fs-extra';
 
-import HttpProtocol from '../../lib/http/index';
-import { IHttpAdapter, ModelAdapter, ServiceAdapter } from '../../lib/http/adapter/index';
+import HttpProtocol from '../../src/http/index';
+import { IHttpAdapter, ModelAdapter, ServiceAdapter } from '../../src/http/adapter/index';
 import { expect } from 'chai';
 
 describe('lib/http/index', () => {

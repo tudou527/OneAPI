@@ -94,7 +94,7 @@ export function generateService(args: { schema: string; requestStr: string, outp
   });
 
   // 整个项目所有依赖的 classPath
-  let projectImportClassPath: string[] = [];
+  const projectImportClassPath: string[] = [];
   adapterDataList.map(adapter => {
     Object.keys(adapter.importDeclaration).forEach(classPath => {
       if (!projectImportClassPath.includes(classPath)) {
@@ -105,9 +105,9 @@ export function generateService(args: { schema: string; requestStr: string, outp
 
   const serviceDir = path.join(args.output, 'services');
   // 清空 services 目录
-  fsExtra.emptyDirSync(serviceDir);
+  // fsExtra.emptyDirSync(serviceDir);
 
-  for (let adapter of adapterDataList) {
+  for (const adapter of adapterDataList) {
     const apiGenerator = new ServiceGenerator(serviceDir, project, adapter);
     // 遍历创建 service
     apiGenerator.generate(projectImportClassPath, args.requestStr);

@@ -1,9 +1,8 @@
-#!/usr/bin/env node
 import chalk from 'chalk';
 import { program } from 'commander';
 
-import { getAbsolutePath } from '../lib/utils/common';
-import { analysis, generateService, convertOpenApi } from '../lib/main';
+import { getAbsolutePath } from './utils/common';
+import { analysis, generateService, convertOpenApi } from './index';
 
 import pkg from '../package.json';
 
