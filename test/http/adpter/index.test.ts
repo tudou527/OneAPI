@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getJsDoc } from '../../../lib/http/adapter/index';
+import { getJsDoc } from '../../../src/http/adapter/index';
 
 describe('lib/http/adapter/index', () => {
   it('normal', () => {

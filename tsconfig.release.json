@@ -4,5 +4,8 @@
     "sourceMap": false,
     "removeComments": true
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*",
+    "typings/**/*"
+  ]
 }

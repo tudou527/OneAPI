@@ -83,6 +83,8 @@ export async function analysis(args: { projectDir: string; saveDir: string }) {
  * 从 OneAPI Schema 生成 service 文件
  */
 export function generateService(args: { schema: string; requestStr: string, output: string }){
+  // 本次保存的文件
+  const savedFilePath: string[] = [];
   // 实例化 http 协议
   const adapterDataList = new HttpProtocol().convert({ filePath: args.schema });
 
@@ -94,7 +96,7 @@ export function generateService(args: { schema: string; requestStr: string, outp
   });
 
   // 整个项目所有依赖的 classPath
-  let projectImportClassPath: string[] = [];
+  const projectImportClassPath: string[] = [];
   adapterDataList.map(adapter => {
     Object.keys(adapter.importDeclaration).forEach(classPath => {
       if (!projectImportClassPath.includes(classPath)) {
@@ -103,17 +105,14 @@ export function generateService(args: { schema: string; requestStr: string, outp
     });
   });
 
-  const serviceDir = path.join(args.output, 'services');
-  // 清空 services 目录
-  fsExtra.emptyDirSync(serviceDir);
-
-  for (let adapter of adapterDataList) {
-    const apiGenerator = new ServiceGenerator(serviceDir, project, adapter);
+  for (const adapter of adapterDataList) {
+    const apiGenerator = new ServiceGenerator(args.output, project, adapter, savedFilePath);
     // 遍历创建 service
     apiGenerator.generate(projectImportClassPath, args.requestStr);
+    savedFilePath.push(apiGenerator.fileSavePath);
   }
 
-  return serviceDir;
+  return args.output;
 }
 
 /**

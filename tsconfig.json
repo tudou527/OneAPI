@@ -2,10 +2,11 @@
   "compilerOptions": {
     "target": "ES2019",
     "module": "CommonJS",
-    "lib": ["ES2019"],
+    "rootDir": "./src",
+    "outDir": "./lib",
+    "typeRoots": ["./typings"],
+    "types": ["mocha"],
     "moduleResolution": "node",
-    "rootDir": ".",
-    "outDir": "build",
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
     "sourceMap": true,
@@ -16,18 +17,11 @@
     "noUnusedParameters": true,
     "noImplicitAny": false,
     "strictNullChecks": false,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "typeRoots": ["./typings"],
-    "types": [
-      "mocha",
-    ]
+    "esModuleInterop": true
   },
   "include": [
-    "bin/**/*",
-    "lib/**/*",
+    "src/**/*",
     "typings/**/*",
-    "services/**/*",
     "test/**/*"
   ],
   "exclude": [

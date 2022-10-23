@@ -7,11 +7,11 @@ import { expect } from 'chai';
 import fsExtra from 'fs-extra';
 import cp from 'child_process';
 
-import HttpProtocol from '../lib/http';
-import { OpenApi } from '../lib/http/output/openapi';
-import { ServiceGenerator } from '../lib/http/output/service';
-import { analysis, generateService, convertOpenApi } from '../lib/main';
-import { IHttpAdapter, ModelAdapter, ServiceAdapter } from '../lib/http/adapter';
+import HttpProtocol from '../src/http';
+import { OpenApi } from '../src/http/output/openapi';
+import { ServiceGenerator } from '../src/http/output/service';
+import { analysis, generateService, convertOpenApi } from '../src/index';
+import { IHttpAdapter, ModelAdapter, ServiceAdapter } from '../src/http/adapter';
 
 describe('lib/main', () => {
   beforeEach(() => {
@@ -123,7 +123,7 @@ describe('lib/main', () => {
         output: __dirname,
       });
 
-      expect(oneApiFilePath).to.be.equal(path.join(__dirname, '/services'));
+      expect(oneApiFilePath).to.be.equal(path.join(__dirname));
       expect(fakeArgs.flat().at(0)).to.deep.equal(['com.a.b.c', 'com.a.b.d']);
     });
   });

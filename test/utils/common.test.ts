@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getAbsolutePath } from '../../lib/utils/common';
+import { getAbsolutePath } from '../../src/utils/common';
 
 describe('lib/utils/common', () => {
   describe('getAbsolutePath', () => {
