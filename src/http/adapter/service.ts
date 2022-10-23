@@ -57,6 +57,7 @@ export default class ServiceAdapter {
         ...imports,
       }
 
+      // TODO: 多个 url 的情况下 operationId 会重复
       urls.forEach(url => {
         // 方法名称
         const operationId = this.getUniqueMethodName(escapeName, url, type);

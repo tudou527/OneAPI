@@ -27,6 +27,16 @@ describe('lib/http/util/type-transfer', () => {
       expect(jsType).to.equal('string');
       expect(Object.keys(imports)).to.have.lengthOf(0);
     });
+
+    it('classPath is null', () => {
+      const { jsType, imports } = new TypeTransfer().transform({
+        name: 'Map',
+        classPath: null,
+      });
+
+      expect(jsType).to.equal('Map');
+      expect(imports).to.deep.equal({ null: 'Map' });
+    });
   })
 
   describe('list', () => {

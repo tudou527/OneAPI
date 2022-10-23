@@ -123,7 +123,7 @@ describe('lib/main', () => {
         output: __dirname,
       });
 
-      expect(oneApiFilePath).to.be.equal(path.join(__dirname, '/services'));
+      expect(oneApiFilePath).to.be.equal(path.join(__dirname));
       expect(fakeArgs.flat().at(0)).to.deep.equal(['com.a.b.c', 'com.a.b.d']);
     });
   });

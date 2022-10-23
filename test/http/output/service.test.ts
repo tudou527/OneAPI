@@ -51,6 +51,7 @@ describe('lib/http/output/service', () => {
         path.join(__dirname, '../../services'),
         project,
         adapter!,
+        []
       );
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake((...args) => {
@@ -95,7 +96,7 @@ describe('lib/http/output/service', () => {
 
       // 返回值类型
       const returnText = methodDeclarations.getReturnType().getText();
-      expect(returnText).to.equal('Promise<CommonResult<CommonPage<OmsOrder>>>');
+      expect(returnText).to.equal('Promise<any>');
 
       // 方法体
       const methodBody = methodDeclarations.getBodyText() as string;
@@ -117,6 +118,7 @@ describe('lib/http/output/service', () => {
         path.join(__dirname, '../../services'),
         project,
         adapter!,
+        [],
       );
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
@@ -136,6 +138,7 @@ describe('lib/http/output/service', () => {
         path.join(__dirname, '../../services'),
         project,
         adapter!,
+        [],
       );
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
@@ -143,7 +146,7 @@ describe('lib/http/output/service', () => {
       apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       // 方法体
-      const methodBody = apiGenerator.sourceFile.getFunctions().at(0).getBodyText();
+      const methodBody = apiGenerator.sourceFile.getFunctions().at(0)!.getBodyText();
       
       expect(methodBody!.includes(`method: 'POST',`)).to.equal(true);
       expect(methodBody!.includes(`data: {`)).to.equal(true);
@@ -158,6 +161,7 @@ describe('lib/http/output/service', () => {
         path.join(__dirname, '../../services'),
         project,
         adapter!,
+        [],
       );
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
@@ -165,7 +169,7 @@ describe('lib/http/output/service', () => {
       apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       // 方法体
-      const methodBody = apiGenerator.sourceFile.getFunctions().at(0).getBodyText();
+      const methodBody = apiGenerator.sourceFile.getFunctions().at(0)!.getBodyText();
 
       expect(methodBody!.includes('url: `/order/${args.id}`,')).to.equal(true);
     });
@@ -174,7 +178,7 @@ describe('lib/http/output/service', () => {
   describe('model', () => {
     it('normal', () => {
       const adapter = adapterDataList.find(adapter => adapter.className === 'OmsOrderQueryParam');
-      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixtures'), project, adapter);
+      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixtures'), project, adapter!, []);
       // mock existsSync
       sinon.stub(fs, 'existsSync').callsFake(sinon.fake(() => {
         return false;
@@ -192,7 +196,7 @@ describe('lib/http/output/service', () => {
       ]);
 
       // interface 
-      const fields = apiGenerator.sourceFile.getInterfaces().at(0).getProperties().map((property) => {
+      const fields = apiGenerator.sourceFile.getInterfaces().at(0)!.getProperties().map((property) => {
         return {
           name: property.getName(),
           type: property.getType().getText(),
@@ -246,13 +250,13 @@ describe('lib/http/output/service', () => {
 
     it('generic class model', () => {
       const adapter = adapterDataList.find(adapter => adapter.className === 'CommonPage');
-      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter);
+      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter!, []);
 
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
       apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
-      const interfaceText = apiGenerator.sourceFile.getInterfaces().at(0).getText();
+      const interfaceText = apiGenerator.sourceFile.getInterfaces().at(0)!.getText();
 
       // 泛型默认值为 any      
       expect(interfaceText.includes('export interface CommonPage<T = any> {')).to.equal(true);
@@ -266,6 +270,7 @@ describe('lib/http/output/service', () => {
         path.join(__dirname, '../../services'),
         project,
         adapter!,
+        []
       );
 
       // mock save 方法（不写文件）
@@ -273,13 +278,13 @@ describe('lib/http/output/service', () => {
       apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       // 空字段 
-      const fields = apiGenerator.sourceFile.getInterfaces().at(0).getProperties();
+      const fields = apiGenerator.sourceFile.getInterfaces().at(0)!.getProperties();
       expect(fields.length).to.equal(0);
     });
 
     it('super class', () => {
       const adapter = adapterDataList.find(adapter => adapter.className === 'OmsOrderDetail');
-      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter);
+      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../services'), project, adapter!, []);
 
       // mock save 方法（不写文件）
       sinon.stub(apiGenerator.sourceFile, 'saveSync').callsFake(sinon.fake(() => {}));
@@ -287,7 +292,7 @@ describe('lib/http/output/service', () => {
 
       // import
       const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => ({
-        name: im.getNamedImports().at(0)?.getName() || im.getDefaultImport().getText(),
+        name: im.getNamedImports().at(0)?.getName() || im.getDefaultImport()!.getText(),
         moduleSpecifier: im.getModuleSpecifier().getText(),
       }));
       expect(importDeclarations).to.deep.equal([
@@ -305,7 +310,8 @@ describe('lib/http/output/service', () => {
       const apiGenerator = new ServiceGenerator(
         path.join(__dirname, '../../services'),
         project,
-        { ...adapter, superClass: { ...adapter!.superClass, items: null } },
+        { ...adapter, superClass: { ...adapter!.superClass, items: null as unknown as any } },
+        [],
       );
 
       // mock save 方法（不写文件）
@@ -314,7 +320,7 @@ describe('lib/http/output/service', () => {
 
       // import
       const importDeclarations = apiGenerator.sourceFile.getImportDeclarations().map(im => ({
-        name: im.getNamedImports().at(0)?.getName() || im.getDefaultImport().getText(),
+        name: im.getNamedImports().at(0)?.getName() || im.getDefaultImport()!.getText(),
         moduleSpecifier: im.getModuleSpecifier().getText(),
       }));
       
@@ -329,14 +335,46 @@ describe('lib/http/output/service', () => {
     });
 
     it('sub class', () => {
+      const fileSavePath: string[] = [];
       const adapter = adapterDataList.find(ada => ada.className === 'OmsOrderQueryParam');
-      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixtures'), project, adapter);
+      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixtures'), project, adapter!, fileSavePath);
+      // 缓存写入的文件
+      fileSavePath.push(apiGenerator.fileSavePath);
+
       apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
 
       // 写入 sub class
       const subAdapter = adapterDataList.find(ada => ada.className === 'OmsOrderQueryParamCalcAmount');
-      const subApiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixtures'), project, subAdapter);
+      const subApiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixtures'), project, subAdapter!, fileSavePath);
+      // 缓存写入的文件
+      fileSavePath.push(subApiGenerator.fileSavePath);
       subApiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
+
+      const modelContent: string = fs.readFileSync(fileSavePath.at(0) as any, 'utf-8');
+      
+      expect(modelContent.includes('export interface OmsOrderQueryParam {')).to.be.equal(true);
+      expect(modelContent.includes('export interface OmsOrderQueryParamCalcAmount {')).to.be.equal(true);
+
+      fs.rmSync(path.join(__dirname, '../../fixtures/model'), { recursive: true, force: true });
+    });
+
+    it('file exist', () => {
+      const fileSavePath: string[] = [];
+      const adapter = adapterDataList.find(ada => ada.className === 'OmsOrderQueryParam');
+      const apiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixtures'), project, adapter!, []);
+      // 缓存写入的文件
+      fileSavePath.push(apiGenerator.fileSavePath);
+
+      apiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
+      // 写入 sub class
+      const subAdapter = adapterDataList.find(ada => ada.className === 'OmsOrderQueryParamCalcAmount');
+      const subApiGenerator = new ServiceGenerator(path.join(__dirname, '../../fixtures'), project, subAdapter!, []);
+      subApiGenerator.generate(projectImportClassPath, 'import request from "@/utils/request";');
+
+      const modelContent: string = fs.readFileSync(fileSavePath.at(0) as any, 'utf-8');
+      
+      expect(modelContent.includes('export interface OmsOrderQueryParam {')).to.be.equal(false);
+      expect(modelContent.includes('export interface OmsOrderQueryParamCalcAmount {')).to.be.equal(true);
 
       fs.rmSync(path.join(__dirname, '../../fixtures/model'), { recursive: true, force: true });
     });
