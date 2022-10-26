@@ -31,6 +31,11 @@ npm install -g oneapi-cli
 oneapi analysis -p /Users/admin/workspace/mall -o /Users/admin/demo
 ```
 
+## 在线预览 API 文档
+
+[在线预览 API 文档](https://oneapi.app/docs)
+
+
 ## 在 UmiJS 中消费 OneAPI schema
 
 OneAPI 提供了 UmiJS 插件，可以方便的从 OneAPI JSON Schema 生成前端消费的 services 及 API 文档（插件代码参考了 @umijs/plugin-openapi）。
