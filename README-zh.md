@@ -17,55 +17,59 @@ npm install -g oneapi-cli
 ```
 
 
-## 使用
+## 生成 OneAPI schema
 
-#### `oneapi analysis`
+> oneapi analysis
 
 从 Spring 项目解析出 OneAPI schema，参数：
 
 * -p: 必须，后端项目路径
 * -o: 必须，解析结果 oneapi.json 保存目录
 
-调用示例：
-> 开源项目 [mall](https://github.com/macrozheng/mall) 执行结果结果：[CodeSandBox](https://codesandbox.io/s/oneapi-services-demo-ktyw7i?file=/src/demo/oneapi.json)
-
 ```
-// 解析 mall 目录下的后端应用，并保存解析结果到 demo 文件夹(文件名默认为 oneapi.json)
+// 解析 mall 目录下的后端应用，并保存解析结果到 demo 文件夹
 oneapi analysis -p /Users/admin/workspace/mall -o /Users/admin/demo
 ```
 
-#### `oneapi service`
+## 在 UmiJS 中消费 OneAPI schema
 
-从 OneAPI schema 生成 service 文件，参数：
+OneAPI 提供了 UmiJS 插件，可以方便的从 OneAPI JSON Schema 生成前端消费的 services 及 API 文档（插件代码参考了 @umijs/plugin-openapi）。
 
-* -s: 必须，上一步解析结果 oneapi.json 文件路径
-* -r: 必须，Request 导入字符串(service 方法中导入的 request)
-* -o: 必须，Servies 输出目录（目录下的文件在执行过程中会被清空）
-
-调用示例：
-
-> 开源项目 [mall](https://github.com/macrozheng/mall) 执行结果结果：[CodeSandBox](https://codesandbox.io/s/oneapi-services-demo-ktyw7i?file=/src/services/demoController.ts)
+### 安装插件
 
 ```
-// 在 mall-web/src 目录下生成前端 service
-oneapi service -s /Users/admin/demo/oneapi.json -r 'import request from "@/utils/request";' -o /Users/admin/workspace/mall-web/src
+npm i oneapi-umijs-plugin --save
 ```
 
-#### `oneapi openapi`
+### 配置
 
-生成 OpeAPI 3.0 schema
-
-* -s: 必须，上一步解析结果 oneapi.json 文件路径
-* -o: 必须，OpenAPI schema 输出目录
-
-调用示例，：
-
-> 开源项目 [mall](https://github.com/macrozheng/mall) 执行结果结果：[CodeSandBox](https://codesandbox.io/s/oneapi-services-demo-ktyw7i?file=/src/demo/openapi.json)
+`config/config.ts` 或 `.umirc.ts` 中增加插件配置：
 
 ```
-// 把解析结果转换为 OpeAPI 3.0 schema（可以导入其他 API 工具使用）
-oneapi openapi -s /Users/admin/demo/oneapi.json -o /Users/admin/demo
+plugins: [
+  // 开启插件
+  'oneapi-umijs-plugin',
+],
+
+oneapi: {
+  // services 中导入的 request 配置
+  requestLibPath: "import { request } from 'umi';",
+  // 使用相对路径或在线地址
+  // schemaPath: "https://oneapi.app/docs/oneapi.json",
+  schemaPath: "../oneapi-site/docs/oneapi.json",
+}
 ```
+
+最后，在 package.json 的 scripts 中增加如下命令用于生成 services 代码：
+
+```
+"oneapi": "umi oneapi"
+```
+
+插件在开发环境下会自动添加文档路由，路径固定为：`/umi/plugin/oneapi`
+
+<img src="https://oneapi.app/static/umijs-plugin-doc.5816000c.png" width="800"  alt="API 文档"/>
+
 
 ### 其他
 * 欢迎提交 [issue](https://github.com/tudou527/oneapi/issues) 反馈解析失败的 bad case
