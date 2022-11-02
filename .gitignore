@@ -33,4 +33,3 @@ build/
 services/
 sdk/lib
 lib/
-bin/*.json

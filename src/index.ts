@@ -33,18 +33,21 @@ export async function analysis(args: { projectDir: string; saveDir: string }) {
     throw new Error(chalk.red(`❎ ${args.projectDir} 目录不存在`));
   }
 
-  // 安装依赖
-  await new Promise((resolve) => {
-    const jar = spawn('mvn', [
-      'source:jar',
-      'install',
-      `-Dmaven.test.skip=true`
-    ], { stdio: 'inherit', cwd: args.projectDir });
-
-    jar.on('close', function() {
-      resolve('');
+  // 目录下存在 pom.xml 时执行一次依赖安装
+  const pomXml = path.join(args.projectDir, 'pom.xml');
+  if (fs.existsSync(pomXml)) {
+    await new Promise((resolve) => {
+      const jar = spawn('mvn', [
+        'source:jar',
+        'install',
+        `-Dmaven.test.skip=true`
+      ], { stdio: 'inherit', cwd: args.projectDir });
+  
+      jar.on('close', function() {
+        resolve('');
+      });
     });
-  });
+  }
 
   // 从项目解析出原始数据
   const schemaUrl: string = await new Promise((resolve) => {
@@ -121,10 +124,8 @@ export function generateService(args: { schema: string; requestStr: string, outp
 export function convertOpenApi(args: { schema: string; output: string }){
   // 实例化 http 协议
   const adapterDataList = new HttpProtocol().convert({ filePath: args.schema });
-
   // openApi 保存路径
   const openApiPath = path.join(args.output, 'openapi.json');
-
   // 转换为 OpenAPI 格式
   const openApi = new OpenApi({ httpAdapter: adapterDataList }).convert();
 

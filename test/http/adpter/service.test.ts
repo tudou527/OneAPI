@@ -152,8 +152,8 @@ describe('lib/http/adapter/service', () => {
       const detailService = services!.find(se => se.url === '/order/{id}');
       const uploadService = services!.find(se => se.url === '/order/upload');
 
-      expect(detailService!.operationId).to.equal('orderIdWithGet');
-      expect(uploadService!.operationId).to.equal('orderUploadWithPost');
+      expect(detailService!.operationId).to.equal('detailWithHash9C8Dba');
+      expect(uploadService!.operationId).to.equal('detailWithHash3Aa1Dd');
     });
 
     it('repeat method with simple like: /url', () => {
@@ -171,8 +171,8 @@ describe('lib/http/adapter/service', () => {
       const detailService = services!.find(se => se.url === '/{id}');
       const uploadService = services!.find(se => se.url === '/upload');
 
-      expect(detailService!.operationId).to.equal('idWithGet');
-      expect(uploadService!.operationId).to.equal('uploadWithPost');
+      expect(detailService!.operationId).to.equal('detailWithHashD0501A');
+      expect(uploadService!.operationId).to.equal('detailWithHashBff0C0');
     });
 
     it('class getMapping annotation without fields', () => {

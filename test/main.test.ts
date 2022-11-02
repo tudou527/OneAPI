@@ -1,6 +1,6 @@
 import fs from 'fs';
-import sinon from 'sinon';
 import path from 'path';
+import sinon from 'sinon';
 import stream from 'stream';
 import events from 'events';
 import { expect } from 'chai';
