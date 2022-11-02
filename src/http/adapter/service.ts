@@ -2,9 +2,10 @@
  * service 适配
  */
 import path from 'path';
+import * as crypto from 'crypto';
 import camelCase from 'camelcase';
 
-import { IHttpAdapter, getJsDoc, IHttpServiceParameter } from '.';
+import { IHttpAdapter, getJsDoc, IHttpServiceParameter, IHttpAdapterService } from '.';
 import TypeTransfer from '../util/type-transfer';
 
 // 入口文件
@@ -12,8 +13,6 @@ export default class ServiceAdapter {
   private httpAdapter: IHttpAdapter = null;
   // 从文件读取的解析结果
   private fileMeta: JavaMeta.FileMeta;
-  // 保存用于判断 methodName 是否重复的对象 value 为重复次数
-  methodData: { [key: string]: number } = {};
 
   constructor(fileMeta: JavaMeta.FileMeta) {
     this.fileMeta = fileMeta;
@@ -33,15 +32,8 @@ export default class ServiceAdapter {
   // 按方法返回
   public convert() {
     const { fileMeta, httpAdapter } = this;
-
-    fileMeta.class.methods.map(method => {
-      const name = this.escapeMethodName(method.name);
-      this.methodData[name] = !this.methodData[name] ? 1 : this.methodData[name] + 1;
-    });
-
     // 过滤出符合条件的方法列表，这里只判断是否以 Mapping 结束（某些代码可能会自己包 annotation）
     fileMeta.class.methods.filter(m => m.annotations.find(an => an.classPath.endsWith('Mapping'))).forEach(method => {
-      const escapeName = this.escapeMethodName(method.name);
       // 方法入参
       const methodParams = this.getMethodParams(method);
       // url、请求类型等基础信息
@@ -57,30 +49,25 @@ export default class ServiceAdapter {
         ...imports,
       }
 
-      // TODO: 多个 url 的情况下 operationId 会重复
       urls.forEach(url => {
-        // 方法名称
-        const operationId = this.getUniqueMethodName(escapeName, url, type);
-
-        if (this.methodData[escapeName] > 1) {
-          methodDoc.description = `${methodDoc.description}（由于 ${this.fileMeta.class.name} 中 ${method.name} 方法重复，此处已自动重命名为 ${operationId})`;
-        }
-
         httpAdapter.services.push({
           url,
           type,
           contentType,
-          description: methodDoc,
-          parameter: methodParams,
+          description: { ...methodDoc },
+          parameter: methodParams.slice(),
           response: {
             jsType,
             type: method.return,
           },
           classPath: this.fileMeta.class.classPath,
-          operationId,
+          operationId: method.name,
         });
       });
     });
+
+    // 处理重复 operationId
+    httpAdapter.services = this.duplicateOperationId(httpAdapter.services);
 
     return httpAdapter;
   }
@@ -210,6 +197,36 @@ export default class ServiceAdapter {
     });
   }
 
+  // operationId 去重
+  private duplicateOperationId(services: IHttpAdapterService[]): IHttpAdapterService[] {
+    // 保存 operationId 重复次数
+    const operationIdCountData: { [key: string]: number } = services.reduce((acc, cur) => {
+      acc[cur.operationId] = acc[cur.operationId] || 0;
+      acc[cur.operationId]++;
+      return acc;
+    }, {});
+
+    return services.map((service) => {
+      const { operationId, type, url, description } = service;
+      const desc = description.description;
+
+      if (operationIdCountData[operationId] > 1) {
+        const hash = crypto.createHash('md5').update(`${url}-${type}-${operationId}`).digest('hex');
+
+        service.operationId = camelCase(`${operationId}-with-hash-${hash.substring(0, 6)}`);
+        service.description.description = `${desc}（由于 ${this.fileMeta.class.name} 中 ${operationId} 方法存在多个 url，此处已自动重命名为 ${service.operationId})`;
+      } else {
+        const newOperationId = this.escapeMethodName(operationId);
+        if (newOperationId !== operationId) {
+          service.description.description = `${desc}（由于 ${this.fileMeta.class.name} 中 ${operationId} 方法名为关键字，此处已自动重命名为 ${newOperationId})`;
+        }
+
+        service.operationId = newOperationId;
+      }
+      return service;
+    });
+  }
+
   // 替换 method 中的关键字
   private escapeMethodName(name: string) {
     const whiteList = ['delete'];
@@ -220,17 +237,5 @@ export default class ServiceAdapter {
     }
 
     return name;
-  }
-
-  // 返回不重复的 methodName
-  private getUniqueMethodName(escapeName: string, url: string, methodType: string) {
-    // 不存在或只出现一次时使用 defaultName 
-    if (!this.methodData[escapeName] || this.methodData[escapeName] === 1) {
-      return escapeName;
-    }
-
-    const urlStr = url.split('/').map(str => str.replace(/[^a-z0-9]/gi, '')).reverse();
-
-    return camelCase(`${urlStr.at(1) || ''}_${urlStr.at(0)}_with_${methodType}`);
   }
 }
