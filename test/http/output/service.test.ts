@@ -147,8 +147,12 @@ describe('lib/http/output/service', () => {
 
       // 方法体
       const methodBody = apiGenerator.sourceFile.getFunctions().at(0)!.getBodyText();
-      
       expect(methodBody!.includes(`method: 'POST',`)).to.equal(true);
+
+      // params 参数
+      expect(methodBody!.includes(`params: {`)).to.equal(true);
+      expect(methodBody!.includes(`id: args.id,`)).to.equal(true);
+      // post 参数
       expect(methodBody!.includes(`data: {`)).to.equal(true);
       expect(methodBody!.includes(`file: args.file,`)).to.equal(true);
       expect(methodBody!.includes(`'Content-Type': 'multipart/form-data',`)).to.equal(true);

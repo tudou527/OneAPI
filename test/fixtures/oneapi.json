@@ -218,6 +218,18 @@
           },
           "parameter": [
             {
+              "name": "id",
+              "isRequired": true,
+              "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
+              "type": {
+                "name": "Long",
+                "classPath": "java.lang.Long"
+              },
+              "jsType": "number"
+            },
+            {
               "name": "file",
               "isRequired": false,
               "isPathVariable": false,
