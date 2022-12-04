@@ -135,16 +135,28 @@ export class ServiceGenerator {
       });
     }
 
+    // 过滤出 queryArgs 与 bodyArgs
+    const queryParams = apiParams.filter(p => p.isParamVariable);
+    const bodyParams = apiParams.filter(p => p.isBodyVariable);
+
     // 设置方法体内容
     func.setBodyText(writer => {
       writer.write(`return request<${service.response.jsType}>(`).inlineBlock(() => {
         writer.writeLine(`method: '${type}',`);
         writer.writeLine(`url: ${urlDecorate}${url.replace('/{', '/${args.')}${urlDecorate},`);
-        // 请求参数
-        if (apiParams.length) {
-          writer.write(`${type === 'GET' ? 'params' : 'data'}: `).inlineBlock(() => {
+        // query 查询参数
+        if (queryParams.length) {
+          writer.write('params: ').inlineBlock(() => {
             // 过滤掉 url 参数
-            apiParams.forEach(p => writer.writeLine(`${p.name}: args.${p.name},`));
+            queryParams.forEach(p => writer.writeLine(`${p.name}: args.${p.name},`));
+          });
+          writer.write(',\n');
+        }
+        // body 参数
+        if (bodyParams.length) {
+          writer.write('data: ').inlineBlock(() => {
+            // 过滤掉 url 参数
+            bodyParams.forEach(p => writer.writeLine(`${p.name}: args.${p.name},`));
           });
           writer.write(',\n');
         }

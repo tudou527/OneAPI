@@ -100,14 +100,14 @@ export default class ServiceAdapter {
     }
 
     // 注解为 requestMapping 时，进一步判断是 GET 还是 POST
-    if (annotation.name === 'RequestMapping') {
+    if (annotation?.name === 'RequestMapping') {
       const methodName = annotation.fields?.find(f => f.name === 'method')?.value || '';
 
       return methodName.includes('.') ? methodName.split('.')[1] : 'POST';
     }
 
     // 默认 post
-    return methodType[annotation.name] || 'POST';
+    return methodType[annotation?.name] || 'POST';
   }
 
   // Api 基础信息
@@ -130,7 +130,7 @@ export default class ServiceAdapter {
 
     let methodType = this.getMethodType(apiAnnotation);
     let contentType = 'application/json';
-    // 当有参数类型为 org.springframework.web.multipart.MultipartFile 时需要修改 contentType
+    // 当有参数类型为 org.springframework.web.multipart.MultipartFile 时修改 contentType
     if (apiParams.find(p => p.type.classPath.endsWith('.MultipartFile'))) {
       contentType = 'multipart/form-data';
       methodType = 'POST';
@@ -146,6 +146,8 @@ export default class ServiceAdapter {
   // 处理方法参数
   private getMethodParams(method: JavaMeta.ClassMethod): IHttpServiceParameter[] {
     const { httpAdapter } = this;
+    // method 注解上定义的请求类型
+    const methodType = this.getMethodType(method.annotations.find(an => an.name.endsWith('Mapping')));
 
     // 需要忽略的参数
     const ignoreParamsClassPath = [
@@ -156,15 +158,22 @@ export default class ServiceAdapter {
       // 这也是一个用于设置请求响应的参数
       'org.springframework.ui.Model',
     ];
-
+  
     return method.parameters.filter(param => !ignoreParamsClassPath.includes(param.type.classPath)).map(p => {
       const { jsType, imports } = new TypeTransfer().transform(p.type);
+      // 是否有 @RequestParam 注解
+      const paramHasParamAnnotation = p.annotations.some(an => an.name.endsWith('RequestParam'));
+      // 参数是否有 @RequestBody 注解
+      const paramHasPostAnnotation = p.annotations.some(an => an.name.endsWith('RequestBody')) || p.type.classPath.endsWith('MultipartFile');
 
       const param = {
         name: p.name,
         // 默认选填
         isRequired: false,
+        isParamVariable: (methodType === 'GET' && !p.annotations.length) || paramHasParamAnnotation, 
         isPathVariable: false,
+        // 是否 body 参数（post 请求时某些参数也可能是 queryString，所以这里也要区分）
+        isBodyVariable: (methodType === 'POST' && !p.annotations.length) || paramHasPostAnnotation,
         type: p.type,
         jsType,
       }

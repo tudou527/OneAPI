@@ -73,6 +73,10 @@ export interface IHttpServiceParameter {
   name: string;
   // 是否必填
   isRequired: boolean;
+  // 参数是否来主要 url
+  isParamVariable: boolean;
+  // 参数是否来源于 body 参数
+  isBodyVariable: boolean;
   // 是否来源于 url
   isPathVariable: boolean;
   // 参数类型

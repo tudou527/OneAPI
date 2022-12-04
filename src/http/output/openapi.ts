@@ -96,18 +96,20 @@ export class OpenApi {
     }
 
     const properties = {};
-    service.parameter.filter(p => !p.isPathVariable).forEach(p => {
-      properties[p.name] = {
-        ...this.getSchema(p.type),
-      }
-    });
+    const postParams = service.parameter.filter(p => p.isBodyVariable);
+    if (postParams.length) {
+      postParams.forEach(p => {
+        properties[p.name] = {
+          ...this.getSchema(p.type),
+        }
+      });
+    }
 
     const requestBody: any = {};
-
-    if (service.parameter.find(p => p.isPathVariable)) {
-      requestBody.parameters = service.parameter.filter(p => p.isPathVariable).map(p => ({
+    if (service.parameter.find(p => p.isPathVariable || p.isParamVariable)) {
+      requestBody.parameters = service.parameter.filter(p => p.isPathVariable || p.isParamVariable).map(p => ({
         name: p.name,
-        in: 'path',
+        in: p.isPathVariable ? 'path' : 'query',
         description: '',
         required: p.isRequired,
         ...this.getSchema(p.type),
