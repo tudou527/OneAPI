@@ -60,6 +60,8 @@ describe('lib/http/adapter/service', () => {
         name: 'queryParam',
         isRequired: false,
         isPathVariable: false,
+        isBodyVariable: false,
+        isParamVariable: true,
         type: {
           name: 'OmsOrderQueryParam',
           classPath: 'com.macro.mall.dto.OmsOrderQueryParam'
@@ -71,6 +73,8 @@ describe('lib/http/adapter/service', () => {
         name: 'pageSize',
         isRequired: false,
         isPathVariable: false,
+        isBodyVariable: false,
+        isParamVariable: true,
         type: {
           name: 'Integer',
           classPath: 'java.lang.Integer',
@@ -81,6 +85,8 @@ describe('lib/http/adapter/service', () => {
         name: 'pageNum',
         isRequired: true,
         isPathVariable: false,
+        isBodyVariable: false,
+        isParamVariable: true,
         type: {
           name: 'Integer', 
           classPath: 'java.lang.Integer',

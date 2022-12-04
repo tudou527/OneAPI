@@ -27,6 +27,8 @@
               "name": "queryParam",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
               "type": {
                 "name": "OmsOrderQueryParam",
                 "classPath": "com.macro.mall.dto.OmsOrderQueryParam"
@@ -37,6 +39,8 @@
               "name": "pageSize",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
               "type": {
                 "name": "Integer",
                 "classPath": "java.lang.Integer"
@@ -47,6 +51,8 @@
               "name": "pageNum",
               "isRequired": true,
               "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
               "type": {
                 "name": "Integer",
                 "classPath": "java.lang.Integer"
@@ -89,6 +95,8 @@
               "name": "ids",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": true,
+              "isParamVariable": false,
               "type": {
                 "name": "List",
                 "classPath": "java.util.List",
@@ -105,6 +113,8 @@
               "name": "note",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": true,
+              "isParamVariable": false,
               "type": {
                 "name": "PmsProductAttributeCategoryItem",
                 "classPath": "com.macro.mall.dto.PmsProductAttributeCategoryItem"
@@ -135,6 +145,8 @@
               "name": "ids",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
               "type": {
                 "name": "List",
                 "classPath": "java.util.List",
@@ -171,6 +183,8 @@
               "name": "id",
               "isRequired": true,
               "isPathVariable": true,
+              "isBodyVariable": false,
+              "isParamVariable": false,
               "type": {
                 "name": "Long",
                 "classPath": "java.lang.Long"
@@ -204,9 +218,23 @@
           },
           "parameter": [
             {
+              "name": "id",
+              "isRequired": true,
+              "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
+              "type": {
+                "name": "Long",
+                "classPath": "java.lang.Long"
+              },
+              "jsType": "number"
+            },
+            {
               "name": "file",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": true,
+              "isParamVariable": false,
               "type": {
                 "name": "MultipartFile",
                 "classPath": "org.springframework.web.multipart.MultipartFile"
@@ -291,6 +319,8 @@
               "name": "queryParam",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": true,
+              "isParamVariable": false,
               "type": {
                 "name": "OmsOrderQueryParam",
                 "classPath": "com.macro.mall.dto.OmsOrderQueryParam"
@@ -301,6 +331,8 @@
               "name": "pageSize",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": true,
+              "isParamVariable": false,
               "type": {
                 "name": "Integer",
                 "classPath": "java.lang.Integer"
@@ -311,6 +343,8 @@
               "name": "pageNum",
               "isRequired": true,
               "isPathVariable": false,
+              "isBodyVariable": true,
+              "isParamVariable": false,
               "type": {
                 "name": "Integer",
                 "classPath": "java.lang.Integer"
@@ -353,6 +387,8 @@
               "name": "queryParam",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
               "type": {
                 "name": "OmsOrderQueryParam",
                 "classPath": "com.macro.mall.dto.OmsOrderQueryParam"
@@ -363,6 +399,8 @@
               "name": "pageSize",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
               "type": {
                 "name": "Integer",
                 "classPath": "java.lang.Integer"
@@ -373,6 +411,8 @@
               "name": "pageNum",
               "isRequired": true,
               "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
               "type": {
                 "name": "Integer",
                 "classPath": "java.lang.Integer"
@@ -415,6 +455,8 @@
               "name": "queryParam",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
               "type": {
                 "name": "OmsOrderQueryParam",
                 "classPath": "com.macro.mall.dto.OmsOrderQueryParam"
@@ -425,6 +467,8 @@
               "name": "pageSize",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
               "type": {
                 "name": "Integer",
                 "classPath": "java.lang.Integer"
@@ -435,6 +479,8 @@
               "name": "pageNum",
               "isRequired": true,
               "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
               "type": {
                 "name": "Integer",
                 "classPath": "java.lang.Integer"
@@ -477,6 +523,8 @@
               "name": "queryParam",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
               "type": {
                 "name": "OmsOrderQueryParam",
                 "classPath": "com.macro.mall.dto.OmsOrderQueryParam"
@@ -487,6 +535,8 @@
               "name": "pageSize",
               "isRequired": false,
               "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
               "type": {
                 "name": "Integer",
                 "classPath": "java.lang.Integer"
@@ -497,6 +547,8 @@
               "name": "pageNum",
               "isRequired": true,
               "isPathVariable": false,
+              "isBodyVariable": false,
+              "isParamVariable": true,
               "type": {
                 "name": "Integer",
                 "classPath": "java.lang.Integer"

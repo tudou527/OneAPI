@@ -1,6 +1,6 @@
 {
   "name": "oneapi-cli",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "一个几乎能 💯 替代 Swagger/SpringFox 的 API 工具，不需要修改后端代码，也不需要启动应用",
   "keywords": [
     "oneapi",
