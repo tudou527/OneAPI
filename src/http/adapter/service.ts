@@ -136,6 +136,11 @@ export default class ServiceAdapter {
       methodType = 'POST';
     }
 
+    // 当有参数注解为 ModelAttribute 时，请求类型应该为 x-www-form-urlencoded
+    if (methodType === 'POST' && method.parameters.find(p => p.annotations.find(an => an.classPath.endsWith('.ModelAttribute')))) {
+      contentType = 'x-www-form-urlencoded';
+    }
+
     return {
       urls: urls,
       type: methodType,

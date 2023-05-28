@@ -105,7 +105,9 @@
       "com.macro.mall.controller.UmsMemberLevelController",
       "com.macro.mall.controller.UmsAdminController",
       "com.macro.mall.controller.UmsRoleController",
-      "com.macro.mall.controller.SmsHomeNewProductController"
+      "com.macro.mall.controller.SmsHomeNewProductController",
+      "org.springframework.web.bind.annotation.ModelAttribute",
+      "javax.validation.Valid"
     ],
     "class": {
       "name": "OmsOrderController",
@@ -617,6 +619,68 @@
                       "value": "file"
                     }
                   ]
+                }
+              ]
+            }
+          ],
+          "return": {
+            "name": "CommonResult",
+            "classPath": "com.macro.mall.common.api.CommonResult"
+          }
+        },
+        {
+          "name": "updatePwd",
+          "description": {
+            "text": "更新密码",
+            "tag": {
+              "param": [
+                "adminUpdatePwdForm"
+              ],
+              "return": [
+                ""
+              ]
+            }
+          },
+          "annotations": [
+            {
+              "name": "PostMapping",
+              "classPath": "org.springframework.web.bind.annotation.PostMapping",
+              "fields": [
+                {
+                  "name": "value",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "/pwd"
+                },
+                {
+                  "name": "produces",
+                  "type": "Constant",
+                  "array": false,
+                  "value": "application/json; charset=utf-8"
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "name": "adminUpdatePwdForm",
+              "type": {
+                "name": "OmsMoneyInfoParam",
+                "classPath": "com.macro.mall.dto.OmsMoneyInfoParam"
+              },
+              "description": {
+                "tag": {}
+              },
+              "annotations": [
+                {
+                  "name": "ModelAttribute",
+                  "classPath": "org.springframework.web.bind.annotation.ModelAttribute",
+                  "fields": []
+                },
+                {
+                  "name": "Valid",
+                  "classPath": "javax.validation.Valid",
+                  "fields": []
                 }
               ]
             }

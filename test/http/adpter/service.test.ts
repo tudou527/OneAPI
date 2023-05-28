@@ -35,6 +35,7 @@ describe('lib/http/adapter/service', () => {
       'com.macro.mall.model.OmsOrder': 'OmsOrder',
       'com.macro.mall.dto.PmsProductAttributeCategoryItem': 'PmsProductAttributeCategoryItem',
       'com.macro.mall.portal.domain.OmsOrderDetail': 'OmsOrderDetail',
+      'com.macro.mall.dto.OmsMoneyInfoParam': 'OmsMoneyInfoParam',
     });
 
     expect(attrs.services!.length > 1).to.equal(true);
@@ -231,6 +232,16 @@ describe('lib/http/adapter/service', () => {
       // 请求类型一定是 post
       expect(uploadService!.type).to.equal('POST');
       expect(uploadService!.contentType).to.equal('multipart/form-data');
+    });
+
+    it('content type with modelAttribute annotation', () => {
+      const meta = fileMetaData['com.macro.mall.controller.OmsOrderController'];
+
+      const { services } = new ServiceAdapter(meta).convert();
+      const uploadService = services!.find((se: any) => se.operationId === 'updatePwd');
+
+      expect(uploadService!.type).to.equal('POST');
+      expect(uploadService!.contentType).to.equal('x-www-form-urlencoded');
     });
   });
 
